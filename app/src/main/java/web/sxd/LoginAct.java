@@ -44,19 +44,19 @@ public class LoginAct extends AppCompatActivity
 {
 
     private static boolean B;
-    //private static final int F;
+    private static final int F;//所有功能个数
     static boolean m;
-    //private Handler A;
+    private Handler A;//消息上下文
     private boolean C;
     private Socket socket;
     private MainThread thread;
-    //private boolean G[];
+    private boolean funcSelect[];//功能选择标志  选择：true 未选择： false
     final Activity a = this;
     ArrayList b;
     View c;
     View d;
     AutoCompleteTextView e;
-    TextView textView_configName;
+    TextView textView_configName;//根据版本号而来
     TextView textView_ip;
     TextView textView_port;
     TextView textView_playerName;
@@ -84,10 +84,10 @@ public class LoginAct extends AppCompatActivity
         C = true;
         socket = null;
         thread = null;
-        //G = new boolean[F];
+        funcSelect = new boolean[F];
     }
 
-    static MainThread a(LoginAct loginact)
+    static MainThread getMainThread(LoginAct loginact)
     {
         return loginact.thread;
     }
@@ -112,25 +112,26 @@ public class LoginAct extends AppCompatActivity
         return loginact.socket;
     }
 
-//    static void c()
-//    {
-//        B = true;
-//    }
+    static void c()
+    {
+        B = true;
+    }
 
     static String getHasCode(LoginAct loginact)
     {
         return loginact.hash_code;
     }
 
-//    static boolean d()
-//    {
-//        return B;
-//    }
-//
-//    static int e()
-//    {
-//        return F;
-//    }
+    static boolean d()
+    {
+        return B;
+    }
+
+    //功能个数
+    static int getFuncCount()
+    {
+        return F;
+    }
 
     static String getNowTime(LoginAct loginact)
     {
@@ -167,15 +168,15 @@ public class LoginAct extends AppCompatActivity
         return loginact.client;
     }
 
-//    static void l(LoginAct loginact)
-//    {
-//        loginact.C = true;
-//    }
-//
-//    static boolean[] m(LoginAct loginact)
-//    {
-//        return loginact.G;
-//    }
+    static void l(LoginAct loginact)
+    {
+        loginact.C = true;
+    }
+
+    static boolean[] m(LoginAct loginact)
+    {
+        return loginact.funcSelect;
+    }
 
     public final void a()
     {
@@ -275,6 +276,7 @@ public class LoginAct extends AppCompatActivity
                 button_login.setEnabled(false);
                 j.append("\n　正在连接服务器 ... ");
                 //view.post(new e(this));
+                new ConnectThread(this).start();
                 return;
             }
         }else
@@ -287,19 +289,19 @@ public class LoginAct extends AppCompatActivity
             {
                 B = false;
                 m = false;
-                //web.sxd.b.c.a(-1, null);
+                //web.sxd.b.MainThread.a(-1, null);
                 return;
             }
         }
 
     }
 
-//    public void bQuited(View view)
-//    {
-//        B = false;
-//        a.finish();
-//        (new h(this)).start();
-//    }
+    public void bQuited(View view)
+    {
+        B = false;
+        a.finish();
+        (new ExitThread(this)).start();
+    }
 
     public void bRelogined(View view)
     {
@@ -309,32 +311,36 @@ public class LoginAct extends AppCompatActivity
         startActivity(intent);
     }
 
-//    public void bSetting(View view)
-//    {
-//        int i1 = 0;
-//        do
-//        {
-//            if(i1 >= F)
-//            {
-//                (new android.app.AlertDialog.Builder(this)).setTitle("\u8BF7\u9009\u4E2D\u9700\u8981\u7684\u529F\u80FD").setMultiChoiceItems(web.sxd.c.c.a, G, new f(this)).setPositiveButton("\u786E\u5B9A", new g(this)).setNegativeButton("\u53D6\u6D88", null).show();
-//                return;
-//            }
-//            view = G;
-//            byte byte0;
-//            if(web.sxd.b.c.c(m.a[i1]))
-//                byte0 = 0;
-//            else
-//                byte0 = 1;
-//            view[i1] = byte0;
-//            i1++;
-//        } while(true);
-//    }
-//
+    public void bSetting(View view)
+    {
+        int i1 = 0;
+        do
+        {
+            if(i1 >= F)
+            {
+                (new android.app.AlertDialog.Builder(this))
+                        .setTitle("请选中需要的功能")
+                        .setMultiChoiceItems(web.sxd.c.c.a, funcSelect,
+                                new LoginMultiChoiceClickListener(this))
+                        .setPositiveButton("\u786E\u5B9A", new LoginClickListener(this))
+                        .setNegativeButton("\u53D6\u6D88", null).show();
+                return;
+            }
+            //view = G;
+            byte byte0;
+            if(web.sxd.b.MainThread.isFuncSelect(web.sxd.d.m.a[i1]))
+                funcSelect[i1] = false;
+            else
+                funcSelect[i1] = true;
+            i1++;
+        } while(true);
+    }
+
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
         getWindow().requestFeature(2);
-        //A = new web.sxd.a(this, a);
+        A = new web.sxd.a(this, a);
         setContentView(R.layout.activity_login);
         button_login = (Button)findViewById(R.id.button_login);
         button_login.requestFocusFromTouch();
@@ -397,10 +403,7 @@ public class LoginAct extends AppCompatActivity
             j.append(swf.replace("/Index.swf", "/Main.swf"));
             if(cur_ver.length() > 0)
             {
-                int j1;
-                String as[];
-                int k1;
-                String s1;
+
                 if(swf.contains("txwy"))
                     cur_ver = (new StringBuilder(String.valueOf(cur_ver))).append("tw").toString();
                 else
@@ -408,17 +411,10 @@ public class LoginAct extends AppCompatActivity
                     cur_ver = (new StringBuilder(String.valueOf(cur_ver))).append("qq").toString();
                 cur_ver = (new StringBuilder(String.valueOf(cur_ver))).append(".ini").toString();
                 textView_configName.setText(cur_ver);
-                s1 = a.getPreferences(0).getString("web.sxd.VAR", "");
-                Log.i("LoginAct", (new StringBuilder("Disabled: ")).append(s1).toString());
-                as = s1.split(";");
-                k1 = as.length;
-                j1 = 0;
 
-//                if(j1 < k1)
-//                    break label0;
-//                web.sxd.b.c.a(A);
-//                web.sxd.b.c.a(0, 0);
-                String s2;
+                web.sxd.b.MainThread.setHandler(A);
+                web.sxd.b.MainThread.sendLog(0, 0);
+
 //                try
 //                {
 //                    //web.sxd.b.c.a(a.getAssets().open(cur_ver));
@@ -437,6 +433,30 @@ public class LoginAct extends AppCompatActivity
                     return;
                 }
 
+                //读取功能设置
+                String as[];
+                int j1=0,k1;
+                String s1,s2;
+                s1 = a.getPreferences(0).getString("web.sxd.VAR", "");
+                Log.i("LoginAct", (new StringBuilder("Disabled: ")).append(s1).toString());
+                as = s1.split(";");
+                k1 = as.length;
+                while(j1 < k1)
+                {
+                    s2 = as[j1];
+                    try
+                    {
+                        web.sxd.b.MainThread.setFuncSelect(Integer.valueOf(s2).intValue(), true);
+                    }
+                    catch(NumberFormatException numberformatexception)
+                    {
+
+                    }
+                    j1++;
+                }
+
+
+
             }else
             {
                 j.append("\t\t协议匹配失败, 请更新 或尝试强行登录");
@@ -453,8 +473,8 @@ public class LoginAct extends AppCompatActivity
 //
 
 
-//    static
-//    {
-//        F = m.a.length;
-//    }
+    static
+    {
+        F = web.sxd.d.m.a.length;
+    }
 }
