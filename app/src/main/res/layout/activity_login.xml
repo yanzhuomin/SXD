@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="web.sxd.LoginAct"
+    android:id="@+id/login_parent">
+
+
+        <TextView
+            android:id="@+id/textView_ip"
+            android:layout_width="800px"
+            android:layout_height="36dp"
+            android:background="@drawable/shape"
+            android:text="TextView"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView_colon"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            app:layout_constraintLeft_toRightOf="@id/textView_ip"
+            android:textSize="20sp"
+            android:text="：" />
+
+        <TextView
+            android:id="@+id/textView_port"
+            android:background="@drawable/shape"
+            android:layout_width="200px"
+            android:layout_height="36dp"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/textView_colon"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textView_playerName"
+            android:background="@drawable/shape"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="500px"
+            android:layout_height="36dp"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/textView_ip"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textView_configName"
+            android:background="@drawable/shape"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="500px"
+            android:layout_height="36dp"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/textView_port"
+            app:layout_constraintLeft_toRightOf="@id/textView_playerName"
+            android:text="TextView" />
+
+
+        <Button
+            android:id="@+id/button_login"
+            android:layout_width="129dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/textView_playerName"
+            android:onClick="bLogined"
+            android:text="登陆" />
+
+        <Button
+            android:id="@+id/button_setup"
+            android:layout_width="65dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/textView_playerName"
+            app:layout_constraintLeft_toRightOf="@id/button_login"
+            android:text="设置" />
+
+        <Button
+            android:id="@+id/button_selectAccount"
+            android:layout_width="65dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/textView_playerName"
+            app:layout_constraintLeft_toRightOf="@id/button_setup"
+            android:text="换号" />
+
+        <Button
+            android:id="@+id/button_exit"
+            android:layout_width="65dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/textView_playerName"
+            app:layout_constraintLeft_toRightOf="@id/button_selectAccount"
+            android:text="退出" />
+
+
+
+    <TextView
+        android:id="@+id/textView_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/button_login"
+        android:text="TextView" />
+
+</android.support.constraint.ConstraintLayout>
