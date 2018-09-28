@@ -22,7 +22,7 @@ final class dThread extends Thread
     {
         h.a(200);
         if(LoginAct.d())
-            a.a();
+            a.returnWebSXD();
     }
 
     final LoginAct a;

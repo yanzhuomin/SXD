@@ -12,7 +12,7 @@ import web.sxd.b.h;
 final class bThread extends Thread
 {
 
-    bThread(a a1)
+    bThread(LoginHandler a1)
     {
         super();
         a = a1;
@@ -22,8 +22,8 @@ final class bThread extends Thread
     {
         h.a(10);
         if(LoginAct.d())
-            web.sxd.a.a(a).a();
+            web.sxd.LoginHandler.a(a).returnWebSXD();
     }
 
-    final a a;
+    final LoginHandler a;
 }

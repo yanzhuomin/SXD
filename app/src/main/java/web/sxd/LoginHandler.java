@@ -8,40 +8,43 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.text.Editable;
 import android.widget.EditText;
-import web.sxd.b.k;
+import web.sxd.b.BaseHandler;
 import web.sxd.d.y;
 
 // Referenced classes of package web.sxd:
 //            LoginAct, b
 
-final class a extends k
+//LoginAct 的Handler 用来接收其他线程的数据更新UI
+final class LoginHandler extends BaseHandler
 {
 
-    a(LoginAct loginact, Activity activity)
+    LoginHandler(LoginAct loginact, Activity activity)
     {
-        a = loginact;
         super(activity);
+        a = loginact;
+
     }
 
-    static LoginAct a(a a1)
+    static LoginAct a(LoginHandler a1)
     {
         return a1.a;
     }
 
     protected final void a()
     {
-        a.b();
+        a.disconnect();
     }
 
     protected final void a(String s)
     {
-        a.j.getText().append(s);
+        a.j.append(s);
+        //a.j.getText().append(s);
     }
 
     protected final void b()
     {
         LoginAct.c();
-        (new b(this)).start();
+        (new bThread(this)).start();
     }
 
     protected final void b(String s)
@@ -56,12 +59,12 @@ final class a extends k
         if(obj != null || s == null)
             try
             {
-                y.a(LoginAct.a(a), ((String) (obj)));
+                y.a(LoginAct.getMainThread(a), ((String) (obj)));
             }
             // Misplaced declaration of an exception variable
-            catch(Object obj)
+            catch(Exception e)
             {
-                ((Exception) (obj)).printStackTrace();
+                ((Exception) (e)).printStackTrace();
             }
         obj = sharedpreferences.edit();
         if(s != null && s.length() > 0)
@@ -73,12 +76,12 @@ final class a extends k
 
     protected final void c()
     {
-        a.a.setTitle(LoginAct.b(a));
+        a.a.setTitle(LoginAct.getServerName(a));
     }
 
     protected final boolean c(String s)
     {
-        a.f.setText(s);
+        a.textView_configName.setText(s);
         return LoginAct.m;
     }
 

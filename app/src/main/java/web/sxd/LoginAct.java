@@ -46,7 +46,7 @@ public class LoginAct extends AppCompatActivity
     private static boolean B;
     private static final int F;//所有功能个数
     static boolean m;
-    private Handler A;//消息上下文
+    private Handler handler;//消息上下文
     private boolean C;
     private Socket socket;
     private MainThread thread;
@@ -178,7 +178,9 @@ public class LoginAct extends AppCompatActivity
         return loginact.funcSelect;
     }
 
-    public final void a()
+
+    //返回到 WebSXDact 那个Activity
+    public final void returnWebSXD()
     {
         B = true;
         m = true;
@@ -189,51 +191,35 @@ public class LoginAct extends AppCompatActivity
         startActivity(intent);
     }
 
-//    public final void b()
-//    {
-//        if(E != null)
-//        {
-//            web.sxd.b.c.a(1, null);
-//            E.q();
-//            E = null;
-//        }
-//        if(D == null)
-//            break MISSING_BLOCK_LABEL_99;
-//        Toast.makeText(a, 0x7f040010, 0).show();
-//        D.close();
-//        D = null;
-//        l.setText(0x7f040005);
-//        if(!web.sxd.b.c.c(12) && m)
-//        {
-//            web.sxd.b.c.a("\u5DF2\u5F00\u542F\u81EA\u52A8\u91CD\u8FDE\uFF0C40\u79D2\u540E\u5C1D\u8BD5\u767B\u5F55\u2026\u2026");
-//            B = true;
-//            (new d(this)).start();
-//        }
-//_L2:
-//        return;
-//        Object obj;
-//        obj;
-//        Log.v("LoginAct", ((IOException) (obj)).getLocalizedMessage(), ((Throwable) (obj)));
-//        D = null;
-//        l.setText(0x7f040005);
-//        if(web.sxd.b.c.c(12) || !m) goto _L2; else goto _L1
-//_L1:
-//        web.sxd.b.c.a("\u5DF2\u5F00\u542F\u81EA\u52A8\u91CD\u8FDE\uFF0C40\u79D2\u540E\u5C1D\u8BD5\u767B\u5F55\u2026\u2026");
-//        B = true;
-//        (new d(this)).start();
-//        return;
-//        obj;
-//        D = null;
-//        l.setText(0x7f040005);
-//        if(!web.sxd.b.c.c(12) && m)
-//        {
-//            web.sxd.b.c.a("\u5DF2\u5F00\u542F\u81EA\u52A8\u91CD\u8FDE\uFF0C40\u79D2\u540E\u5C1D\u8BD5\u767B\u5F55\u2026\u2026");
-//            B = true;
-//            (new d(this)).start();
-//        }
-//        throw obj;
-//    }
-//
+    //断开连接
+    public final void disconnect()
+    {
+        if(thread != null)
+        {
+            web.sxd.b.MainThread.sendLog(1, null);
+            thread.q();
+            thread = null;
+        }
+        if(socket != null) {
+            //break MISSING_BLOCK_LABEL_99;
+            Toast.makeText(a, "断开登陆连接", Toast.LENGTH_SHORT).show();
+            try {
+                socket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            socket = null;
+        }
+        button_login.setText("刷新");
+        if(!web.sxd.b.MainThread.isFuncSelect(12) && m)
+        {
+            web.sxd.b.MainThread.sendLog("已开启自动重连，40秒后尝试登录……");
+            B = true;
+            (new dThread(this)).start();
+        }
+        return;
+    }
+
 //    public void bChatd(View view)
 //    {
 //        Object obj = e.getText();
@@ -283,13 +269,13 @@ public class LoginAct extends AppCompatActivity
         {
             if(socket == null)
             {
-                a();
+                returnWebSXD();
                 return;
             }else
             {
                 B = false;
                 m = false;
-                //web.sxd.b.MainThread.a(-1, null);
+                web.sxd.b.MainThread.sendLog(-1, null);
                 return;
             }
         }
@@ -340,7 +326,7 @@ public class LoginAct extends AppCompatActivity
     {
         super.onCreate(bundle);
         getWindow().requestFeature(2);
-        A = new web.sxd.a(this, a);
+        handler = new web.sxd.LoginHandler(this, a);
         setContentView(R.layout.activity_login);
         button_login = (Button)findViewById(R.id.button_login);
         button_login.requestFocusFromTouch();
@@ -412,7 +398,7 @@ public class LoginAct extends AppCompatActivity
                 cur_ver = (new StringBuilder(String.valueOf(cur_ver))).append(".ini").toString();
                 textView_configName.setText(cur_ver);
 
-                web.sxd.b.MainThread.setHandler(A);
+                web.sxd.b.MainThread.setHandler(handler);
                 web.sxd.b.MainThread.sendLog(0, 0);
 
 //                try
