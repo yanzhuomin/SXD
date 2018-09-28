@@ -340,60 +340,45 @@ public final class MainThread extends Thread {
         a(i1, h1.a(), h1);
     }
 
-    public final void a(int i1, TempDataOutputStream m1, int j1)
+    public final void a(int i1, TempDataOutputStream m1, int j1) throws  Exception
     {
-        this;
-        JVM INSTR monitorenter ;
+        OutputStream out;
+//        this;
+//        JVM INSTR monitorenter ;
         synchronized (this)
         {
-            if(j1 != 1)
-            {
-                if(j1 != 2)
-                    break MISSING_BLOCK_LABEL_57;
-                if(SYOutputStream != null)
-                    break MISSING_BLOCK_LABEL_57;
-                Log.e("PacketOS", "[圣域]连接未建立");
-                return;
-            }else
-            {
-                if(XJOutputStream != null)
-                {
-                    if(j1 != 2)
-                        break MISSING_BLOCK_LABEL_57;
-                    if(SYOutputStream != null)
-                        break MISSING_BLOCK_LABEL_57;
-                    Log.e("PacketOS", "[圣域]连接未建立");
-                    return;
-                }else {
+            if(j1 == 1){
+                if(XJOutputStream == null){
                     Log.e("PacketOS", "[仙界]连接未建立");
                 }
+                out = XJOutputStream;
+
+            }else if(j1 == 2){
+                if(SYOutputStream == null){
+                    Log.e("PacketOS", "[圣域]连接未建立");
+                }
+                out = SYOutputStream;
+            }else if(j1 == 3){
+                if(QWOutputStream == null){
+                    Log.e("PacketOS", "[全网]连接未建立");
+                }
+                out = QWOutputStream;
+
+            }else
+            {
+                out = mainOutputStream;
             }
+            m1.a(i1, out, j1);
         }
         return;
-        if(j1 != 1) goto _L2; else goto _L1
-_L1:
-        if(XJOutputStream != null) goto _L2; else goto _L3
-_L3:
-        Log.e("PacketOS", "[仙界]连接未建立");
+
 _L4:
         this;
         JVM INSTR monitorexit ;
         return;
-_L2:
-        if(j1 != 2)
-            break MISSING_BLOCK_LABEL_57;
-        if(SYOutputStream != null)
-            break MISSING_BLOCK_LABEL_57;
-        Log.e("PacketOS", "[圣域]连接未建立");
-          goto _L4
-        m1;
-        throw m1;
-        if(j1 != 3)
-            break MISSING_BLOCK_LABEL_82;
-        if(QWOutputStream != null)
-            break MISSING_BLOCK_LABEL_82;
-        Log.e("PacketOS", "[全网]连接未建立");
-          goto _L4
+
+
+
         if(i1 < 0x10000)
             break MISSING_BLOCK_LABEL_94;
         if(c)
