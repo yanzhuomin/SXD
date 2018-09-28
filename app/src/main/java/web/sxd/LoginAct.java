@@ -6,21 +6,14 @@ package web.sxd;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +23,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import web.sxd.b.MainThread;
 import web.sxd.b.VarSplit;
 //import web.sxd.c.a;
@@ -48,7 +41,7 @@ public class LoginAct extends AppCompatActivity
     static boolean m;
     private Handler handler;//消息上下文
     private boolean C;
-    private Socket socket;
+    private Socket socket; //主界面Socket
     private MainThread thread;
     private boolean funcSelect[];//功能选择标志  选择：true 未选择： false
     final Activity a = this;
@@ -197,7 +190,7 @@ public class LoginAct extends AppCompatActivity
         if(thread != null)
         {
             web.sxd.b.MainThread.sendLog(1, null);
-            thread.q();
+            thread.quit();
             thread = null;
         }
         if(socket != null) {
