@@ -6,14 +6,14 @@ package web.sxd.b;
 
 import java.io.ByteArrayOutputStream;
 
-final class a extends ByteArrayOutputStream
+final class BaseByteArrayOutputStream extends ByteArrayOutputStream
 {
 
-    a()
+    BaseByteArrayOutputStream()
     {
     }
 
-    final void a()
+    final void BaseByteArrayOutputStream()
     {
         a = count;
         count = 0;

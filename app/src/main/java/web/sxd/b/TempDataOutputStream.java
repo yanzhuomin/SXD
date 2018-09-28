@@ -12,66 +12,66 @@ import java.io.OutputStream;
 // Referenced classes of package web.sxd.b:
 //            a, c
 
-public final class m extends DataOutputStream
+public final class TempDataOutputStream extends DataOutputStream
 {
 
-    public m(byte byte0, short word0) throws IOException
+    public TempDataOutputStream(byte byte0, short word0) throws IOException
     {
         this(0x840001);
         write(byte0);
         writeShort(word0);
     }
 
-    public m(int i) throws IOException
+    public TempDataOutputStream(int i) throws IOException
     {
-        super(new a());
+        super(new BaseByteArrayOutputStream());
         b = null;
         writeInt(4);
         a = i;
         writeInt(i);
     }
 
-    public m(int i, byte byte0) throws IOException
+    public TempDataOutputStream(int i, byte byte0) throws IOException
     {
         this(i);
         write(byte0);
     }
 
-    public m(int i, byte byte0, byte byte1) throws IOException
+    public TempDataOutputStream(int i, byte byte0, byte byte1) throws IOException
     {
         this(i);
         write(byte0);
         write(byte1);
     }
 
-    public m(int i, char c1) throws IOException
+    public TempDataOutputStream(int i, char c1) throws IOException
     {
         this(0x1570001);
         write(0);
         writeInt(i);
     }
 
-    public m(int i, int j) throws IOException
+    public TempDataOutputStream(int i, int j) throws IOException
     {
         this(i);
         writeInt(j);
     }
 
-    public m(int i, int j, byte byte0) throws IOException
+    public TempDataOutputStream(int i, int j, byte byte0) throws IOException
     {
         this(i);
         writeInt(j);
         write(byte0);
     }
 
-    public m(int i, int j, int k) throws IOException
+    public TempDataOutputStream(int i, int j, int k) throws IOException
     {
         this(i);
         writeInt(j);
         writeInt(k);
     }
 
-    public m(int i, int j, int k, int l) throws IOException
+    public TempDataOutputStream(int i, int j, int k, int l) throws IOException
     {
         this(0x11f0001);
         writeInt(i);
@@ -80,32 +80,32 @@ public final class m extends DataOutputStream
         writeInt(l);
     }
 
-    public m(int i, long l) throws IOException
+    public TempDataOutputStream(int i, long l) throws IOException
     {
         this(i);
         write((int)l);
     }
 
-    public m(int i, short word0) throws IOException
+    public TempDataOutputStream(int i, short word0) throws IOException
     {
         this(i);
         writeShort(word0);
     }
 
-    public m(String s) throws IOException
+    public TempDataOutputStream(String s) throws IOException
     {
         this(0xda0025);
         writeUTF(s);
     }
 
-    public m(String s, String s1) throws IOException
+    public TempDataOutputStream(String s, String s1) throws IOException
     {
         this(0x150000d);
         writeUTF(s);
         writeUTF(s1);
     }
 
-    public m(String s, String s1, String s2) throws IOException
+    public TempDataOutputStream(String s, String s1, String s2) throws IOException
     {
         this(0x1500014);
         writeUTF(s);
@@ -113,14 +113,14 @@ public final class m extends DataOutputStream
         writeUTF(s2);
     }
 
-    public m(short word0) throws IOException
+    public TempDataOutputStream(short word0) throws IOException
     {
         this(0x3a001b);
         writeShort(word0);
         write(33);
     }
 
-    public m(short word0, int i) throws IOException
+    public TempDataOutputStream(short word0, int i) throws IOException
     {
         this(0xe10021);
         writeShort(word0);
@@ -137,8 +137,8 @@ public final class m extends DataOutputStream
             flag = true;
         if(b == null)
         {
-            b = (a)out;
-            b.a();
+            b = (BaseByteArrayOutputStream)out;
+            b.BaseByteArrayOutputStream();
             int k = written;
             if(flag)
                 byte0 = 4;
@@ -154,28 +154,28 @@ public final class m extends DataOutputStream
         outputstream.flush();
     }
 
-    public final void a(c c1)
+    public final void a(MainThread c1)
     {
         c1.a(a, this, 0);
     }
 
-    public final void b(c c1)
+    public final void b(MainThread c1)
     {
         c1.a(a, this, 1);
     }
 
-    public final void c(c c1)
+    public final void c(MainThread c1)
     {
         c1.a(a, this, 2);
     }
 
-    public final void d(c c1)
+    public final void d(MainThread c1)
     {
         c1.a(a, this, 3);
     }
 
     private static int c[] = new int[4];
     int a;
-    private a b;
+    private BaseByteArrayOutputStream b;
 
 }

@@ -24,7 +24,7 @@ final class g extends Thread
     {
         try
         {
-            l l1 = new l(b);
+            TempDataInputStream l1 = new TempDataInputStream(b);
             MainThread c1 = a;
             MainThread.b(l1);
             l1.close();

@@ -60,7 +60,7 @@ public class LoginAct extends AppCompatActivity
     TextView textView_ip;
     TextView textView_port;
     TextView textView_playerName;
-    TextView j;
+    TextView j;  //log TextView
     CheckBox k;
     Button button_login;
     private String swf; //JS中swf变量内容
@@ -401,16 +401,16 @@ public class LoginAct extends AppCompatActivity
                 web.sxd.b.MainThread.setHandler(handler);
                 web.sxd.b.MainThread.sendLog(0, 0);
 
-//                try
-//                {
-//                    //web.sxd.b.c.a(a.getAssets().open(cur_ver));
-//                    j.append("\t\t协议匹配成功, 请登录");
-//                }
-//                catch(IOException ioexception)
-//                {
-//                    j.append("\t\t协议匹配失败, 请更新 或尝试强行登录");
-//                }
-                //j.append(web.sxd.c.c.a());
+                try
+                {
+                    web.sxd.b.MainThread.a(a.getAssets().open(cur_ver));
+                    j.append("\t\t协议匹配成功, 请登录");
+                }
+                catch(IOException ioexception)
+                {
+                    j.append("\t\t协议匹配失败, 请更新 或尝试强行登录");
+                }
+
                 C = false;
                 if(B)
                 {
@@ -440,7 +440,7 @@ public class LoginAct extends AppCompatActivity
                     }
                     j1++;
                 }
-
+                j.append(web.sxd.c.c.a());//显示功能设置中禁用的功能
 
 
             }else

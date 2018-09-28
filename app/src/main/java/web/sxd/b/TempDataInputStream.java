@@ -7,20 +7,22 @@ package web.sxd.b;
 import java.io.*;
 import java.util.zip.InflaterInputStream;
 
-public final class l extends DataInputStream
+public final class TempDataInputStream extends DataInputStream
 {
 
-    l(byte abyte0[])
+    TempDataInputStream(byte abyte0[])  throws IOException
     {
+        super(null);
         Object obj = new ByteArrayInputStream(abyte0);
         if(abyte0[0] == 120 && abyte0[1] == -100)
             obj = new InflaterInputStream(((InputStream) (obj)));
-        super(((InputStream) (obj)));
+        this.in = ((InputStream) (obj));//super(((InputStream) (obj)));
+
         b = abyte0.length;
         a = readInt();
     }
 
-    static byte[] a(InputStream inputstream)
+    static byte[] a(InputStream inputstream) throws IOException
     {
         int k = 0;
         int j = 0;
@@ -46,7 +48,7 @@ public final class l extends DataInputStream
         } while(true);
     }
 
-    public final int a()
+    public final int a()  throws IOException
     {
         long l1 = readLong();
         if(l1 < 20000L)
@@ -58,7 +60,7 @@ public final class l extends DataInputStream
             return 0x7fffffff;
     }
 
-    public final String a(int i)
+    public final String a(int i) throws IOException
     {
         StringBuilder stringbuilder = new StringBuilder();
         int j = 0;

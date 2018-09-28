@@ -20,16 +20,15 @@ import java.util.*;
 public final class MainThread extends Thread {
 
 
-
-    private static long O = 0L;
-    private static long P = 0L;
-    private static long Q = 0L;
-    private static long R = 0L;
+    private static long O = 0L;//本进程总流量
+    private static long P = 0L;//仙界流量
+    private static long Q = 0L;//圣域流量
+    private static long R = 0L;//全网流量
     private static Handler b;
     private static boolean c;
     private static HashMap f = new HashMap();
     private static HashMap g = new HashMap();
-    private static boolean r[] = new boolean[320];
+    private static boolean funcSelect[] = new boolean[320];//功能选择
     private String A;
     private String B;
     private int C;
@@ -130,6 +129,7 @@ public final class MainThread extends Thread {
         c = false;
     }
 
+    // ini配置文件读取
     public static void a(InputStream inputstream)
     {
         BufferedReader bufferedreader;
@@ -216,10 +216,10 @@ _L4:
     public static void setFuncSelect(int i1, boolean flag)
     {
         if(i1 < 320 && i1 >= 0)
-            r[i1] = flag;
+            funcSelect[i1] = flag;
     }
 
-    public static void b(l l1)
+    public static void b(TempDataInputStream l1)
     {
         j j2 = (j)f.get(Integer.valueOf(l1.c()));
         j j1 = j2;
@@ -248,7 +248,7 @@ _L4:
 
     public static boolean isFuncSelect(int i1)
     {
-        return i1 < 320 && i1 >= 0 && r[i1];
+        return i1 < 320 && i1 >= 0 && funcSelect[i1];
     }
 
     static void d(long l1)
@@ -281,35 +281,7 @@ _L4:
         c1.j = null;
     }
 
-    private static String g(long l1)
-    {
-        long l3 = 0L;
-        int i1 = 0;
-        long l2 = 0L;
-        do
-        {
-            if(l1 <= 1024L)
-            {
-                if(i1 == 0)
-                    return String.valueOf(l1);
-                break;
-            }
-            l2 = l1 % 1024L;
-            l1 /= 1024L;
-            i1++;
-        } while(true);
-        if(l2 > 949L)
-        {
-            l1++;
-            l2 = l3;
-        } else
-        {
-            l2 /= 100L;
-        }
-        return String.format("%d.%d %c", new Object[] {
-            Long.valueOf(l1), Long.valueOf(l2), Character.valueOf(" KMGT".charAt(i1))
-        });
-    }
+
 
     static Socket g(MainThread c1)
     {
@@ -360,7 +332,7 @@ _L4:
         a(i1, h1.a(), h1);
     }
 
-    public final void a(int i1, m m1, int j1)
+    public final void a(int i1, TempDataOutputStream m1, int j1)
     {
         this;
         JVM INSTR monitorenter ;
@@ -566,6 +538,8 @@ _L6:
         return s1.equals(B);
     }
 
+
+    //仙界
     public final boolean a(String s1, int i1, String s2, int j1, String s3)
     {
         if(h != null)
@@ -576,17 +550,17 @@ _L6:
         }
         if(i1 == 0)
         {
-            a(0, "[\u4ED9\u754C]\u5F53\u524D\u672A\u5F00\u653E");
+            sendLog(0, "[仙界]当前未开放");
             return false;
         }
         h = new Socket(s1, i1);
         if(h.isConnected())
             break MISSING_BLOCK_LABEL_84;
-        a(0, "[\u4ED9\u754C]\u65E0\u6CD5\u5EFA\u7ACB\u8FDE\u63A5");
+        sendLog(0, "[仙界]无法建立连接");
         h = null;
         return false;
         B = s2;
-        Log.i("PktThread", (new StringBuilder("[\u4ED9\u754C]\u5C1D\u8BD5\u767B\u5F55 ")).append(B).toString());
+        Log.i("PktThread", (new StringBuilder("[仙界]尝试登录 ")).append(B).toString());
         m = new BufferedOutputStream(h.getOutputStream());
         s1 = new m(0x5e0000);
         s1.writeUTF(s2);
@@ -597,7 +571,7 @@ _L6:
         s1.a(0x5e0000, m, 1);
         if(!h.isClosed())
             break MISSING_BLOCK_LABEL_217;
-        Log.i("PktThread", "[\u4ED9\u754C]\u8FDE\u63A5\u5DF2\u4E2D\u65AD");
+        Log.i("PktThread", "[仙界]连接已中断");
         h = null;
         return false;
         try
@@ -608,13 +582,14 @@ _L6:
         catch(String s1)
         {
             Log.e("PktThread", s1.getLocalizedMessage(), s1);
-            a(0, "[\u4ED9\u754C] -_- \u8DE8\u670D\u8FDE\u63A5\u5931\u8D25");
+            sendLog(0, "[仙界] -_- 跨服连接失败");
             h = null;
             return false;
         }
         return true;
     }
 
+    //全网
     public final boolean a(String s1, int i1, String s2, String s3, String s4, int j1, String s5)
     {
         if(j != null)
@@ -625,17 +600,17 @@ _L6:
         }
         if(i1 == 0)
         {
-            a(0, "[\u5168\u7F51]\u5F53\u524D\u672A\u5F00\u653E");
+            sendLog(0, "[全网]当前未开放");
             return false;
         }
         j = new Socket(s1, i1);
         if(j.isConnected())
             break MISSING_BLOCK_LABEL_84;
-        a(0, "[\u5168\u7F51]\u65E0\u6CD5\u5EFA\u7ACB\u8FDE\u63A5");
+        sendLog(0, "[全网]无法建立连接");
         j = null;
         return false;
         B = s3;
-        Log.i("PktThread", (new StringBuilder("[\u5168\u7F51]\u5C1D\u8BD5\u767B\u5F55 ")).append(B).toString());
+        Log.i("PktThread", (new StringBuilder("[全网]尝试登录 ")).append(B).toString());
         o = new BufferedOutputStream(j.getOutputStream());
         s1 = new m(0x150000c);
         s1.writeUTF(s2);
@@ -647,7 +622,7 @@ _L6:
         s1.a(0x150000c, o, 3);
         if(!j.isClosed())
             break MISSING_BLOCK_LABEL_222;
-        Log.i("PktThread", "[\u5168\u7F51]\u8FDE\u63A5\u5DF2\u4E2D\u65AD");
+        Log.i("PktThread", "[全网]连接已中断");
         j = null;
         return false;
         try
@@ -658,7 +633,7 @@ _L6:
         catch(String s1)
         {
             Log.e("PktThread", s1.getLocalizedMessage(), s1);
-            a(0, "[\u5168\u7F51] -_- \u8DE8\u670D\u8FDE\u63A5\u5931\u8D25");
+            sendLog(0, "[全网] -_- 跨服连接失败");
             j = null;
             return false;
         }
@@ -677,9 +652,10 @@ _L6:
 
     public final boolean b(int i1)
     {
-        return i1 < 320 && i1 >= 0 && p[i1] && !r[i1] && !q[i1];
+        return i1 < 320 && i1 >= 0 && p[i1] && !funcSelect[i1] && !q[i1];
     }
 
+    //圣域
     public final boolean b(String s1, int i1, String s2, int j1, String s3)
     {
         if(i != null)
@@ -690,17 +666,17 @@ _L6:
         }
         if(i1 == 0)
         {
-            a(0, "[\u5723\u57DF]\u5F53\u524D\u672A\u5F00\u653E");
+            sendLog(0, "[圣域]当前未开放");
             return false;
         }
         i = new Socket(s1, i1);
         if(i.isConnected())
             break MISSING_BLOCK_LABEL_84;
-        a(0, "[\u5723\u57DF]\u65E0\u6CD5\u5EFA\u7ACB\u8FDE\u63A5");
+        sendLog(0, "[圣域]无法建立连接");
         i = null;
         return false;
         B = s2;
-        Log.i("PktThread", (new StringBuilder("[\u5723\u57DF]\u5C1D\u8BD5\u767B\u5F55 ")).append(B).toString());
+        Log.i("PktThread", (new StringBuilder("[圣域]尝试登录 ")).append(B).toString());
         n = new BufferedOutputStream(i.getOutputStream());
         s1 = new m(0x1250000);
         s1.writeUTF(s2);
@@ -711,7 +687,7 @@ _L6:
         s1.a(0x1250000, n, 2);
         if(!i.isClosed())
             break MISSING_BLOCK_LABEL_217;
-        Log.i("PktThread", "[\u5723\u57DF]\u8FDE\u63A5\u5DF2\u4E2D\u65AD");
+        Log.i("PktThread", "[圣域]连接已中断");
         i = null;
         return false;
         try
@@ -722,7 +698,7 @@ _L6:
         catch(String s1)
         {
             Log.e("PktThread", s1.getLocalizedMessage(), s1);
-            a(0, "[\u5723\u57DF] -_- \u8DE8\u670D\u8FDE\u63A5\u5931\u8D25");
+            sendLog(0, "[圣域] -_- 跨服连接失败");
             i = null;
             return false;
         }
@@ -815,14 +791,14 @@ _L6:
 
     public final void j(int i1)
     {
-        (new m(0x10000, i1)).a(this);
+        (new TempDataOutputStream(0x10000, i1)).a(this);
         l();
     }
 
     public final void l()
     {
         web.sxd.b.h.a(3);
-        (new m(93)).a(this);
+        (new TempDataOutputStream(93)).a(this);
     }
 
     public final void m()
@@ -830,7 +806,7 @@ _L6:
         if(b(91) && h != null)
         {
             web.sxd.b.h.c();
-            (new m(0x5f0000, 41)).b(this);
+            (new TempDataOutputStream(0x5f0000, 41)).b(this);
         } else
         {
             j(J);
@@ -838,13 +814,13 @@ _L6:
         if(b(165) && i != null)
         {
             web.sxd.b.h.c();
-            (new m(0x1260000, 78)).c(this);
+            (new TempDataOutputStream(0x1260000, 78)).c(this);
         }
     }
 
     public final void n()
     {
-        (new m(41, 23)).a(this);
+        (new TempDataOutputStream(41, 23)).a(this);
     }
 
     public final boolean o()
@@ -896,6 +872,8 @@ _L3:
           goto _L3
     }
 
+
+    @Override
     public final void run()
     {
         byte abyte0[] = web.sxd.b.l.a(k);
@@ -915,10 +893,44 @@ _L3:
         }while (true);
     }
 
+
+    /*
+    * 数据流量统计格式化输出
+    */
+    private static String statisticsFormat(long l1)
+    {
+        long l3 = 0L;
+        int i1 = 0;
+        long l2 = 0L;
+        do
+        {
+            if(l1 <= 1024L)
+            {
+                if(i1 == 0)
+                    return String.valueOf(l1);
+                break;
+            }
+            l2 = l1 % 1024L;
+            l1 /= 1024L;
+            i1++;
+        } while(true);
+        if(l2 > 949L)
+        {
+            l1++;
+            l2 = l3;
+        } else
+        {
+            l2 /= 100L;
+        }
+        return String.format("%d.%d %c", new Object[] {
+                Long.valueOf(l1), Long.valueOf(l2), Character.valueOf(" KMGT".charAt(i1))
+        });
+    }
+
     public final String toString()
     {
-        return String.format("\u672C\u8FDB\u7A0B %s +%s(\u4ED9\u754C) +%s(\u5723\u57DF) +%s(\u5168\u7F51)", new Object[] {
-            g(O), g(P), g(Q), g(R)
+        return String.format("本进程 %s +%s(仙界) +%s(圣域) +%s(全网)", new Object[] {
+                statisticsFormat(O), statisticsFormat(P), statisticsFormat(Q), statisticsFormat(R)
         });
     }
 

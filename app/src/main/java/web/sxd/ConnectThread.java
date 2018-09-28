@@ -17,7 +17,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import web.sxd.b.MainThread;
-import web.sxd.b.m;
+import web.sxd.b.TempDataOutputStream;
 
 // Referenced classes of package web.sxd:
 //            LoginAct
@@ -33,7 +33,7 @@ final class ConnectThread extends  Thread
 
     public final void run()
     {
-        m m1;
+        TempDataOutputStream m1;
         try
         {
             LoginAct.setSocket(a, new Socket(a.textView_ip.getText().toString(), Integer.valueOf(a.textView_port.getText().toString()).intValue()));
@@ -47,7 +47,7 @@ final class ConnectThread extends  Thread
 
             a.j.append("尝试登录");
             BufferedOutputStream bos = new BufferedOutputStream(LoginAct.getSocket(a).getOutputStream());
-            m1 = new m(0);
+            m1 = new TempDataOutputStream(0);
             m1.writeUTF(a.textView_playerName.getText().toString());
             m1.writeUTF(LoginAct.getHasCode(a));
             m1.writeUTF(LoginAct.getNowTime(a));

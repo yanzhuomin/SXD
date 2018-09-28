@@ -8,7 +8,7 @@ import web.sxd.d.m;
 
 public abstract class c
 {
-
+    //显示功能设置中禁用的功能
     public static final String a()
     {
         StringBuilder stringbuilder = new StringBuilder(b[0]);
