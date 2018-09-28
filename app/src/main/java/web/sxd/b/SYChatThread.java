@@ -15,10 +15,10 @@ import java.net.Socket;
  * 圣域信息读取
  *
  * */
-final class e extends Thread
+final class SYChatThread extends Thread
 {
 
-    public e(MainThread c1, InputStream inputstream)
+    public SYChatThread(MainThread c1, InputStream inputstream)
     {
         super();
         a = c1;
@@ -32,13 +32,13 @@ final class e extends Thread
             byte abyte0[] = TempDataInputStream.a(b);
             while (true) {
                 if (MainThread.b(a) && abyte0 != null) {
-                    MainThread.e(MainThread.s() + (long) (abyte0.length + 4));
+                    MainThread.setSYStatistics(MainThread.getSYStatistics() + (long) (abyte0.length + 4));//更新流量使用情况
                     web.sxd.b.TimeOutThread.clear();
                     (new g(a, abyte0)).start();
                     abyte0 = TempDataInputStream.a(b);
                 } else {
-                    MainThread.e(a).close();
-                    MainThread.d(a);
+                    MainThread.getSYSocket(a).close();
+                    MainThread.clearSYSocket(a);
                     MainThread.sendLog("[圣域]连接已中断");
                     return;
                 }
@@ -46,7 +46,7 @@ final class e extends Thread
             }
         } catch (IOException e) {
             Log.e("PktThread_St", e.getLocalizedMessage());
-            MainThread.d(a);
+            MainThread.clearSYSocket(a);
             MainThread.sendLog("[圣域]连接已中断");
             return;
         }

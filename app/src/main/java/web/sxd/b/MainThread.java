@@ -51,9 +51,9 @@ public final class MainThread extends Thread {
     private Socket j;//全网
     private InputStream k;
     private OutputStream l;
-    private OutputStream m;
-    private OutputStream n;
-    private OutputStream o;
+    private OutputStream m;//仙界
+    private OutputStream n;//圣域
+    private OutputStream o;//全网
     private boolean p[];
     private boolean q[];
     private String s[][][];
@@ -208,10 +208,7 @@ _L4:
         sendLog(0, String.format(s1, aobj));
     }
 
-    static void a(MainThread c1)
-    {
-        c1.h = null;
-    }
+
 
     public static void setFuncSelect(int i1, boolean flag)
     {
@@ -241,70 +238,79 @@ _L4:
         return c1.d;
     }
 
-    static Socket c(MainThread c1)
-    {
-        return c1.h;
-    }
+
 
     public static boolean isFuncSelect(int i1)
     {
         return i1 < 320 && i1 >= 0 && funcSelect[i1];
     }
 
-    static void d(long l1)
-    {
-        P = l1;
-    }
 
-    static void d(MainThread c1)
+    //设置仙界Socket
+    static Socket getXJSocket(MainThread c1)
     {
-        c1.i = null;
+        return c1.h;
     }
-
-    static Socket e(MainThread c1)
+    static void clearXJSocket(MainThread c1)
+    {
+        c1.h = null;
+    }
+    //设置圣域Socket
+    static Socket getSYSocket(MainThread c1)
     {
         return c1.i;
     }
-
-    static void e(long l1)
+    static void clearSYSocket(MainThread c1)
     {
-        Q = l1;
+        c1.i = null;
     }
-
-    static void f(long l1)
+    //设置全网Socket
+    static Socket getQWSocket(MainThread c1)
     {
-        R = l1;
+        return c1.j;
     }
-
-    static void f(MainThread c1)
+    static void clearQWSocket(MainThread c1)
     {
         c1.j = null;
     }
 
 
 
-    static Socket g(MainThread c1)
-    {
-        return c1.j;
-    }
-
     public static void k()
     {
     }
 
-    static long r()
+    //获取仙界流量
+    static long getXJStatistics()
     {
         return P;
     }
+    //设置仙界流量
+    static void setXJStatistics(long l1)
+    {
+        P = l1;
+    }
 
-    static long s()
+    //获取圣域流量
+    static long getSYStatistics()
     {
         return Q;
     }
+    //设置圣域流量
+    static void setSYStatistics(long l1)
+    {
+        Q = l1;
+    }
 
-    static long t()
+    //获取全网流量
+    static long getQWStatistics()
     {
         return R;
+    }
+    //设置全网流量
+    static void setQWStatistics(long l1)
+    {
+        R = l1;
     }
 
     public final int a()
@@ -565,7 +571,7 @@ _L6:
     }
 
 
-    //仙界
+    //仙界连接(应该是仙界聊天)
     public final boolean a(String s1, int i1, String s2, int j1, String s3)
     {
         if(h != null)
@@ -579,35 +585,45 @@ _L6:
             sendLog(0, "[仙界]当前未开放");
             return false;
         }
-        h = new Socket(s1, i1);
-        if(h.isConnected())
-            break MISSING_BLOCK_LABEL_84;
-        sendLog(0, "[仙界]无法建立连接");
-        h = null;
-        return false;
-        B = s2;
-        Log.i("PktThread", (new StringBuilder("[仙界]尝试登录 ")).append(B).toString());
-        m = new BufferedOutputStream(h.getOutputStream());
-        s1 = new m(0x5e0000);
-        s1.writeUTF(s2);
-        s1.writeInt(C);
-        s1.writeUTF(A);
-        s1.writeInt(j1);
-        s1.writeUTF(s3);
-        s1.a(0x5e0000, m, 1);
-        if(!h.isClosed())
-            break MISSING_BLOCK_LABEL_217;
-        Log.i("PktThread", "[仙界]连接已中断");
-        h = null;
-        return false;
+        try {
+            h = new Socket(s1, i1);
+            if (!h.isConnected()) {
+                //break MISSING_BLOCK_LABEL_84;
+                sendLog(0, "[仙界]无法建立连接");
+                h = null;
+                return false;
+            }
+            B = s2;
+            Log.i("PktThread", (new StringBuilder("[仙界]尝试登录 ")).append(B).toString());
+            m = new BufferedOutputStream(h.getOutputStream());
+            TempDataOutputStream out = new TempDataOutputStream(0x5e0000);
+            out.writeUTF(s2);
+            out.writeInt(C);
+            out.writeUTF(A);
+            out.writeInt(j1);
+            out.writeUTF(s3);
+            out.a(0x5e0000, m, 1);
+            if (h.isClosed()) {
+                //break MISSING_BLOCK_LABEL_217;
+                Log.i("PktThread", "[仙界]连接已中断");
+                h = null;
+                return false;
+            }
+        }catch (Exception e)
+        {
+            Log.e("PktThread", e.getLocalizedMessage(), e);
+            sendLog(0, "[仙界]连接已中断");
+            h = null;
+            return false;
+        }
         try
         {
-            (new d(this, h.getInputStream())).start();
+            (new SJChatThread(this, h.getInputStream())).start();
         }
         // Misplaced declaration of an exception variable
-        catch(String s1)
+        catch(Exception e)
         {
-            Log.e("PktThread", s1.getLocalizedMessage(), s1);
+            Log.e("PktThread", e.getLocalizedMessage(), e);
             sendLog(0, "[仙界] -_- 跨服连接失败");
             h = null;
             return false;
@@ -629,38 +645,108 @@ _L6:
             sendLog(0, "[全网]当前未开放");
             return false;
         }
-        j = new Socket(s1, i1);
-        if(j.isConnected())
-            break MISSING_BLOCK_LABEL_84;
-        sendLog(0, "[全网]无法建立连接");
-        j = null;
-        return false;
-        B = s3;
-        Log.i("PktThread", (new StringBuilder("[全网]尝试登录 ")).append(B).toString());
-        o = new BufferedOutputStream(j.getOutputStream());
-        s1 = new m(0x150000c);
-        s1.writeUTF(s2);
-        s1.writeInt(C);
-        s1.writeUTF(s3);
-        s1.writeUTF(s4);
-        s1.writeInt(j1);
-        s1.writeUTF(s5);
-        s1.a(0x150000c, o, 3);
-        if(!j.isClosed())
-            break MISSING_BLOCK_LABEL_222;
-        Log.i("PktThread", "[全网]连接已中断");
-        j = null;
-        return false;
+        try {
+            j = new Socket(s1, i1);
+            if (!j.isConnected()) {
+                //break MISSING_BLOCK_LABEL_84;
+                sendLog(0, "[全网]无法建立连接");
+                j = null;
+                return false;
+            }
+            B = s3;
+            Log.i("PktThread", (new StringBuilder("[全网]尝试登录 ")).append(B).toString());
+            o = new BufferedOutputStream(j.getOutputStream());
+            TempDataOutputStream out = new TempDataOutputStream(0x150000c);
+            out.writeUTF(s2);
+            out.writeInt(C);
+            out.writeUTF(s3);
+            out.writeUTF(s4);
+            out.writeInt(j1);
+            out.writeUTF(s5);
+            out.a(0x150000c, o, 3);
+            if (!j.isClosed()) {
+                //break MISSING_BLOCK_LABEL_222;
+                Log.i("PktThread", "[全网]连接已中断");
+                j = null;
+                return false;
+            }
+        }catch (Exception e)
+        {
+            Log.e("PktThread", e.getLocalizedMessage(), e);
+            sendLog(0, "[全网]连接已中断");
+            j = null;
+            return false;
+        }
         try
         {
-            (new f(this, j.getInputStream())).start();
+            (new QWChatThread(this, j.getInputStream())).start();
         }
         // Misplaced declaration of an exception variable
-        catch(String s1)
+        catch(Exception e)
         {
-            Log.e("PktThread", s1.getLocalizedMessage(), s1);
+            Log.e("PktThread", e.getLocalizedMessage(), e);
             sendLog(0, "[全网] -_- 跨服连接失败");
             j = null;
+            return false;
+        }
+        return true;
+    }
+
+    //圣域
+    public final boolean b(String s1, int i1, String s2, int j1, String s3)
+    {
+        if(i != null)
+        {
+            if(i.isConnected() && !i.isClosed())
+                return true;
+            i = null;
+        }
+        if(i1 == 0)
+        {
+            sendLog(0, "[圣域]当前未开放");
+            return false;
+        }
+        try {
+            i = new Socket(s1, i1);
+            if (!i.isConnected()) {
+                //break MISSING_BLOCK_LABEL_84;
+                sendLog(0, "[圣域]无法建立连接");
+                i = null;
+                return false;
+            }
+            B = s2;
+            Log.i("PktThread", (new StringBuilder("[圣域]尝试登录 ")).append(B).toString());
+            n = new BufferedOutputStream(i.getOutputStream());
+            TempDataOutputStream out = new TempDataOutputStream(0x1250000);
+            out.writeUTF(s2);
+            out.writeInt(C);
+            out.writeUTF(A);
+            out.writeInt(j1);
+            out.writeUTF(s3);
+            out.a(0x1250000, n, 2);
+            if (i.isClosed()) {
+                //break MISSING_BLOCK_LABEL_217;
+                Log.i("PktThread", "[圣域]连接已中断");
+                i = null;
+                return false;
+            }
+        }catch (Exception e)
+        {
+            Log.e("PktThread", e.getLocalizedMessage(), e);
+            sendLog(0, "[圣域]连接已中断");
+            i = null;
+            return false;
+        }
+        try
+        {
+            (new SYChatThread(this, i.getInputStream())).start();
+        }
+        // Misplaced declaration of an exception variable
+        catch(Exception e)
+        {
+            Log.e("PktThread", e.getLocalizedMessage(), e);
+            sendLog(0, "[圣域] -_- 跨服连接失败");
+            i = null;
             return false;
         }
         return true;
@@ -681,55 +767,7 @@ _L6:
         return i1 < 320 && i1 >= 0 && p[i1] && !funcSelect[i1] && !q[i1];
     }
 
-    //圣域
-    public final boolean b(String s1, int i1, String s2, int j1, String s3)
-    {
-        if(i != null)
-        {
-            if(i.isConnected() && !i.isClosed())
-                return true;
-            i = null;
-        }
-        if(i1 == 0)
-        {
-            sendLog(0, "[圣域]当前未开放");
-            return false;
-        }
-        i = new Socket(s1, i1);
-        if(i.isConnected())
-            break MISSING_BLOCK_LABEL_84;
-        sendLog(0, "[圣域]无法建立连接");
-        i = null;
-        return false;
-        B = s2;
-        Log.i("PktThread", (new StringBuilder("[圣域]尝试登录 ")).append(B).toString());
-        n = new BufferedOutputStream(i.getOutputStream());
-        s1 = new m(0x1250000);
-        s1.writeUTF(s2);
-        s1.writeInt(C);
-        s1.writeUTF(A);
-        s1.writeInt(j1);
-        s1.writeUTF(s3);
-        s1.a(0x1250000, n, 2);
-        if(!i.isClosed())
-            break MISSING_BLOCK_LABEL_217;
-        Log.i("PktThread", "[圣域]连接已中断");
-        i = null;
-        return false;
-        try
-        {
-            (new e(this, i.getInputStream())).start();
-        }
-        // Misplaced declaration of an exception variable
-        catch(String s1)
-        {
-            Log.e("PktThread", s1.getLocalizedMessage(), s1);
-            sendLog(0, "[圣域] -_- 跨服连接失败");
-            i = null;
-            return false;
-        }
-        return true;
-    }
+
 
     public final int c()
     {
@@ -815,19 +853,19 @@ _L6:
         return K;
     }
 
-    public final void j(int i1)
+    public final void j(int i1) throws IOException
     {
         (new TempDataOutputStream(0x10000, i1)).a(this);
         l();
     }
 
-    public final void l()
+    public final void l() throws IOException
     {
         web.sxd.b.h.a(3);
         (new TempDataOutputStream(93)).a(this);
     }
 
-    public final void m()
+    public final void m() throws IOException
     {
         if(b(91) && h != null)
         {
@@ -844,7 +882,7 @@ _L6:
         }
     }
 
-    public final void n()
+    public final void n() throws IOException
     {
         (new TempDataOutputStream(41, 23)).a(this);
     }
@@ -902,7 +940,7 @@ _L3:
     @Override
     public final void run()
     {
-        byte abyte0[] = web.sxd.b.l.a(k);
+        byte abyte0[] = web.sxd.b.TempDataInputStream.a(k);
         do{
             boolean flag = d;
             if(!flag || abyte0 == null)

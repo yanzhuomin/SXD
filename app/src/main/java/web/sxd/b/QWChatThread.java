@@ -15,10 +15,10 @@ import java.net.Socket;
  * 全网信息读取
  *
  * */
-final class f extends Thread
+final class QWChatThread extends Thread
 {
 
-    public f(MainThread c1, InputStream inputstream)
+    public QWChatThread(MainThread c1, InputStream inputstream)
     {
         super();
         a = c1;
@@ -31,13 +31,13 @@ final class f extends Thread
             byte abyte0[] = TempDataInputStream.a(b);
             while (true) {
                 if (MainThread.b(a) && abyte0 != null) {
-                    MainThread.f(MainThread.t() + (long) (abyte0.length + 4));
+                    MainThread.setQWStatistics(MainThread.getQWStatistics() + (long) (abyte0.length + 4));//更新流量使用情况
                     web.sxd.b.TimeOutThread.clear();
                     (new g(a, abyte0)).start();
                     abyte0 = TempDataInputStream.a(b);
                 } else {
-                    MainThread.g(a).close();
-                    MainThread.f(a);
+                    MainThread.getQWSocket(a).close();
+                    MainThread.clearQWSocket(a);
                     MainThread.sendLog("[全网]连接已中断");
                     return;
                 }
@@ -45,7 +45,7 @@ final class f extends Thread
             }
         } catch (IOException e) {
             Log.e("PktThread_St", e.getLocalizedMessage());
-            MainThread.f(a);
+            MainThread.clearQWSocket(a);
             MainThread.sendLog("[全网]连接已中断");
             return;
         }

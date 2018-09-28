@@ -16,10 +16,10 @@ import java.net.Socket;
  * 仙界信息读取
  *
  * */
-final class d extends Thread
+final class SJChatThread extends Thread
 {
 
-    public d(MainThread c1, InputStream inputstream)
+    public SJChatThread(MainThread c1, InputStream inputstream)
     {
         super();
         a = c1;
@@ -32,13 +32,13 @@ final class d extends Thread
             byte abyte0[] = TempDataInputStream.a(b);
             while (true) {
                 if (MainThread.b(a) && abyte0 != null) {
-                    MainThread.d(MainThread.r() + (long) (abyte0.length + 4));
+                    MainThread.setXJStatistics(MainThread.getXJStatistics() + (long) (abyte0.length + 4));//更新流量使用情况
                     web.sxd.b.TimeOutThread.clear();
                     (new g(a, abyte0)).start();
                     abyte0 = TempDataInputStream.a(b);
                 } else {
-                    MainThread.c(a).close();
-                    MainThread.a(a);
+                    MainThread.getXJSocket(a).close();
+                    MainThread.clearXJSocket(a);
                     MainThread.sendLog("[仙界]连接已中断");
                     return;
                 }
@@ -46,7 +46,7 @@ final class d extends Thread
             }
         } catch (IOException e) {
             Log.e("PktThread_St", e.getLocalizedMessage());
-            MainThread.a(a);
+            MainThread.clearXJSocket(a);
             MainThread.sendLog("[仙界]连接已中断");
             return;
         }
