@@ -24,7 +24,7 @@ public final class MainThread extends Thread {
     private static long P = 0L;//仙界流量
     private static long Q = 0L;//圣域流量
     private static long R = 0L;//全网流量
-    private static Handler b;
+    private static Handler uiHandler;//UI线程的Handler 发消息给UI时使用
     private static boolean c;
     private static HashMap f = new HashMap();
     private static HashMap g = new HashMap();
@@ -46,9 +46,9 @@ public final class MainThread extends Thread {
     public boolean a;
     private boolean d;
     private HashMap e;
-    private Socket h;
-    private Socket i;
-    private Socket j;
+    private Socket h;//仙界
+    private Socket i;//圣域
+    private Socket j;//全网
     private InputStream k;
     private OutputStream l;
     private OutputStream m;
@@ -108,7 +108,7 @@ public final class MainThread extends Thread {
         message.obj = obj;
         message.arg1 = j1;
         message.arg2 = k1;
-        b.sendMessage(message);
+        uiHandler.sendMessage(message);
     }
 
     public static void sendLog(int i1, Object obj)
@@ -118,12 +118,12 @@ public final class MainThread extends Thread {
         message.obj = obj;
         message.arg2 = 0;
         message.arg1 = 0;
-        b.sendMessage(message);
+        uiHandler.sendMessage(message);
     }
 
     public static void setHandler(Handler handler)
     {
-        b = handler;
+        uiHandler = handler;
         g.clear();
         f.clear();
         c = false;
@@ -336,11 +336,37 @@ _L4:
     {
         this;
         JVM INSTR monitorenter ;
+        synchronized (this)
+        {
+            if(j1 != 1)
+            {
+                if(j1 != 2)
+                    break MISSING_BLOCK_LABEL_57;
+                if(n != null)
+                    break MISSING_BLOCK_LABEL_57;
+                Log.e("PacketOS", "[圣域]连接未建立");
+                return;
+            }else
+            {
+                if(m != null)
+                {
+                    if(j1 != 2)
+                        break MISSING_BLOCK_LABEL_57;
+                    if(n != null)
+                        break MISSING_BLOCK_LABEL_57;
+                    Log.e("PacketOS", "[圣域]连接未建立");
+                    return;
+                }else {
+                    Log.e("PacketOS", "[仙界]连接未建立");
+                }
+            }
+        }
+        return;
         if(j1 != 1) goto _L2; else goto _L1
 _L1:
         if(m != null) goto _L2; else goto _L3
 _L3:
-        Log.e("PacketOS", "[\u4ED9\u754C]\u8FDE\u63A5\u672A\u5EFA\u7ACB");
+        Log.e("PacketOS", "[仙界]连接未建立");
 _L4:
         this;
         JVM INSTR monitorexit ;
@@ -350,7 +376,7 @@ _L2:
             break MISSING_BLOCK_LABEL_57;
         if(n != null)
             break MISSING_BLOCK_LABEL_57;
-        Log.e("PacketOS", "[\u5723\u57DF]\u8FDE\u63A5\u672A\u5EFA\u7ACB");
+        Log.e("PacketOS", "[圣域]连接未建立");
           goto _L4
         m1;
         throw m1;
@@ -358,7 +384,7 @@ _L2:
             break MISSING_BLOCK_LABEL_82;
         if(o != null)
             break MISSING_BLOCK_LABEL_82;
-        Log.e("PacketOS", "[\u5168\u7F51]\u8FDE\u63A5\u672A\u5EFA\u7ACB");
+        Log.e("PacketOS", "[全网]连接未建立");
           goto _L4
         if(i1 < 0x10000)
             break MISSING_BLOCK_LABEL_94;
@@ -519,7 +545,7 @@ _L6:
         }
     }
 
-    public final void a(l l1)
+    public final void a(TempDataInputStream l1) throws IOException
     {
         l1.skipBytes(20);
         u = l1.readInt();

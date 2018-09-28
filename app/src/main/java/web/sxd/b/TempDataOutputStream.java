@@ -127,6 +127,10 @@ public final class TempDataOutputStream extends DataOutputStream
         writeInt(i);
     }
 
+    /**
+    * @param i 类型 ： 主界面：0   仙界：0x5e0000  圣域：0x1250000 全网：0x150000c
+    *
+    * */
     public final void a(int i, OutputStream outputstream, int j)  throws IOException
     {
         byte byte0 = 0;
