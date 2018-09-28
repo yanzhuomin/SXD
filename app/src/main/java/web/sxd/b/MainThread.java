@@ -14,8 +14,8 @@ import java.util.*;
 
 // Referenced classes of package web.sxd.b:
 //            SYSocket, l, QWSocket, XJSocket,
-//            XJOutputStream, d, f, e,
-//            b, g
+//            XJOutputStream, d, valueMap, e,
+//            b, namePrefixMap
 
 public final class MainThread extends Thread {
 
@@ -26,8 +26,10 @@ public final class MainThread extends Thread {
     private static long QWStatistics = 0L;//全网流量
     private static Handler uiHandler;//UI线程的Handler 发消息给UI时使用
     private static boolean c;
-    private static HashMap f = new HashMap();
-    private static HashMap g = new HashMap();  //读取配置生成i对象 放入
+    /**<value,j>*/
+    private static HashMap valueMap = new HashMap();  //<value,j> 读取配置 获取j对象 放入
+    /**<namePrefix,i>*/
+    private static HashMap namePrefixMap = new HashMap();  //<namePrefix,i>读取配置生成i对象 放入 重复不放入
     private static boolean funcSelect[] = new boolean[320];//功能选择
     private String A;
     private String B;
@@ -124,13 +126,13 @@ public final class MainThread extends Thread {
     public static void setHandler(Handler handler)
     {
         uiHandler = handler;
-        g.clear();
-        f.clear();
+        namePrefixMap.clear();
+        valueMap.clear();
         c = false;
     }
 
     // ini配置文件读取
-    public static void a(InputStream inputstream) throws Exception
+    public static void a(InputStream inputstream) throws IOException
     {
         BufferedReader bufferedreader;
         bufferedreader = new BufferedReader(new InputStreamReader(inputstream));
@@ -175,18 +177,18 @@ public final class MainThread extends Thread {
                         String namePrefix;
                         namePrefix = name.substring(0, i1 + 1);
                         value = Integer.valueOf(valueStr); //字符串转Int
-                        j2 = (i)g.get(namePrefix);
+                        j2 = (i) namePrefixMap.get(namePrefix);
                         if(j2 != null)
                             break ;
                         j2 = new i(value / 0x10000, namePrefix);
-                        g.put(namePrefix, j2);
-                        f.put(value, j2.a(name.substring(i1 + 1), value % 0x10000));
+                        namePrefixMap.put(namePrefix, j2);
+                        valueMap.put(value, j2.addConfig(name.substring(i1 + 1), value % 0x10000));
                     }
                 }
             }
         }while(bufferedreader.ready());
         bufferedreader.close();
-        Iterator value = g.values().iterator();
+        Iterator value = namePrefixMap.values().iterator();
         do{
             if(!value.hasNext())
             {
@@ -194,9 +196,9 @@ public final class MainThread extends Thread {
                 return;
             }
             i k2 = (i)value.next();
-            int j1 = k2.a() * 0x10000;
-            if(j1 > 0 && !f.containsKey(j1))
-                f.put(j1, k2.a("?", -1));
+            int j1 = k2.getValueH() * 0x10000;
+            if(j1 > 0 && !valueMap.containsKey(j1))
+                valueMap.put(j1, k2.addConfig("?", -1));
         }while (true);
     }
 
@@ -220,10 +222,10 @@ public final class MainThread extends Thread {
 
     public static void b(TempDataInputStream l1)
     {
-        j j2 = (j)f.get(Integer.valueOf(l1.c()));
+        j j2 = (j) valueMap.get(Integer.valueOf(l1.c()));
         j j1 = j2;
         if(j2 == null)
-            j1 = (j)f.get(Integer.valueOf(l1.d() * 0x10000));
+            j1 = (j) valueMap.get(Integer.valueOf(l1.d() * 0x10000));
         if(j1 == null)
         {
             Log.i("PktThread", (new StringBuilder("Unknown: ")).append(l1.d()).append("_").append(l1.e()).toString());
@@ -340,7 +342,7 @@ public final class MainThread extends Thread {
         a(i1, h1.a(), h1);
     }
 
-    public final void a(int i1, TempDataOutputStream m1, int j1) throws  Exception
+    public final void a(int i1, TempDataOutputStream m1, int j1) //throws  Exception
     {
         OutputStream out;
 //        this;
@@ -370,6 +372,11 @@ public final class MainThread extends Thread {
             }
             m1.a(i1, out, j1);
         }
+
+        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
+        i1 = ((j) (obj)).a.a(((j) (obj)));
+        if(j1 != 3)
+
         return;
 
 _L4:
@@ -440,6 +447,8 @@ _L9:
             p[i1] = flag;
     }
 
+
+    //as中的内容
     public final void a(int i1, String as[], h h1)
     {
         boolean flag;
@@ -447,7 +456,32 @@ _L9:
         i l1;
         flag1 = true;
         flag = true;
-        l1 = (i)g.get(as[0]);
+        l1 = (i) namePrefixMap.get(as[0]);
+        if(!c || l1 == null)
+        {
+
+        }else{
+            l1.a(i1, h1);
+            i1 = ((flag) ? 1 : 0);
+            do {
+                if (i1 < as.length) {
+                    if (as[i1].length() != 0) {
+                        h1 = l1.b(as[i1], i1 - 1);
+                        if (h1 != null) {
+                            int j1 = h1.b();
+                            e.put(Integer.valueOf(j1), h1);
+                        } else {
+                            Log.e("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[i1]).toString());
+                        }
+                    }
+                    i1++;
+
+                } else {
+                    return;
+                }
+            }while(true);
+            }
+        }
         if(!c || l1 == null) goto _L2; else goto _L1
 _L1:
         l1.a(i1, h1);
@@ -480,7 +514,7 @@ _L5:
         int k1 = ((flag1) ? 1 : 0);
         if(i1 == 0)
         {
-            f.put(Integer.valueOf(0), i2.a("Login", 0));
+            valueMap.put(Integer.valueOf(0), i2.a("Login", 0));
             i2.b("Login", 0);
             return;
         }
@@ -490,7 +524,7 @@ _L5:
                 h1 = i2.a(as[k1], k1 - 1);
                 i1 = i2.a(h1);
                 Log.v("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[k1]).append("(").append(i1 / 0x10000).append("_").append(i1 % 0x10000).append(")").toString());
-                f.put(Integer.valueOf(i1), h1);
+                valueMap.put(Integer.valueOf(i1), h1);
                 i2.b(as[k1], k1 - 1);
             }
 

@@ -12,16 +12,20 @@ import java.util.HashMap;
 public final class i
 {
 
-    i(int k, String s)
+    /**
+     * @param namePrefix namePrefix     名字中的前缀
+     * @param valueH value/0x10000  值的高两个字节
+     * */
+    i(int valueH, String namePrefix)
     {
-        c = k;
-        e = s;
-        a = new HashMap();
+        this.valueH = valueH;
+        this.namePrefix = namePrefix;
+        map = new HashMap();
     }
 
     static String a(i k)
     {
-        return k.e;
+        return k.namePrefix;
     }
 
     static h b(i k)
@@ -31,7 +35,7 @@ public final class i
 
     static int c(i k)
     {
-        return k.c;
+        return k.valueH;
     }
 
     static int d(i k)
@@ -39,25 +43,25 @@ public final class i
         return k.d;
     }
 
-    public final int a()
+    public final int getValueH()
     {
-        return c;
+        return valueH;
     }
 
     public final int a(j j1)
     {
-        return c * 0x10000 + j.a(j1);
+        return valueH * 0x10000 + j.a(j1);
     }
 
-    public final j a(String s, int k)
+    public final j addConfig(String nameLast, int valueL)
     {
-        j j2 = (j)a.get(s);
+        j j2 = (j) map.get(nameLast);
         j j1 = j2;
         if(j2 == null)
         {
-            HashMap hashmap = a;
-            j1 = new j(this, s, k);
-            hashmap.put(s, j1);
+            HashMap hashmap = map;
+            j1 = new j(this, nameLast, valueL);
+            hashmap.put(nameLast, j1);
         }
         return j1;
     }
@@ -68,10 +72,10 @@ public final class i
         b = h;
     }
 
-    final j b(String s, int k)
+    final j b(String nameLast, int k)
     {
-        j j1 = (j)a.get(s);
-        if(s != null && b != null)
+        j j1 = (j) map.get(nameLast);
+        if(nameLast != null && b != null)
         {
             j.a(j1, d * 0x10000 + k);
             return j1;
@@ -83,12 +87,12 @@ public final class i
 
     public final String toString()
     {
-        return e;
+        return namePrefix;
     }
 
-    private HashMap a;
+    private HashMap map;
     private h b;
-    private int c;
-    private int d;
-    private String e;
+    private int valueH;
+    private int d; //web.sxd.d.* 类中的valueH
+    private String namePrefix;
 }
