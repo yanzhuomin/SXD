@@ -10,17 +10,20 @@ import java.util.Random;
 // Referenced classes of package web.sxd.b:
 //            c, l
 
-public abstract class h
+public abstract class BaseFunc
 {
 
-    public h(MainThread c1, int i)
+    public BaseFunc(MainThread c1, int i)
     {
         a = false;
         C = c1;
         C.a(i / 0x10000, this);
     }
 
-    protected static final String a(int i, String as[])
+    /**
+     * 打印功能名字
+     * */
+    protected static final String printFuncName(int i, String as[])
     {
         if(i + 1 < as.length)
             return (new StringBuilder(String.valueOf(as[0]))).append("(").append(i).append(")").append(as[i + 1]).toString();
@@ -67,7 +70,7 @@ public abstract class h
 
     public void a(TempDataInputStream l1)
     {
-        Log.d(a()[0], a(l1.e(), a()));
+        Log.d(a()[0], printFuncName(l1.e(), a()));
     }
 
     protected abstract String[] a();
@@ -77,7 +80,7 @@ public abstract class h
         return a()[0];
     }
 
-    protected final void b(int i)
+    protected final void sleep(int i)
     {
         boolean flag = false;
         if(i >= 327)

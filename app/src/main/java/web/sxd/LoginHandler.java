@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.text.Editable;
 import android.widget.EditText;
 import web.sxd.b.BaseHandler;
-import web.sxd.d.y;
+//import web.sxd.d.y;
 
 // Referenced classes of package web.sxd:
 //            LoginAct, b
@@ -60,7 +60,9 @@ final class LoginHandler extends BaseHandler
         if(obj != null || s == null)
             try
             {
-                y.a(LoginAct.getMainThread(a), ((String) (obj)));
+
+                //TODO  [阵型]恢复  暂时注释
+                //y.a(LoginAct.getMainThread(a), ((String) (obj)));
             }
             // Misplaced declaration of an exception variable
             catch(Exception e)

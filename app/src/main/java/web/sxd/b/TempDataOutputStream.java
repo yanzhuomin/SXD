@@ -128,14 +128,14 @@ public final class TempDataOutputStream extends DataOutputStream
     }
 
     /**
-    * @param i 类型 ： 主界面：0   仙界：0x5e0000  圣域：0x1250000 全网：0x150000c
+    * @param funcCode 类型 ： 主界面：0   仙界：0x5e0000  圣域：0x1250000 全网：0x150000c
     *
     * */
-    public final void a(int i, OutputStream outputstream, int j)  throws IOException
+    public final void send(int funcCode, OutputStream outputstream, int j)  throws IOException
     {
         byte byte0 = 0;
         boolean flag;
-        if(i != 0 && i != 0x5e0000 && i != 0x1250000 && i != 0x150000c)
+        if(funcCode != 0 && funcCode != 0x5e0000 && funcCode != 0x1250000 && funcCode != 0x150000c)
             flag = false;
         else
             flag = true;
@@ -147,35 +147,36 @@ public final class TempDataOutputStream extends DataOutputStream
             if(flag)
                 byte0 = 4;
             writeInt(k - byte0);
-            writeInt(i);
+            writeInt(funcCode);
         }
         b.b();
         if(!flag)
             writeInt(c[j]);
-        c[j] = i;
+        c[j] = funcCode;
         flush();
         b.writeTo(outputstream);
         outputstream.flush();
     }
 
-    public final void a(MainThread c1)
+    //给主界面发送数据
+    public final void sendMain(MainThread c1)
     {
-        c1.a(a, this, 0);
+        c1.send(a, this, 0);
     }
-
-    public final void b(MainThread c1)
+    //给仙界发送数据
+    public final void sendXJ(MainThread c1)
     {
-        c1.a(a, this, 1);
+        c1.send(a, this, 1);
     }
-
-    public final void c(MainThread c1)
+    //给圣域发送数据
+    public final void sendSY(MainThread c1)
     {
-        c1.a(a, this, 2);
+        c1.send(a, this, 2);
     }
-
-    public final void d(MainThread c1)
+    //给全网发送数据
+    public final void sendQW(MainThread c1)
     {
-        c1.a(a, this, 3);
+        c1.send(a, this, 3);
     }
 
     private static int c[] = new int[4];

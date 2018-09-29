@@ -10,6 +10,7 @@ import java.io.IOException;
 // Referenced classes of package web.sxd.b:
 //            l, c
 
+//处理返回内容线程
 final class g extends Thread
 {
 
@@ -26,7 +27,7 @@ final class g extends Thread
         {
             TempDataInputStream l1 = new TempDataInputStream(b);
             MainThread c1 = a;
-            MainThread.b(l1);
+            MainThread.processReceive(l1);
             l1.close();
             return;
         }

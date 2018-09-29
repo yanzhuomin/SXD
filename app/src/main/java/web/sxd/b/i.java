@@ -7,18 +7,18 @@ package web.sxd.b;
 import java.util.HashMap;
 
 // Referenced classes of package web.sxd.b:
-//            j, h
+//            j, BaseFunc
 
 public final class i
 {
 
     /**
-     * @param namePrefix namePrefix     名字中的前缀
+     * @param namePrefix namePrefix     功能名字中的前缀
      * @param valueH value/0x10000  值的高两个字节
      * */
     i(int valueH, String namePrefix)
     {
-        this.valueH = valueH;
+        this.funcCodeH = valueH;
         this.namePrefix = namePrefix;
         map = new HashMap();
     }
@@ -28,14 +28,14 @@ public final class i
         return k.namePrefix;
     }
 
-    static h b(i k)
+    static BaseFunc getBaseFunc(i k)
     {
         return k.b;
     }
 
-    static int c(i k)
+    static int getFuncCodeH(i k)
     {
-        return k.valueH;
+        return k.funcCodeH;
     }
 
     static int d(i k)
@@ -43,14 +43,14 @@ public final class i
         return k.d;
     }
 
-    public final int getValueH()
+    public final int getFuncCodeH()
     {
-        return valueH;
+        return funcCodeH;
     }
 
     public final int getValue(j j1)
     {
-        return valueH * 0x10000 + j.getVauleL(j1);
+        return funcCodeH * 0x10000 + j.getFuncCodeL(j1);
     }
 
     public final j addConfig(String nameLast, int valueL)
@@ -66,7 +66,7 @@ public final class i
         return j1;
     }
 
-    final void a(int k, h h)
+    final void a(int k, BaseFunc h)
     {
         d = k;
         b = h;
@@ -77,7 +77,7 @@ public final class i
         j j1 = (j) map.get(nameLast);
         if(nameLast != null && b != null)
         {
-            j.setValue(j1, d * 0x10000 + k);
+            j.setFuncCode(j1, d * 0x10000 + k);
             return j1;
         } else
         {
@@ -91,8 +91,8 @@ public final class i
     }
 
     private HashMap map;
-    private h b;
-    private int valueH; //ini中的valueH
+    private BaseFunc b;
+    private int funcCodeH; //ini中的valueH
     private int d; //web.sxd.d.* 类中的valueH
     private String namePrefix;
 }

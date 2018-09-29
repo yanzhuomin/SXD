@@ -14,7 +14,7 @@ import java.util.*;
 
 // Referenced classes of package web.sxd.b:
 //            SYSocket, l, QWSocket, XJSocket,
-//            XJOutputStream, d, valueMap, e,
+//            XJOutputStream, runState, valueMap, e,
 //            b, namePrefixMap
 
 public final class MainThread extends Thread {
@@ -31,23 +31,23 @@ public final class MainThread extends Thread {
     /**<namePrefix,i>*/
     private static HashMap namePrefixMap = new HashMap();  //<namePrefix,i>读取配置生成i对象 放入 重复不放入
     private static boolean funcSelect[] = new boolean[320];//功能选择
-    private String A;
+    private String A;//角色名称
     private String B;
     private int C;
-    private int D;
-    private int E;
-    private int F;
+    private int D;//角色等级
+    private int E;//元宝个数
+    private int F;//铜钱(w)
     private int G;
     private int H;
     private int I;
     private int J;
     private int K;
     private int L;
-    private long M;
-    private long N;
+    private long M;//角色当前等级经验
+    private long N;//角色当前等级的最大经验
     public boolean a;
-    private boolean d;
-    private HashMap e; /**<value,j>  web.sxd.d.*类中定义的  **/
+    private boolean runState;//运行状态 线程判断标志
+    private HashMap e; /**<value,j>  web.sxd.runState.*类中定义的  **/
     private Socket XJSocket;//仙界
     private Socket SYSocket;//圣域
     private Socket QWSocket;//全网
@@ -95,7 +95,7 @@ public final class MainThread extends Thread {
             flag = false;
         a = flag;
         e = new HashMap();
-        d = true;
+        runState = true;
     }
 
     public static void sendLog(int i1, int j1)
@@ -196,7 +196,7 @@ public final class MainThread extends Thread {
                 return;
             }
             i k2 = (i)value.next();
-            int j1 = k2.getValueH() * 0x10000;
+            int j1 = k2.getFuncCodeH() * 0x10000;
             if(j1 > 0 && !valueMap.containsKey(j1))
                 valueMap.put(j1, k2.addConfig("?", -1));
         }while (true);
@@ -220,26 +220,27 @@ public final class MainThread extends Thread {
             funcSelect[i1] = flag;
     }
 
-    public static void b(TempDataInputStream l1)
+    //解析接收的消息
+    public static void processReceive(TempDataInputStream inputStream)
     {
-        j j2 = (j) valueMap.get(Integer.valueOf(l1.c()));
+        j j2 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCode()));
         j j1 = j2;
         if(j2 == null)
-            j1 = (j) valueMap.get(Integer.valueOf(l1.d() * 0x10000));
+            j1 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCodeH() * 0x10000));
         if(j1 == null)
         {
-            Log.i("PktThread", (new StringBuilder("Unknown: ")).append(l1.d()).append("_").append(l1.e()).toString());
+            Log.i("PktThread", (new StringBuilder("Unknown: ")).append(inputStream.getFuncCodeH()).append("_").append(inputStream.getFuncCodeL()).toString());
             return;
         } else
         {
-            j1.a(l1);
+            j1.a(inputStream);
             return;
         }
     }
 
     static boolean b(MainThread c1)
     {
-        return c1.d;
+        return c1.runState;
     }
 
 
@@ -337,12 +338,16 @@ public final class MainThread extends Thread {
         }
     }
 
-    public final void a(int i1, h h1)
+    public final void a(int i1, BaseFunc h1)
     {
-        a(i1, h1.a(), h1);
+        addFunc(i1, h1.a(), h1);
     }
-
-    public final void a(int i1, TempDataOutputStream m1, int j1) //throws  Exception
+    /**
+     * 发送数据到服务器
+     * @param j1 类型 ： 主界面：0   仙界：1  圣域：2 全网：3
+     *
+     */
+    public final void send(int funcCode, TempDataOutputStream m1, int j1) //throws  Exception
     {
         OutputStream out;
 //        this;
@@ -352,17 +357,20 @@ public final class MainThread extends Thread {
             if(j1 == 1){
                 if(XJOutputStream == null){
                     Log.e("PacketOS", "[仙界]连接未建立");
+                    return;
                 }
                 out = XJOutputStream;
 
             }else if(j1 == 2){
                 if(SYOutputStream == null){
                     Log.e("PacketOS", "[圣域]连接未建立");
+                    return;
                 }
                 out = SYOutputStream;
             }else if(j1 == 3){
                 if(QWOutputStream == null){
                     Log.e("PacketOS", "[全网]连接未建立");
+                    return;
                 }
                 out = QWOutputStream;
 
@@ -370,75 +378,90 @@ public final class MainThread extends Thread {
             {
                 out = mainOutputStream;
             }
-            m1.a(i1, out, j1);
+            j j2 =    (j)e.get(Integer.valueOf(funcCode));
+            if(j2 == null)
+            {
+                Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
+                Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
+                Log.i("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
+                Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
+                return;
+            }
+            funcCode = j2.parent.getValue(j2);
+            try {
+                m1.send(funcCode, out, j1);//信息发送 init
+            }catch (IOException e)
+            {
+
+            }
+
         }
-
-        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
-        i1 = ((j) (obj)).parent.a(((j) (obj)));
-        if(j1 != 3)
-
-        return;
-
-_L4:
-        this;
-        JVM INSTR monitorexit ;
-        return;
+//        Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//        Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
+//        Log.i("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
+//        Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
 
 
-
-        if(i1 < 0x10000)
-            break MISSING_BLOCK_LABEL_94;
-        if(iniReadFailed)
-            break MISSING_BLOCK_LABEL_203;
-        if(!d)
-            break MISSING_BLOCK_LABEL_160;
-        if(j1 != 3) goto _L6; else goto _L5
-_L5:
-        Object obj = QWOutputStream;
-_L7:
-        m1.a(i1, ((OutputStream) (obj)), j1);
-          goto _L4
-_L6:
-        if(j1 != 2)
-            break MISSING_BLOCK_LABEL_137;
-        obj = SYOutputStream;
-          goto _L7
-        if(j1 != 1)
-            break MISSING_BLOCK_LABEL_151;
-        obj = XJOutputStream;
-          goto _L7
-        obj = mainOutputStream;
-          goto _L7
-        Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
-          goto _L4
-        obj = (j)e.get(Integer.valueOf(i1));
-        if(obj == null)
-            break MISSING_BLOCK_LABEL_388;
-        if(!d)
-            break MISSING_BLOCK_LABEL_343;
-        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
-        i1 = ((j) (obj)).parent.a(((j) (obj)));
-        if(j1 != 3) goto _L9; else goto _L8
-_L8:
-        obj = QWOutputStream;
-_L10:
-        m1.a(i1, ((OutputStream) (obj)), j1);
-          goto _L4
-_L9:
-        if(j1 != 2)
-            break MISSING_BLOCK_LABEL_320;
-        obj = SYOutputStream;
-          goto _L10
-        if(j1 != 1)
-            break MISSING_BLOCK_LABEL_334;
-        obj = XJOutputStream;
-          goto _L10
-        obj = mainOutputStream;
-          goto _L10
-        Log.i("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(") unSent").toString());
-          goto _L4
-        Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
-          goto _L4
+//_L4:
+//        this;
+//        JVM INSTR monitorexit ;
+//        return;
+//
+//
+//
+//        if(i1 < 0x10000)
+//            break MISSING_BLOCK_LABEL_94;
+//        if(iniReadFailed)
+//            break MISSING_BLOCK_LABEL_203;
+//        if(!runState)
+//            break MISSING_BLOCK_LABEL_160;
+//        if(j1 != 3) goto _L6; else goto _L5
+//_L5:
+//        Object obj = QWOutputStream;
+//_L7:
+//        m1.a(i1, ((OutputStream) (obj)), j1);
+//          goto _L4
+//_L6:
+//        if(j1 != 2)
+//            break MISSING_BLOCK_LABEL_137;
+//        obj = SYOutputStream;
+//          goto _L7
+//        if(j1 != 1)
+//            break MISSING_BLOCK_LABEL_151;
+//        obj = XJOutputStream;
+//          goto _L7
+//        obj = mainOutputStream;
+//          goto _L7
+//        Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//          goto _L4
+//        obj = (j)e.get(Integer.valueOf(i1));
+//        if(obj == null)
+//            break MISSING_BLOCK_LABEL_388;
+//        if(!runState)
+//            break MISSING_BLOCK_LABEL_343;
+//        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
+//        i1 = ((j) (obj)).parent.a(((j) (obj)));
+//        if(j1 != 3) goto _L9; else goto _L8
+//_L8:
+//        obj = QWOutputStream;
+//_L10:
+//        m1.a(i1, ((OutputStream) (obj)), j1);
+//          goto _L4
+//_L9:
+//        if(j1 != 2)
+//            break MISSING_BLOCK_LABEL_320;
+//        obj = SYOutputStream;
+//          goto _L10
+//        if(j1 != 1)
+//            break MISSING_BLOCK_LABEL_334;
+//        obj = XJOutputStream;
+//          goto _L10
+//        obj = mainOutputStream;
+//          goto _L10
+//        Log.i("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(") unSent").toString());
+//          goto _L4
+//        Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//          goto _L4
     }
 
     public final void a(int i1, boolean flag)
@@ -448,14 +471,15 @@ _L9:
     }
 
 
-    public final void a(int valueH, String as[], h h1)
+    //将as中列出的功能添加到HashMap中  valueH  是功能码的高两个字节
+    public final void addFunc(int valueH, String funcName[], BaseFunc h1)
     {
         boolean flag;
         boolean flag1;
         i l1;
         flag1 = true;
         flag = true;
-        l1 = (i) namePrefixMap.get(as[0]);
+        l1 = (i) namePrefixMap.get(funcName[0]);
         if(!iniReadFailed || l1 == null)
         {
             if(iniReadFailed || l1 != null)
@@ -463,8 +487,8 @@ _L9:
                 return;
             }else   //ini加载失败的话
             {
-                i i2 = new i(valueH, as[0]);
-                namePrefixMap.put(as[0], i2);
+                i i2 = new i(valueH, funcName[0]);
+                namePrefixMap.put(funcName[0], i2);
                 i2.a(valueH, h1);
                 int index = ((flag1) ? 1 : 0);
                 if(valueH == 0)
@@ -473,14 +497,14 @@ _L9:
                     i2.setChildValue("Login", 0);
                     return;
                 }
-                for(; index < as.length; index++)
-                    if(as[index].length() > 0)
+                for(; index < funcName.length; index++)
+                    if(funcName[index].length() > 0)
                     {
-                        j j1 = i2.addConfig(as[index], index - 1);
+                        j j1 = i2.addConfig(funcName[index], index - 1);
                         int value = i2.getValue(j1);
-                        Log.v("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[index]).append("(").append(value / 0x10000).append("_").append(valueH % 0x10000).append(")").toString());
+                        Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(valueH % 0x10000).append(")").toString());
                         valueMap.put(Integer.valueOf(value), j1);
-                        i2.setChildValue(as[index], index - 1);
+                        i2.setChildValue(funcName[index], index - 1);
                     }
 
                 return;
@@ -488,14 +512,14 @@ _L9:
         }else{//ini加载成功的话
             l1.a(valueH, h1);// valueH = valueH  类中的value
             int index = ((flag) ? 1 : 0);
-            while ((index < as.length)){
-                if (as[index].length() != 0) {
-                        j j1 = l1.setChildValue(as[index], index - 1);
+            while ((index < funcName.length)){
+                if (funcName[index].length() != 0) {
+                        j j1 = l1.setChildValue(funcName[index], index - 1);
                         if (j1 != null) {
-                            int j2 = j1.getValue();
+                            int j2 = j1.getFuncCode();
                             e.put(Integer.valueOf(j2), j1);
                         } else {
-                            Log.e("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[index]).toString());
+                            Log.e("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).toString());
                         }
                 }
                 index++;
@@ -534,11 +558,11 @@ _L9:
         F = k1;
     }
 
-    public final void a(h h1)
+    public final void a(BaseFunc h1)
     {
         if(h1 != null)
         {
-            h h2 = (h)t.put(h1.getClass(), h1);
+            BaseFunc h2 = (BaseFunc)t.put(h1.getClass(), h1);
             if(h2 != null && !h2.equals(h1))
                 h2.d();
         }
@@ -564,8 +588,8 @@ _L9:
     }
 
 
-    //仙界连接(应该是仙界聊天)
-    public final boolean a(String s1, int i1, String s2, int j1, String s3)
+    //仙界连接(应该是聊天)
+    public final boolean a(String ip, int port, String s2, int j1, String s3)
     {
         if(XJSocket != null)
         {
@@ -573,13 +597,13 @@ _L9:
                 return true;
             XJSocket = null;
         }
-        if(i1 == 0)
+        if(port == 0)
         {
             sendLog(0, "[仙界]当前未开放");
             return false;
         }
         try {
-            XJSocket = new Socket(s1, i1);
+            XJSocket = new Socket(ip, port);
             if (!XJSocket.isConnected()) {
                 //break MISSING_BLOCK_LABEL_84;
                 sendLog(0, "[仙界]无法建立连接");
@@ -595,7 +619,7 @@ _L9:
             out.writeUTF(A);
             out.writeInt(j1);
             out.writeUTF(s3);
-            out.a(0x5e0000, XJOutputStream, 1);
+            out.send(0x5e0000, XJOutputStream, 1);
             if (XJSocket.isClosed()) {
                 //break MISSING_BLOCK_LABEL_217;
                 Log.i("PktThread", "[仙界]连接已中断");
@@ -624,8 +648,8 @@ _L9:
         return true;
     }
 
-    //全网
-    public final boolean a(String s1, int i1, String s2, String s3, String s4, int j1, String s5)
+    //全网(应该是聊天)
+    public final boolean a(String ip, int port, String s2, String s3, String s4, int j1, String s5)
     {
         if(QWSocket != null)
         {
@@ -633,13 +657,13 @@ _L9:
                 return true;
             QWSocket = null;
         }
-        if(i1 == 0)
+        if(port == 0)
         {
             sendLog(0, "[全网]当前未开放");
             return false;
         }
         try {
-            QWSocket = new Socket(s1, i1);
+            QWSocket = new Socket(ip, port);
             if (!QWSocket.isConnected()) {
                 //break MISSING_BLOCK_LABEL_84;
                 sendLog(0, "[全网]无法建立连接");
@@ -656,7 +680,7 @@ _L9:
             out.writeUTF(s4);
             out.writeInt(j1);
             out.writeUTF(s5);
-            out.a(0x150000c, QWOutputStream, 3);
+            out.send(0x150000c, QWOutputStream, 3);
             if (!QWSocket.isClosed()) {
                 //break MISSING_BLOCK_LABEL_222;
                 Log.i("PktThread", "[全网]连接已中断");
@@ -685,8 +709,8 @@ _L9:
         return true;
     }
 
-    //圣域
-    public final boolean b(String s1, int i1, String s2, int j1, String s3)
+    //圣域(应该是聊天)
+    public final boolean b(String ip, int port, String s2, int j1, String s3)
     {
         if(SYSocket != null)
         {
@@ -694,13 +718,13 @@ _L9:
                 return true;
             SYSocket = null;
         }
-        if(i1 == 0)
+        if(port == 0)
         {
             sendLog(0, "[圣域]当前未开放");
             return false;
         }
         try {
-            SYSocket = new Socket(s1, i1);
+            SYSocket = new Socket(ip, port);
             if (!SYSocket.isConnected()) {
                 //break MISSING_BLOCK_LABEL_84;
                 sendLog(0, "[圣域]无法建立连接");
@@ -716,7 +740,7 @@ _L9:
             out.writeUTF(A);
             out.writeInt(j1);
             out.writeUTF(s3);
-            out.a(0x1250000, SYOutputStream, 2);
+            out.send(0x1250000, SYOutputStream, 2);
             if (SYSocket.isClosed()) {
                 //break MISSING_BLOCK_LABEL_217;
                 Log.i("PktThread", "[圣域]连接已中断");
@@ -848,36 +872,36 @@ _L9:
 
     public final void j(int i1) throws IOException
     {
-        (new TempDataOutputStream(0x10000, i1)).a(this);
+        (new TempDataOutputStream(0x10000, i1)).sendMain(this);
         l();
     }
 
     public final void l() throws IOException
     {
-        web.sxd.b.h.a(3);
-        (new TempDataOutputStream(93)).a(this);
+        BaseFunc.a(3);
+        (new TempDataOutputStream(93)).sendMain(this);
     }
 
     public final void m() throws IOException
     {
         if(b(91) && XJSocket != null)
         {
-            web.sxd.b.h.c();
-            (new TempDataOutputStream(0x5f0000, 41)).b(this);
+            BaseFunc.c();
+            (new TempDataOutputStream(0x5f0000, 41)).sendXJ(this);
         } else
         {
             j(J);
         }
         if(b(165) && SYSocket != null)
         {
-            web.sxd.b.h.c();
-            (new TempDataOutputStream(0x1260000, 78)).c(this);
+            BaseFunc.c();
+            (new TempDataOutputStream(0x1260000, 78)).sendSY(this);
         }
     }
 
     public final void n() throws IOException
     {
-        (new TempDataOutputStream(41, 23)).a(this);
+        (new TempDataOutputStream(41, 23)).sendMain(this);
     }
 
     public final boolean o()
@@ -892,7 +916,7 @@ _L9:
 
     public final void quit()
     {
-        d = false;
+        runState = false;
         if(XJSocket != null) {
             //break MISSING_BLOCK_LABEL_24;
             try {
@@ -934,7 +958,7 @@ _L9:
 //        obj;
 //        SYSocket = null;
 //        throw obj;
-//        ((h)((Iterator) (obj)).next()).d();
+//        ((BaseFunc)((Iterator) (obj)).next()).runState();
 //          goto _L3
     }
 
@@ -945,7 +969,7 @@ _L9:
         try {
             byte abyte0[] = web.sxd.b.TempDataInputStream.a(mainInputStream);
             do {
-                boolean flag = d;
+                boolean flag = runState;
                 if (!flag || abyte0 == null) {
                     sendLog(-1, "服务器连接已中断");
                     quit();
@@ -995,7 +1019,7 @@ _L9:
         {
             l2 /= 100L;
         }
-        return String.format("%d.%d %iniReadFailed", new Object[] {
+        return String.format("%runState.%runState %iniReadFailed", new Object[] {
                 Long.valueOf(l1), Long.valueOf(l2), Character.valueOf(" KMGT".charAt(i1))
         });
     }

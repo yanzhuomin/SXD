@@ -59,7 +59,7 @@ final class ConnectThread extends  Thread
             m1.writeUTF(LoginAct.getStage(a));
             if(LoginAct.getCurVer(a).compareTo("20130802") > 0)
                 m1.writeUTF(LoginAct.getClient(a));
-            m1.a(0, bos, 0);
+            m1.send(0, bos, 0);
 
             LoginAct.setMainThread(a, new MainThread(LoginAct.getCurVer(a), LoginAct.getSocket(a).getInputStream(), bos));
             new web.sxd.d.m(LoginAct.getMainThread(a));

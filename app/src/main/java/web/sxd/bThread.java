@@ -4,7 +4,7 @@
 
 package web.sxd;
 
-import web.sxd.b.h;
+import web.sxd.b.BaseFunc;
 
 // Referenced classes of package web.sxd:
 //            LoginAct, a
@@ -20,7 +20,7 @@ final class bThread extends Thread
 
     public final void run()
     {
-        h.a(10);
+        BaseFunc.a(10);
         if(LoginAct.d())
             web.sxd.LoginHandler.a(a).returnWebSXD();
     }

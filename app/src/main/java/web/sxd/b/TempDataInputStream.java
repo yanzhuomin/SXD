@@ -18,8 +18,8 @@ public final class TempDataInputStream extends DataInputStream
             obj = new InflaterInputStream(((InputStream) (obj)));
         this.in = ((InputStream) (obj));//super(((InputStream) (obj)));
 
-        b = abyte0.length;
-        a = readInt();
+        length = abyte0.length;
+        funcCode = readInt();
     }
 
     static byte[] a(InputStream inputstream) throws IOException
@@ -48,6 +48,9 @@ public final class TempDataInputStream extends DataInputStream
         } while(true);
     }
 
+    /**
+     * 铜钱读取转换
+     */
     public final int a()  throws IOException
     {
         long l1 = readLong();
@@ -76,29 +79,29 @@ public final class TempDataInputStream extends DataInputStream
 
     public final int b()
     {
-        return b;
+        return length;
     }
 
-    final void b(int i)
+    final void setFuncCode(int i)
     {
-        a = i;
+        funcCode = i;
     }
 
-    public final int c()
+    public final int getFuncCode()
     {
-        return a;
+        return funcCode;
     }
 
-    public final int d()
+    public final int getFuncCodeH()
     {
-        return a / 0x10000;
+        return funcCode / 0x10000;
     }
 
-    public final int e()
+    public final int getFuncCodeL()
     {
-        return a % 0x10000;
+        return funcCode % 0x10000;
     }
 
-    private int a;
-    private int b;
+    private int funcCode;
+    private int length;
 }

@@ -7,7 +7,7 @@ package web.sxd.b;
 import android.util.Log;
 
 // Referenced classes of package web.sxd.nameLast:
-//            i, h, l
+//            i, BaseFunc, l
 
 final class j
 {
@@ -15,7 +15,7 @@ final class j
     /**
      * @param k parent 属于那个前缀类i
      * @param nameLast nameLast  配置文件一条配置中名字的第一个下划线后面的部分
-     * @param valueL value%0x10000   值的后两个字节
+     * @param valueL funcCode%0x10000   值的后两个字节
      *
      * */
     j(i k, String nameLast, int valueL)
@@ -23,51 +23,52 @@ final class j
         parent = k;
         //super();
         this.nameLast = nameLast;
-        this.valueL = valueL;
-        value = -1;
+        this.funcCodeL = valueL;
+        funcCode = -1;
     }
 
-    static int getVauleL(j j1)
+    static int getFuncCodeL(j j1)
     {
-        return j1.valueL;
+        return j1.funcCodeL;
     }
 
     //索引 = parent 中的 d * 0x10000 + k
-    static void setValue(j j1, int k)
+    static void setFuncCode(j j1, int k)
     {
-        j1.value = k;
+        j1.funcCode = k;
     }
 
-    public final int getVauleL()
+    public final int getFuncCodeL()
     {
-        return valueL;
+        return funcCodeL;
     }
 
-    public final void a(TempDataInputStream l1)
+    public final void a(TempDataInputStream inputStream)
     {
-        if(i.b(parent) != null && i.c(parent) == 0 && i.c(parent) == i.d(parent))
+        if(i.getBaseFunc(parent) != null && i.getFuncCodeH(parent) == 0 && i.getFuncCodeH(parent) == i.d(parent))
         {
-            i.b(parent).a(l1);
+            i.getBaseFunc(parent).a(inputStream);
             return;
         }
-        if(i.b(parent) == null || value < 0 || valueL < 0)
+        if(i.getBaseFunc(parent) == null || funcCode < 0 || funcCodeL < 0)
         {
-            Log.v("MF_Parser", (new StringBuilder("UnRegFunc: (")).append(l1.d()).append(")").append(i.a(parent)).append(nameLast).append("(").append(l1.e()).append(")").append(value).toString());
+            Log.v("MF_Parser", (new StringBuilder("UnRegFunc: (")).append(inputStream.d()).append(")").append(i.a(parent)).append(nameLast).append("(").append(inputStream.e()).append(")").append(funcCode).toString());
             return;
         } else
         {
-            l1.b(value);
-            i.b(parent).a(l1);
+            inputStream.b(funcCode);
+            i.getBaseFunc(parent).a(inputStream);
             return;
         }
     }
 
-    //设置索引号 0开始
-    public final int getValue()
+
+    public final int getFuncCode()
     {
-        return value;
+        return funcCode;
     }
 
+    @Override
     public final String toString()
     {
         return (new StringBuilder(String.valueOf(i.a(parent)))).append(nameLast).toString();
@@ -75,6 +76,6 @@ final class j
 
     final i parent;
     private String nameLast;
-    private int valueL;
-    private int value;
+    private int funcCodeL;
+    private int funcCode;
 }

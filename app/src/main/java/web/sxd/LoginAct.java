@@ -30,7 +30,7 @@ import web.sxd.b.VarSplit;
 //import web.sxd.d.m;
 
 // Referenced classes of package web.sxd:
-//            WebSXDact, d, e, h,
+//            WebSXDact, d, e, BaseFunc,
 //            f, g, a, c
 
 public class LoginAct extends AppCompatActivity

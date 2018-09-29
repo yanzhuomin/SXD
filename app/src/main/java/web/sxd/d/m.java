@@ -5,10 +5,13 @@
 package web.sxd.d;
 
 import android.util.Log;
+
+import java.io.IOException;
+
 import web.sxd.a.ae;
 import web.sxd.a.ah;
 import web.sxd.b.MainThread;
-import web.sxd.b.h;
+import web.sxd.b.BaseFunc;
 import web.sxd.b.TempDataInputStream;
 import web.sxd.c.a;
 import web.sxd.c.b;
@@ -21,7 +24,7 @@ import web.sxd.c.i;
 //            r, j, s, t, 
 //            k, u, quit, e
 
-public final class m extends h
+public final class m extends BaseFunc
 {
 
     public m(MainThread c1)
@@ -29,10 +32,10 @@ public final class m extends h
         super(c1, 0);
         e = true;
         f = 0;
-        new g(c1);
-        c = new n(c1);
-        new i(c1);
-        new a(c1);
+//        new g(c1);
+//        c = new n(c1);
+//        new i(c1);
+//        new a(c1);
         c1.start();
         d = false;
     }
@@ -40,57 +43,205 @@ public final class m extends h
     private static String a(String s1)
     {
         int i1;
-        int l1;
+        int length;
         i1 = 0;
-        l1 = s1.length();
-_L10:
-        if(s1.charAt(i1) == ' ' && i1 < l1) goto _L2; else goto _L1
-_L1:
+        length = s1.length();
+        while(s1.charAt(i1) == ' ' && i1 < length)
+        {
+            i1++;
+        }
         int j1 = i1;
-        if(i1 >= l1 - 1) goto _L4; else goto _L3
-_L3:
+        if(i1 >= length - 1)
+        {
+            return s1.substring(j1).replace("&lt;", "<")
+                    .replace("&gt;", ">")
+                    .replace("&amp;", "&")
+                    .replace("&Y", "")
+                    .replace("&R", "")
+                    .replace("&G", "")
+                    .replace("</a>", "");//XML中的转义字符处理
+        }
         j1 = i1;
-        if(s1.charAt(i1) != '<') goto _L4; else goto _L5
-_L5:
+        if(s1.charAt(i1) != '<')
+        {
+            return s1.substring(j1).replace("&lt;", "<")
+                    .replace("&gt;", ">")
+                    .replace("&amp;", "&")
+                    .replace("&Y", "")
+                    .replace("&R", "")
+                    .replace("&G", "")
+                    .replace("</a>", "");//XML中的转义字符处理
+        }
         j1 = i1;
-        if(s1.charAt(i1 + 1) != 'a') goto _L4; else goto _L6
-_L6:
+        if(s1.charAt(i1 + 1) != 'a')
+        {
+            return s1.substring(j1).replace("&lt;", "<")
+                    .replace("&gt;", ">")
+                    .replace("&amp;", "&")
+                    .replace("&Y", "")
+                    .replace("&R", "")
+                    .replace("&G", "")
+                    .replace("</a>", "");//XML中的转义字符处理
+        }
         j1 = i1 + 2;
-_L11:
-        if(s1.charAt(j1) != '>' && j1 < l1) goto _L8; else goto _L7
-_L7:
+        while(s1.charAt(j1) != '>' && j1 < length)
+        {
+            j1++;
+        }
         int k1;
         k1 = j1 + 1;
         j1 = i1;
-        if(k1 >= l1) goto _L4; else goto _L9
-_L9:
-        i1 = k1;
-_L12:
-        j1 = i1;
-        if(s1.charAt(i1) == ' ')
+        if(k1 >= length)
         {
-            if(i1 < l1)
-                break MISSING_BLOCK_LABEL_183;
-            j1 = i1;
+            return s1.substring(j1).replace("&lt;", "<")
+                    .replace("&gt;", ">")
+                    .replace("&amp;", "&")
+                    .replace("&Y", "")
+                    .replace("&R", "")
+                    .replace("&G", "")
+                    .replace("</a>", "");//XML中的转义字符处理
         }
-_L4:
-        return s1.substring(j1).replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&Y", "").replace("&R", "").replace("&G", "").replace("</a>", "");
-_L2:
-        i1++;
-          goto _L10
-_L8:
-        j1++;
-          goto _L11
-        i1++;
-          goto _L12
+        i1 = k1;
+
+        while(true) {
+            j1 = i1;
+            if (s1.charAt(i1) == ' ') {
+                if (i1 < length)
+                    break ;
+                j1 = i1;
+            }
+            i1++;
+        }
+        return s1.substring(j1).replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&amp;", "&")
+                .replace("&Y", "")
+                .replace("&R", "")
+                .replace("&G", "")
+                .replace("</a>", "");//XML中的转义字符处理
     }
+
 
     public final void a(TempDataInputStream l1)
     {
         int i1;
-        i1 = l1.c();
+        i1 = l1.getFuncCode();
         if(i1 != 3 && i1 != 9 && i1 != 40)
-            super.a(l1);
+            super.a(l1); //打印
+        switch (i1)
+        {
+            default:return;
+            case 0:
+            case 1:
+                switch (l1.read())
+                {
+                    default:
+                        web.sxd.b.MainThread.sendLog("未知登录错误");
+                        return;
+                    case 0:
+                        String s1 = "登录成功，查询角色信息：";
+                        C.e(l1.readInt());
+                        (new web.sxd.b.TempDataOutputStream(2)).send(C);
+                        l1 = s1;
+                        continue;
+                    case 1:
+                        web.sxd.b.MainThread.sendLog(-2, "登录失败，请重试 (2 秒后自动刷新)");
+                        return;
+                    case 2:
+                        web.sxd.b.MainThread.sendLog("尚未创建角色");
+                        return;
+                    case 3:
+                        web.sxd.b.MainThread.sendLog("未知登录错误");
+                        return;
+                    case 4:
+                        String s1 = "登录成功，查询角色信息：";
+                        C.e(l1.readInt());
+                        (new web.sxd.b.TempDataOutputStream(2)).send(C);
+                        l1 = s1;
+                        continue;
+                }
+            case 2:
+                String s2 = l1.readUTF();
+                int j2 = l1.readInt();
+                C.a(s2, j2, l1.readInt(), l1.a());
+                web.sxd.b.MainThread.sendLog("%s(%d级) %d元宝 %dw", new Object[] {
+                        s2, Integer.valueOf(j2), Integer.valueOf(C.e()), Integer.valueOf(C.f())
+                });
+                l1.skipBytes(8);
+                int j3 = l1.readInt();
+                C.g(j3);
+                long l4 = l1.readLong();
+                long l6 = l1.readLong();
+                C.b(l4);
+                C.c(l6);
+                boolean flag1;
+                if(l6 > 0x989680L)
+                    i1 = 1;
+                else
+                    i1 = 0;
+                if(i1 != 0)
+                {
+                    l6 /= 10000L;
+                    web.sxd.b.MainThread.sendLog("  体力%d  %dw/%dw (%d%%)", new Object[] {
+                            Integer.valueOf(j3), Long.valueOf(l4 / 10000L), Long.valueOf(l6), Integer.valueOf(C.h())
+                    });
+                } else
+                {
+                    web.sxd.b.MainThread.sendLog("  体力%d  %d/%d (%d%%)", new Object[] {
+                            Integer.valueOf(j3), Long.valueOf(l4), Long.valueOf(l6), Integer.valueOf(C.h())
+                    });
+                }
+                c();
+                (new web.sxd.b.m(46)).a(C);
+                c();
+                (new web.sxd.b.m(9)).a(C);
+                i1 = l1.readInt();
+                j3 = l1.readInt();
+                C.h(i1);
+                Log.i(b(), (new StringBuilder("Login: town=")).append(i1).append(", boss=").append(j3).append(", jhs=").append(l1.readInt()).toString());
+                C.a(l1);
+                if(j3 > 0)
+                    flag1 = true;
+                else
+                    flag1 = false;
+                d = flag1;
+                if(d)
+                {
+                    web.sxd.b.c.a("[BOSS]%s, %s", new Object[] {
+                            i.e(j3), i.e(i1)
+                    });
+                    new ad(C);
+                    c();
+                    C.j(j3);
+                } else
+                {
+                    web.sxd.b.c.a("\u8FDB\u5165\u57CE\u9547: %s", new Object[] {
+                            i.e(i1)
+                    });
+                    C.m();
+                }
+                if(j2 >= 60)
+                {
+                    new r(C);
+                    c();
+                    web.sxd.d.r.a(C);
+                } else
+                {
+                    web.sxd.b.c.a("\u672A\u5F00\u542F\u7B7E\u5230\u529F\u80FD(60\u7EA7)\uFF01");
+                }
+                web.sxd.d.j.a(C);
+                c();
+                (new web.sxd.b.m(48, C.d())).a(C);
+                c();
+                (new web.sxd.b.m(6)).a(C);
+                b(20);
+                if(C.b(64))
+                {
+                    (new web.sxd.b.m(42)).a(C);
+                    return;
+                }
+                continue;
+        }
         i1;
         JVM INSTR lookupswitch 13: default 144
     //                   0: 1093
@@ -113,10 +264,10 @@ _L10:
         i1 = l1.readInt();
         if(i1 > 0)
         {
-            web.sxd.b.c.a("[\u9635\u8425\u6218]\u51B7\u5374\u4E2D, %d\u79D2\u540E\u91CD\u8BD5", new Object[] {
+            web.sxd.b.c.a("[阵营战]冷却中, %d秒后重试", new Object[] {
                 Integer.valueOf(i1)
             });
-            b(i1 * 5);
+            sleep(i1 * 5);
         }
         if(C.b(37))
         {
@@ -127,7 +278,7 @@ _L10:
             }
             if(C.g() > 80)
             {
-                web.sxd.b.c.a("[\u9635\u8425\u6218]\u529F\u80FD\u5DF2\u7EC8\u7ED3");
+                web.sxd.b.c.a("[阵营战]功能已终结");
                 return;
             }
         }
@@ -154,25 +305,25 @@ _L11:
         l1.readInt();
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u5E2E\u6D3E\u796D\u795E %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可帮派祭神 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u7ADE\u6280\u573A\u6311\u6218 %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可竞技场挑战 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         l1.readInt();
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u62A4\u9001\u53D6\u7ECF %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可护送取经 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         l1.readInt();
         i1 = l1.readInt();
         if(i1 > 0)
         {
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u9001\u82B1 %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可送花 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
             if(C.b(45))
@@ -185,7 +336,7 @@ _L11:
         l1.readInt();
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u4F7F\u7528\u836F\u56ED\u4ED9\u9732 %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可使用药园仙露 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         l1.readInt();
@@ -193,18 +344,18 @@ _L11:
         l1.readInt();
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u5409\u661F\u9AD8\u7167\u6295\u63B7 %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可吉星高照投掷 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u796D\u62DC\u5173\u516C %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可祭拜关公 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         l1.readInt();
         i1 = l1.readInt();
         if(i1 > 0)
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u4ECA\u65E5\u8FD8\u53EF\u6458\u4ED9\u6843 %d \u6B21", new Object[] {
+            web.sxd.b.c.a("[小助手]今日还可摘仙桃 %d 次", new Object[] {
                 Integer.valueOf(i1)
             });
         l1.readInt();
@@ -340,27 +491,27 @@ _L2:
     //                   4 1140;
            goto _L35 _L36 _L37 _L38 _L35 _L36
 _L35:
-        l1 = "\u672A\u77E5\u767B\u5F55\u9519\u8BEF";
+        l1 = "未知登录错误";
 _L39:
         web.sxd.b.c.a(l1);
         return;
 _L36:
-        String s1 = "\u767B\u5F55\u6210\u529F\uFF0C\u67E5\u8BE2\u89D2\u8272\u4FE1\u606F\uFF1A";
+        String s1 = "登录成功，查询角色信息：";
         C.e(l1.readInt());
         (new web.sxd.b.m(2)).a(C);
         l1 = s1;
         continue; /* Loop/switch isn't completed */
 _L37:
-        web.sxd.b.c.a(-2, "\u767B\u5F55\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5 (2 \u79D2\u540E\u81EA\u52A8\u5237\u65B0)");
+        web.sxd.b.c.a(-2, "登录失败，请重试 (2 秒后自动刷新)");
         return;
 _L38:
-        l1 = "\u5C1A\u672A\u521B\u5EFA\u89D2\u8272";
+        l1 = "尚未创建角色";
         if(true) goto _L39; else goto _L3
 _L3:
         String s2 = l1.readUTF();
         j2 = l1.readInt();
         C.a(s2, j2, l1.readInt(), l1.a());
-        web.sxd.b.c.a("%s(%d\u7EA7) %d\u5143\u5B9D %dw", new Object[] {
+        web.sxd.b.c.a("%s(%d级) %d元宝 %dw", new Object[] {
             s2, Integer.valueOf(j2), Integer.valueOf(C.e()), Integer.valueOf(C.f())
         });
         l1.skipBytes(8);
@@ -378,12 +529,12 @@ _L3:
         if(i1 != 0)
         {
             l6 /= 10000L;
-            web.sxd.b.c.a("  \u4F53\u529B%d  %dw/%dw (%d%%)", new Object[] {
+            web.sxd.b.c.a("  体力%d  %dw/%dw (%d%%)", new Object[] {
                 Integer.valueOf(j3), Long.valueOf(l4 / 10000L), Long.valueOf(l6), Integer.valueOf(C.h())
             });
         } else
         {
-            web.sxd.b.c.a("  \u4F53\u529B%d  %d/%d (%d%%)", new Object[] {
+            web.sxd.b.c.a("  体力%d  %d/%d (%d%%)", new Object[] {
                 Integer.valueOf(j3), Long.valueOf(l4), Long.valueOf(l6), Integer.valueOf(C.h())
             });
         }
@@ -411,7 +562,7 @@ _L3:
             C.j(j3);
         } else
         {
-            web.sxd.b.c.a("\u8FDB\u5165\u57CE\u9547: %s", new Object[] {
+            web.sxd.b.c.a("进入城镇: %s", new Object[] {
                 i.e(i1)
             });
             C.m();
@@ -423,7 +574,7 @@ _L3:
             web.sxd.d.r.a(C);
         } else
         {
-            web.sxd.b.c.a("\u672A\u5F00\u542F\u7B7E\u5230\u529F\u80FD(60\u7EA7)\uFF01");
+            web.sxd.b.c.a("未开启签到功能(60级)！");
         }
         web.sxd.d.j.a(C);
         c();
@@ -503,10 +654,10 @@ _L50:
 _L52:
         String s3;
         if(C.i() > j2)
-            s3 = "\u51CF\u5C11\u4E3A";
+            s3 = "减少为";
         else
-            s3 = "\u589E\u52A0\u81F3";
-        web.sxd.b.c.a("\u3000\u4F53\u529B%s %d", new Object[] {
+            s3 = "增加至";
+        web.sxd.b.c.a("　体力%s %d", new Object[] {
             s3, Integer.valueOf(j2)
         });
         C.g(j2);
@@ -521,7 +672,7 @@ _L48:
         if(j2 > 0)
         {
             C.g(-j2);
-            web.sxd.b.c.a("\u3000\u989D\u5916\u4F53\u529B: %d", new Object[] {
+            web.sxd.b.c.a("　额外体力: %d", new Object[] {
                 Integer.valueOf(j2)
             });
         }
@@ -532,7 +683,7 @@ _L53:
         int i4;
         int ai[];
         e = true;
-        web.sxd.b.c.a("[\u63D0\u9192]\u65B0\u7684\u4FF8\u7984: %d", new Object[] {
+        web.sxd.b.c.a("[提醒]新的俸禄: %d", new Object[] {
             Integer.valueOf(j2)
         });
         c();
@@ -601,7 +752,7 @@ _L59:
 _L7:
         if(l1.read() == 87)
         {
-            web.sxd.b.c.a("[\u5C0F\u52A9\u624B]\u9886\u53D6\u4FF8\u7984\uFF1A%d \u94DC\u94B1", new Object[] {
+            web.sxd.b.c.a("[小助手]领取俸禄：%d 铜钱", new Object[] {
                 Integer.valueOf(l1.readInt())
             });
             return;
@@ -645,7 +796,7 @@ _L65:
         web.sxd.b.c.a(s4);
           goto _L71
 _L67:
-        web.sxd.b.c.a(s4.replace("[replace,7]", "\u5468\u65E5 ").replace("[replace,", "\u5468").replace(']', ' '));
+        web.sxd.b.c.a(s4.replace("[replace,7]", "周日 ").replace("[replace,", "周").replace(']', ' '));
         if(C.b(39))
         {
             c();
@@ -671,7 +822,7 @@ _L12:
                 (new web.sxd.b.m(35)).a(C);
                 return;
             }
-            web.sxd.b.c.a("[\u516C\u544A]%s", new Object[] {
+            web.sxd.b.c.a("[公告]%s", new Object[] {
                 l1.readUTF()
             });
             j1++;
@@ -681,7 +832,7 @@ _L8:
         int k1 = 0;
         while(k1 < l2) 
         {
-            web.sxd.b.c.a("[\u516C\u544A%d]%s", new Object[] {
+            web.sxd.b.c.a("[公告%d]%s", new Object[] {
                 Integer.valueOf(l1.readInt()), a(l1.readUTF())
             });
             k1++;
@@ -700,7 +851,7 @@ _L9:
             if(i2 + i3 != f)
             {
                 f = i2 + i3;
-                web.sxd.b.c.a("[\u6253\u5750]15\u79D2\u7ECF\u9A8C%d + %d", new Object[] {
+                web.sxd.b.c.a("[打坐]15秒经验%d + %d", new Object[] {
                     Integer.valueOf(i2), Integer.valueOf(i3)
                 });
             }
@@ -737,7 +888,7 @@ _L72:
     private static final String b[] = {
         "Player_"
     };
-    private n c;
+    //private n c;//TODO 暂时注释
     private boolean d;
     private boolean e;
     private int f;
