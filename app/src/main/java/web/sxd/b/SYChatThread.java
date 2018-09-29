@@ -51,29 +51,29 @@ final class SYChatThread extends Thread
             return;
         }
 
-//        byte abyte0[] = TempDataInputStream.a(b);
+//        byte abyte0[] = TempDataInputStream.parent(b);
 //_L2:
-//        if(c.b(a) && abyte0 != null)
+//        if(c.b(parent) && abyte0 != null)
 //            break MISSING_BLOCK_LABEL_45;
-//        c.e(a).close();
-//        c.d(a);
-//        c.a("[圣域]连接已中断");
+//        c.e(parent).close();
+//        c.d(parent);
+//        c.parent("[圣域]连接已中断");
 //        return;
 //        c.e(c.s() + (long)(abyte0.length + 4));
 //        web.sxd.b.TimeOutThread.clear();
-//        (new g(a, abyte0)).start();
-//        abyte0 = TempDataInputStream.a(b);
+//        (new g(parent, abyte0)).start();
+//        abyte0 = TempDataInputStream.parent(b);
 //        if(true) goto _L2; else goto _L1
 //_L1:
 //        Object obj;
 //        obj;
 //        Log.e("PktThread_St", ((IOException) (obj)).getLocalizedMessage());
-//        c.d(a);
-//        c.a("[圣域]连接已中断");
+//        c.d(parent);
+//        c.parent("[圣域]连接已中断");
 //        return;
 //        obj;
-//        c.d(a);
-//        c.a("[圣域]连接已中断");
+//        c.d(parent);
+//        c.parent("[圣域]连接已中断");
 //        throw obj;
     }
 

@@ -49,29 +49,29 @@ final class QWChatThread extends Thread
             MainThread.sendLog("[全网]连接已中断");
             return;
         }
-//        byte abyte0[] = TempDataInputStream.a(b);
+//        byte abyte0[] = TempDataInputStream.parent(b);
 //_L2:
-//        if(c.b(a) && abyte0 != null)
+//        if(c.b(parent) && abyte0 != null)
 //            break MISSING_BLOCK_LABEL_45;
-//        c.g(a).close();
-//        c.f(a);
-//        c.a("[全网]连接已中断");
+//        c.g(parent).close();
+//        c.f(parent);
+//        c.parent("[全网]连接已中断");
 //        return;
 //        c.f(c.t() + (long)(abyte0.length + 4));
 //        web.sxd.b.TimeOutThread.clear();
-//        (new g(a, abyte0)).start();
-//        abyte0 = TempDataInputStream.a(b);
+//        (new g(parent, abyte0)).start();
+//        abyte0 = TempDataInputStream.parent(b);
 //        if(true) goto _L2; else goto _L1
 //_L1:
 //        Object obj;
 //        obj;
 //        Log.e("PktThread_St", ((IOException) (obj)).getLocalizedMessage());
-//        c.f(a);
-//        c.a("[全网]连接已中断");
+//        c.f(parent);
+//        c.parent("[全网]连接已中断");
 //        return;
 //        obj;
-//        c.f(a);
-//        c.a("[全网]连接已中断");
+//        c.f(parent);
+//        c.parent("[全网]连接已中断");
 //        throw obj;
     }
 

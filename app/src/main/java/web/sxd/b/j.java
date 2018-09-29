@@ -13,67 +13,68 @@ final class j
 {
 
     /**
-     * @param k parent
+     * @param k parent 属于那个前缀类i
      * @param nameLast nameLast  配置文件一条配置中名字的第一个下划线后面的部分
      * @param valueL value%0x10000   值的后两个字节
      *
      * */
     j(i k, String nameLast, int valueL)
     {
-        a = k;
+        parent = k;
         //super();
         this.nameLast = nameLast;
         this.valueL = valueL;
-        d = -1;
+        value = -1;
     }
 
-    static int a(j j1)
+    static int getVauleL(j j1)
     {
         return j1.valueL;
     }
 
-    static void a(j j1, int k)
+    //索引 = parent 中的 d * 0x10000 + k
+    static void setValue(j j1, int k)
     {
-        j1.d = k;
+        j1.value = k;
     }
 
-    public final int a()
+    public final int getVauleL()
     {
         return valueL;
     }
 
     public final void a(TempDataInputStream l1)
     {
-        if(i.b(a) != null && i.c(a) == 0 && i.c(a) == i.d(a))
+        if(i.b(parent) != null && i.c(parent) == 0 && i.c(parent) == i.d(parent))
         {
-            i.b(a).a(l1);
+            i.b(parent).a(l1);
             return;
         }
-        if(i.b(a) == null || d < 0 || valueL < 0)
+        if(i.b(parent) == null || value < 0 || valueL < 0)
         {
-            Log.v("MF_Parser", (new StringBuilder("UnRegFunc: (")).append(l1.d()).append(")").append(i.a(a)).append(nameLast).append("(").append(l1.e()).append(")").append(d).toString());
+            Log.v("MF_Parser", (new StringBuilder("UnRegFunc: (")).append(l1.d()).append(")").append(i.a(parent)).append(nameLast).append("(").append(l1.e()).append(")").append(value).toString());
             return;
         } else
         {
-            l1.b(d);
-            i.b(a).a(l1);
+            l1.b(value);
+            i.b(parent).a(l1);
             return;
         }
     }
 
     //设置索引号 0开始
-    public final int b()
+    public final int getValue()
     {
-        return d;
+        return value;
     }
 
     public final String toString()
     {
-        return (new StringBuilder(String.valueOf(i.a(a)))).append(nameLast).toString();
+        return (new StringBuilder(String.valueOf(i.a(parent)))).append(nameLast).toString();
     }
 
-    final i a;
+    final i parent;
     private String nameLast;
     private int valueL;
-    private int d;
+    private int value;
 }

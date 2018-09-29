@@ -396,7 +396,7 @@ public class LoginAct extends AppCompatActivity
 
                 try
                 {
-                    web.sxd.b.MainThread.a(a.getAssets().open(cur_ver));
+                    web.sxd.b.MainThread.iniRead(a.getAssets().open(cur_ver));
                     j.append("\t\t协议匹配成功, 请登录");
                 }
                 catch(IOException ioexception)

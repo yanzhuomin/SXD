@@ -30,6 +30,7 @@ final class LoginHandler extends BaseHandler
         return a1.a;
     }
 
+    @Override
     protected final void a()
     {
         a.disconnect();

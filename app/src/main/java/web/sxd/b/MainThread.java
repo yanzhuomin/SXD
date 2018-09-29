@@ -25,7 +25,7 @@ public final class MainThread extends Thread {
     private static long SYStatistics = 0L;//圣域流量
     private static long QWStatistics = 0L;//全网流量
     private static Handler uiHandler;//UI线程的Handler 发消息给UI时使用
-    private static boolean c;
+    private static boolean iniReadFailed;  //ini配置文件读取失败标志  失败为true
     /**<value,j>*/
     private static HashMap valueMap = new HashMap();  //<value,j> 读取配置 获取j对象 放入
     /**<namePrefix,i>*/
@@ -47,7 +47,7 @@ public final class MainThread extends Thread {
     private long N;
     public boolean a;
     private boolean d;
-    private HashMap e;
+    private HashMap e; /**<value,j>  web.sxd.d.*类中定义的  **/
     private Socket XJSocket;//仙界
     private Socket SYSocket;//圣域
     private Socket QWSocket;//全网
@@ -128,11 +128,11 @@ public final class MainThread extends Thread {
         uiHandler = handler;
         namePrefixMap.clear();
         valueMap.clear();
-        c = false;
+        iniReadFailed = false;
     }
 
     // ini配置文件读取
-    public static void a(InputStream inputstream) throws IOException
+    public static void iniRead(InputStream inputstream) throws IOException
     {
         BufferedReader bufferedreader;
         bufferedreader = new BufferedReader(new InputStreamReader(inputstream));
@@ -192,7 +192,7 @@ public final class MainThread extends Thread {
         do{
             if(!value.hasNext())
             {
-                c = true;
+                iniReadFailed = true;
                 return;
             }
             i k2 = (i)value.next();
@@ -374,7 +374,7 @@ public final class MainThread extends Thread {
         }
 
         Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
-        i1 = ((j) (obj)).a.a(((j) (obj)));
+        i1 = ((j) (obj)).parent.a(((j) (obj)));
         if(j1 != 3)
 
         return;
@@ -388,7 +388,7 @@ _L4:
 
         if(i1 < 0x10000)
             break MISSING_BLOCK_LABEL_94;
-        if(c)
+        if(iniReadFailed)
             break MISSING_BLOCK_LABEL_203;
         if(!d)
             break MISSING_BLOCK_LABEL_160;
@@ -417,7 +417,7 @@ _L6:
         if(!d)
             break MISSING_BLOCK_LABEL_343;
         Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
-        i1 = ((j) (obj)).a.a(((j) (obj)));
+        i1 = ((j) (obj)).parent.a(((j) (obj)));
         if(j1 != 3) goto _L9; else goto _L8
 _L8:
         obj = QWOutputStream;
@@ -448,8 +448,7 @@ _L9:
     }
 
 
-    //as中的内容
-    public final void a(int i1, String as[], h h1)
+    public final void a(int valueH, String as[], h h1)
     {
         boolean flag;
         boolean flag1;
@@ -457,80 +456,53 @@ _L9:
         flag1 = true;
         flag = true;
         l1 = (i) namePrefixMap.get(as[0]);
-        if(!c || l1 == null)
+        if(!iniReadFailed || l1 == null)
         {
-
-        }else{
-            l1.a(i1, h1);
-            i1 = ((flag) ? 1 : 0);
-            do {
-                if (i1 < as.length) {
-                    if (as[i1].length() != 0) {
-                        h1 = l1.b(as[i1], i1 - 1);
-                        if (h1 != null) {
-                            int j1 = h1.b();
-                            e.put(Integer.valueOf(j1), h1);
-                        } else {
-                            Log.e("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[i1]).toString());
-                        }
-                    }
-                    i1++;
-
-                } else {
+            if(iniReadFailed || l1 != null)
+            {
+                return;
+            }else   //ini加载失败的话
+            {
+                i i2 = new i(valueH, as[0]);
+                namePrefixMap.put(as[0], i2);
+                i2.a(valueH, h1);
+                int index = ((flag1) ? 1 : 0);
+                if(valueH == 0)
+                {
+                    valueMap.put(Integer.valueOf(0), i2.addConfig("Login", 0));
+                    i2.setChildValue("Login", 0);
                     return;
                 }
-            }while(true);
+                for(; index < as.length; index++)
+                    if(as[index].length() > 0)
+                    {
+                        j j1 = i2.addConfig(as[index], index - 1);
+                        int value = i2.getValue(j1);
+                        Log.v("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[index]).append("(").append(value / 0x10000).append("_").append(valueH % 0x10000).append(")").toString());
+                        valueMap.put(Integer.valueOf(value), j1);
+                        i2.setChildValue(as[index], index - 1);
+                    }
+
+                return;
             }
-        }
-        if(!c || l1 == null) goto _L2; else goto _L1
-_L1:
-        l1.a(i1, h1);
-        i1 = ((flag) ? 1 : 0);
-_L7:
-        if(i1 < as.length) goto _L4; else goto _L3
-_L3:
-        return;
-_L4:
-        if(as[i1].length() != 0)
-        {
-            h1 = l1.b(as[i1], i1 - 1);
-            if(h1 != null)
-            {
-                int j1 = h1.b();
-                e.put(Integer.valueOf(j1), h1);
-            } else
-            {
-                Log.e("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[i1]).toString());
-            }
-        }
-        i1++;
-        continue; /* Loop/switch isn't completed */
-_L2:
-        if(c || l1 != null) goto _L3; else goto _L5
-_L5:
-        i i2 = new i(i1, as[0]);
-        g.put(as[0], i2);
-        i2.a(i1, h1);
-        int k1 = ((flag1) ? 1 : 0);
-        if(i1 == 0)
-        {
-            valueMap.put(Integer.valueOf(0), i2.a("Login", 0));
-            i2.b("Login", 0);
-            return;
-        }
-        for(; k1 < as.length; k1++)
-            if(as[k1].length() > 0)
-            {
-                h1 = i2.a(as[k1], k1 - 1);
-                i1 = i2.a(h1);
-                Log.v("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[k1]).append("(").append(i1 / 0x10000).append("_").append(i1 % 0x10000).append(")").toString());
-                valueMap.put(Integer.valueOf(i1), h1);
-                i2.b(as[k1], k1 - 1);
+        }else{//ini加载成功的话
+            l1.a(valueH, h1);// valueH = valueH  类中的value
+            int index = ((flag) ? 1 : 0);
+            while ((index < as.length)){
+                if (as[index].length() != 0) {
+                        j j1 = l1.setChildValue(as[index], index - 1);
+                        if (j1 != null) {
+                            int j2 = j1.getValue();
+                            e.put(Integer.valueOf(j2), j1);
+                        } else {
+                            Log.e("PktThread", (new StringBuilder(String.valueOf(as[0]))).append(as[index]).toString());
+                        }
+                }
+                index++;
+
             }
 
-        return;
-        if(true) goto _L7; else goto _L6
-_L6:
+        }
     }
 
     public final void a(long l1)
@@ -1023,7 +995,7 @@ _L6:
         {
             l2 /= 100L;
         }
-        return String.format("%d.%d %c", new Object[] {
+        return String.format("%d.%d %iniReadFailed", new Object[] {
                 Long.valueOf(l1), Long.valueOf(l2), Character.valueOf(" KMGT".charAt(i1))
         });
     }

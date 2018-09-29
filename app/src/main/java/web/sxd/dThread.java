@@ -9,6 +9,7 @@ import web.sxd.b.h;
 // Referenced classes of package web.sxd:
 //            LoginAct
 
+//等待40s 返回上一界面重新登陆
 final class dThread extends Thread
 {
 

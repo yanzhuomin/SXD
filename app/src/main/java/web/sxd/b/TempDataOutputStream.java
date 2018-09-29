@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 // Referenced classes of package web.sxd.b:
-//            a, c
+//            parent, c
 
 public final class TempDataOutputStream extends DataOutputStream
 {

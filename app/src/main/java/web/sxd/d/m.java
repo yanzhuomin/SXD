@@ -85,7 +85,7 @@ _L8:
           goto _L12
     }
 
-    public final void a(l l1)
+    public final void a(TempDataInputStream l1)
     {
         int i1;
         i1 = l1.c();
@@ -719,6 +719,7 @@ _L9:
 _L72:
     }
 
+    @Override
     protected final String[] a()
     {
         return b;

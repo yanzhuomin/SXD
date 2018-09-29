@@ -48,9 +48,9 @@ public final class i
         return valueH;
     }
 
-    public final int a(j j1)
+    public final int getValue(j j1)
     {
-        return valueH * 0x10000 + j.a(j1);
+        return valueH * 0x10000 + j.getVauleL(j1);
     }
 
     public final j addConfig(String nameLast, int valueL)
@@ -72,12 +72,12 @@ public final class i
         b = h;
     }
 
-    final j b(String nameLast, int k)
+    final j setChildValue(String nameLast, int k)
     {
         j j1 = (j) map.get(nameLast);
         if(nameLast != null && b != null)
         {
-            j.a(j1, d * 0x10000 + k);
+            j.setValue(j1, d * 0x10000 + k);
             return j1;
         } else
         {
@@ -92,7 +92,7 @@ public final class i
 
     private HashMap map;
     private h b;
-    private int valueH;
+    private int valueH; //ini中的valueH
     private int d; //web.sxd.d.* 类中的valueH
     private String namePrefix;
 }
