@@ -47,7 +47,7 @@ public final class MainThread extends Thread {
     private long N;//角色当前等级的最大经验
     public boolean a;
     private boolean runState;//运行状态 线程判断标志
-    private HashMap e; /**<value,j>  web.sxd.runState.*类中定义的  **/
+    //private HashMap e; /**<value,j>  web.sxd.runState.*类中定义的  **/
     private Socket XJSocket;//仙界
     private Socket SYSocket;//圣域
     private Socket QWSocket;//全网
@@ -94,7 +94,7 @@ public final class MainThread extends Thread {
         else
             flag = false;
         a = flag;
-        e = new HashMap();
+        //e = new HashMap();
         runState = true;
     }
 
@@ -378,7 +378,8 @@ public final class MainThread extends Thread {
             {
                 out = mainOutputStream;
             }
-            j j2 =    (j)e.get(Integer.valueOf(funcCode));
+            //j j2 =    (j)e.get(Integer.valueOf(funcCode));
+            j j2 =    (j)valueMap.get(Integer.valueOf(funcCode));
             if(j2 == null)
             {
                 Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
@@ -495,7 +496,7 @@ public final class MainThread extends Thread {
                 {
                     valueMap.put(Integer.valueOf(0), i2.addConfig("Login", 0));
                     i2.setChildValue("Login", 0);
-                    return;
+                    //return;
                 }
                 for(; index < funcName.length; index++)
                     if(funcName[index].length() > 0)
@@ -517,7 +518,8 @@ public final class MainThread extends Thread {
                         j j1 = l1.setChildValue(funcName[index], index - 1);
                         if (j1 != null) {
                             int j2 = j1.getFuncCode();
-                            e.put(Integer.valueOf(j2), j1);
+                            //e.put(Integer.valueOf(j2), j1);
+                            valueMap.put(Integer.valueOf(j2), j1);
                         } else {
                             Log.e("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).toString());
                         }

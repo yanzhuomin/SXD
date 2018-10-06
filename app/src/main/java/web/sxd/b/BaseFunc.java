@@ -70,7 +70,7 @@ public abstract class BaseFunc
 
     public void a(TempDataInputStream l1)
     {
-        Log.d(a()[0], printFuncName(l1.e(), a()));
+        Log.d(a()[0], printFuncName(l1.getFuncCodeL(), a()));
     }
 
     protected abstract String[] a();

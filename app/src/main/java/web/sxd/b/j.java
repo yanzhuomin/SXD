@@ -52,11 +52,11 @@ final class j
         }
         if(i.getBaseFunc(parent) == null || funcCode < 0 || funcCodeL < 0)
         {
-            Log.v("MF_Parser", (new StringBuilder("UnRegFunc: (")).append(inputStream.d()).append(")").append(i.a(parent)).append(nameLast).append("(").append(inputStream.e()).append(")").append(funcCode).toString());
+            Log.v("MF_Parser", (new StringBuilder("UnRegFunc: (")).append(inputStream.getFuncCodeH()).append(")").append(i.a(parent)).append(nameLast).append("(").append(inputStream.getFuncCodeL()).append(")").append(funcCode).toString());
             return;
         } else
         {
-            inputStream.b(funcCode);
+            inputStream.setFuncCode(funcCode);
             i.getBaseFunc(parent).a(inputStream);
             return;
         }
