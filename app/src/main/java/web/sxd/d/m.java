@@ -33,7 +33,7 @@ public final class m extends BaseFunc
         e = true;
         f = 0;
 //        new g(c1);
-//        c = new n(c1);
+        c = new n(c1);
 //        new i(c1);
 //        new a(c1);
         c1.start();
@@ -246,40 +246,91 @@ public final class m extends BaseFunc
                     i1 = 0;
 
                     long l5;
-                    if (i1 >= l3)return;
+                    //if (i1 >= l3)return;
                         //continue; /* Loop/switch isn't completed */
-                    j3 = l1.read();
-                    l5 = l1.readLong();
-                    if (l5 < 0x7fffffffL)
-                        j2 = (int) l5;
-                    else
-                        j2 = 0x7fffffff;
-//                    switch (j3) {
-//                        default:
-//                            i1++;
-//                        case 13:
-//                            _L41
-//                        case 15:
-//                            _L42
-//                        case 18:
-//                            _L43
-//                        case 20:
-//                            _L44
-//                        case 21:
-//                            _L45
-//                        case 43:
-//                            _L40
-//                        case 50:
-//                            _L40
-//                        case 56:
-//                            _L40
-//                        case 58:
-//                            _L46
-//                        case 66:
-//                            _L47
-//                        case 67:
-//                            _L48
-//                    }
+                    while(i1<l3) {
+                        j3 = l1.read();
+                        l5 = l1.readLong();
+                        if (l5 < 0x7fffffffL)
+                            j2 = (int) l5;
+                        else
+                            j2 = 0x7fffffff;
+                        switch (j3) {
+                            default:
+                                i1++;break;
+                            case 13:
+                                C.f(j2);
+                                i1++;break;
+                            case 15:
+                                if(l5>0) C.a(l5);
+                                i1++;break;
+                            case 18:
+                                if(C.i()>=j2)
+                                {
+                                    if(C.i()==j2)
+                                    {i1++;break;}
+                                }else{
+                                    Log.i(b(), C.toString());
+                                    web.sxd.b.MainThread.sendLog((new StringBuilder("[流量]")).append(C).toString());
+                                    //TODO 暂时删除
+//                                    web.sxd.d.s.a(C);
+//                                    MainThread c3 = C;
+//                                    t.e();
+
+                                }
+                                String s3;
+                                if(C.i() > j2)
+                                    s3 = "减少为";
+                                else
+                                    s3 = "增加至";
+                                web.sxd.b.MainThread.sendLog("　体力%s %d", new Object[] {
+                                        s3, Integer.valueOf(j2)
+                                });
+                                C.g(j2);
+                                break;
+                            case 20:
+                                C.b(l5);
+                                i1++;break;
+                            case 21:
+                                C.c(l5);
+                                i1++;break;
+                            case 43:
+                                i1++;break;
+                            case 50:
+                                i1++;break;
+                            case 56:
+                                i1++;break;
+                            case 58:
+                                if(j2 > 0)
+                                    C.b(134);
+                                i1++;break;
+                            case 66:
+                                if(l5 <= 0L || e)
+                                {
+                                    i1++;break;
+                                }else {
+                                    int i4;
+                                    int ai[];
+                                    e = true;
+                                    web.sxd.b.MainThread.sendLog("[提醒]新的俸禄: %d", new Object[] {
+                                            Integer.valueOf(j2)
+                                    });
+                                    c();
+                                    ai = a;
+                                    i4 = ai.length;
+                                    j3 = 0;
+                                    //TODO weiwan
+                                }
+                            case 67:
+                                if(j2 > 0)
+                                {
+                                    C.g(-j2);
+                                    web.sxd.b.MainThread.sendLog("额外体力: %d", new Object[] {
+                                            Integer.valueOf(j2)
+                                    });
+                                }
+                        }
+                    }
             }
         }catch (Exception e)
         {
@@ -929,10 +980,31 @@ public final class m extends BaseFunc
         103, 157, 93, 87, 165, 7, 179
     };
     private static final String b[] = {
-        "Player_","login","player_first_init","get_player_info",
-            "update_player_data","update_player_data_for_town"
+        "Player_","login","player_first_init","get_player_info",//0,1,2
+            "update_player_data","update_player_data_for_town","buy_power",//3,4,5
+            "get_player_function","sign_play_player_function","set_player_camp",//6,7,8
+            "receive_player_delay_notify_message","validate_id_card",//9,10
+            "against_wallows_notify","","","","","","","","",//11
+            "get_player_camp_salary","","server_time",//20,22
+            "get_buy_power_data","get_other_player_info","","","","","",//23,24
+            "player_get_online_gift","get_player_current_online_gift","","","",//30,31
+            "get_affiche_list","start_practice","get_practice_data","sign_finished_practice",//35,36,37,38
+            "cancel_practice","practice_notify","get_player_war_cd_time","get_game_assistant_info",//39,40,41,42
+            "send_ingot_receive_show_vip","against_wallows_info","get_last_player_version",//43,44,45
+            "get_warning_affiche","back_times","player_info_contrast","player_consume_alert_set_info",//46,47,48,49
+            "player_consume_alert_set","get_player_info_by_username","player_follow_setting",//50,51,52
+            "is_weichengnian","set_custom_pannel","pc_client_gift_info",//53,54,55
+            "receive_client_gift","notify_have_client_gift","gamebang_player_status",//56,57,58
+            "set_player_setting","player_open_new_game_function","player_get_internet_bar_online_gift",//59,60,61
+            "get_player_current_internet_bar_online_gift","set_in_st_town",//62,63
+            "is_in_st_town","super_town_level_info","compare_war_power",//64,65,66
+            "operation_activity_time_list","is_test_server","check_function_open",//67,68,69
+            "player_ui_list","set_player_ui","get_player_mission_loading_interface_id",//70,71,72
+            "set_player_mission_loading_interface_id","award_item_notify",//73,74
+            "","","","","",     "","","","","",      "","","","","",    "","","","","",   "","","","",
+            "jiekou_test"//99
     };
-    //private n c;//TODO 暂时注释
+    private n c;
     private boolean d;
     private boolean e;
     private int f;

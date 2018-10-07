@@ -48,7 +48,7 @@ public final class i
         return funcCodeH;
     }
 
-    public final int getValue(j j1)
+    public final int    getFuncCode(j j1)
     {
         return funcCodeH * 0x10000 + j.getFuncCodeL(j1);
     }

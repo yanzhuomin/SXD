@@ -39,7 +39,7 @@ public final class MainThread extends Thread {
     private int F;//铜钱(w)
     private int G;
     private int H;
-    private int I;
+    private int I;//体力
     private int J;
     private int K;
     private int L;
@@ -388,7 +388,7 @@ public final class MainThread extends Thread {
                 Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
                 return;
             }
-            funcCode = j2.parent.getValue(j2);
+            funcCode = j2.parent.getFuncCode(j2);
             try {
                 m1.send(funcCode, out, j1);//信息发送 init
             }catch (IOException e)
@@ -502,7 +502,7 @@ public final class MainThread extends Thread {
                     if(funcName[index].length() > 0)
                     {
                         j j1 = i2.addConfig(funcName[index], index - 1);
-                        int value = i2.getValue(j1);
+                        int value = i2.getFuncCode(j1);
                         Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(valueH % 0x10000).append(")").toString());
                         valueMap.put(Integer.valueOf(value), j1);
                         i2.setChildValue(funcName[index], index - 1);
