@@ -54,15 +54,20 @@ public final class n extends BaseFunc
 
     public static String a(MainThread c1, TempDataInputStream l1)
     {
-        String s = l1.readUTF();
-        l1 = l1.readUTF();
-        if(c1.a(l1))
-            return "";
-        StringBuilder stringbuilder = new StringBuilder("^");
-        c1 = l1;
-        if(l1.toLowerCase().startsWith(s.toLowerCase()))
-            c1 = l1.substring(s.length());
-        return stringbuilder.append(s).append(c1).toString();
+        try {
+            String s = l1.readUTF();
+            String s1 = l1.readUTF();
+            if (c1.a(s1))
+                return "";
+            StringBuilder stringbuilder = new StringBuilder("^");
+            //c1 = l1;
+            if (s1.toLowerCase().startsWith(s.toLowerCase()))
+                s1 = s1.substring(s.length());
+            return stringbuilder.append(s).append(s1).toString();
+        }catch (Exception e)
+        {
+            Log.d("web.sxd.d.n",e.getMessage());
+        }
     }
 
     static MainThread a(n n1)
@@ -72,8 +77,13 @@ public final class n extends BaseFunc
 
     static void a(MainThread c1)
     {
-        if(c1.b(85))
-            (new TempDataOutputStream(0x680000)).sendMain(c1);
+        try {
+            if (c1.b(85))
+                (new TempDataOutputStream(0x680000)).sendMain(c1);
+        }catch (Exception e)
+        {
+            Log.d("web.sxd.d.n",e.getMessage());
+        }
     }
 
     static String b(n n1)
@@ -123,366 +133,256 @@ public final class n extends BaseFunc
     @Override
     public final void a(TempDataInputStream l1)
     {
-        int j1 = l1.c();
-        j1;
-        JVM INSTR lookupswitch 3: default 40
-    //                   327687: 276
-    //                   589834: 276
-    //                   2686979: 276;
-           goto _L1 _L2 _L2 _L2
-_L1:
-        int i1;
-        int k1;
-        String s;
-        s = b();
-        i1 = l1.d();
-        k1 = l1.e();
-        i1;
-        JVM INSTR lookupswitch 8: default 132
-    //                   5: 277
-    //                   8: 294
-    //                   9: 302
-    //                   34: 310
-    //                   41: 318
-    //                   48: 326
-    //                   86: 334
-    //                   104: 342;
-           goto _L3 _L4 _L5 _L6 _L7 _L8 _L9 _L10 _L11
-_L3:
-        Object obj = (new StringBuilder(String.valueOf(i1))).append("_").append(k1).toString();
-_L49:
-        Log.d(s, ((String) (obj)));
-        j1;
-        JVM INSTR lookupswitch 12: default 276
-    //                   327688: 451
-    //                   524289: 350
-    //                   2228242: 894
-    //                   2686977: 643
-    //                   2686978: 607
-    //                   3145728: 923
-    //                   3145730: 1110
-    //                   3145731: 928
-    //                   6815744: 674
-    //                   6815745: 754
-    //                   6881281: 1464
-    //                   6881282: 1269;
-           goto _L2 _L12 _L13 _L14 _L15 _L16 _L17 _L18 _L19 _L20 _L21 _L22 _L23
-_L2:
-        return;
-_L4:
-        obj = a;
-_L24:
-        obj = a(k1, ((String []) (obj)));
-        continue; /* Loop/switch isn't completed */
-_L5:
-        obj = h;
-        continue; /* Loop/switch isn't completed */
-_L6:
-        obj = b;
-        continue; /* Loop/switch isn't completed */
-_L7:
-        obj = f;
-        continue; /* Loop/switch isn't completed */
-_L8:
-        obj = e;
-        continue; /* Loop/switch isn't completed */
-_L9:
-        obj = g;
-        continue; /* Loop/switch isn't completed */
-_L10:
-        obj = d;
-        continue; /* Loop/switch isn't completed */
-_L11:
-        obj = c;
-        if(true) goto _L24; else goto _L13
-_L13:
-        i1 = l1.read();
-        if(i1 >= 6)
+        int funcCode = l1.getFuncCode();
+        switch (funcCode)
         {
-            obj = b();
-            StringBuilder stringbuilder = new StringBuilder("Partners_invite: ");
-            if(i1 - 6 < k.length)
-                l1 = k[i1 - 6];
-            else
-                l1 = Integer.valueOf(i1);
-            Log.i(((String) (obj)), stringbuilder.append(l1).toString());
-            return;
-        } else
-        {
-            Log.i(b(), (new StringBuilder("Partners_invite: ")).append(i1).toString());
-            return;
-        }
-_L12:
-        j1 = l1.readUnsignedShort();
-        i1 = 0;
-        do
-        {
-            if(i1 >= j1)
-            {
-                b(10);
-                (new m(0x80001, 132)).a(C);
+            default:
+                int i1;
+                int k1;
+                String s;
+                s = b();
+                i1 = l1.getFuncCodeH();
+                k1 = l1.getFuncCodeL();
+                switch (i1)
+                {
+                    default:
+                        String str = (new StringBuilder(String.valueOf(i1))).append("_").append(k1).toString();
+                        Log.d(s, str);
+                        switch (funcCode)
+                        {
+                            default: return;
+                            case 0x50008:
+                                int j1 = l1.readUnsignedShort();
+                                i1 = 0;
+                                do
+                                {
+                                    if(i1 >= j1)
+                                    {
+                                        b(10);
+                                        (new TempDataOutputStream(0x80001, 132)).sendMain(C);
+                                        return;
+                                    }
+                                    k1 = l1.readInt();
+                                    int i2 = l1.readInt();
+//                                    String.format("%d,%d,%d,%d,%d,%d",
+//                                            Integer.valueOf(k1), Integer.valueOf(i2), Integer.valueOf(l1.readInt()), Integer.valueOf(l1.read()), Integer.valueOf(l1.read()), Integer.valueOf(l1.readUnsignedShort())
+//                                    );
+                                    if(i2 == 35 || i2 == 62 || i2 == 70)
+                                        C.d(k1);
+                                    i1++;
+                                } while(true);
+
+                                l1.readUnsignedShort();
+                                web.sxd.b.MainThread.sendLog("　祝福 %d 次经验+%d%%", new Object[] {
+                                        Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readInt())
+                                });
+                                return;
+                            case 0x80001:
+                                i1 = l1.read();
+                                if(i1 >= 6)
+                                {
+                                    String str1 = b();
+                                    StringBuilder stringbuilder = new StringBuilder("Partners_invite: ");
+                                    if(i1 - 6 < k.length)
+                                        l1 = k[i1 - 6];
+                                    else
+                                        l1 = Integer.valueOf(i1);
+                                    Log.i(str1, stringbuilder.append(l1).toString());
+                                    return;
+                                } else
+                                {
+                                    Log.i(b(), (new StringBuilder("Partners_invite: ")).append(i1).toString());
+                                    return;
+                                }
+                            case 0x220012:
+                                if(l1.read() == 1)
+                                {
+                                    web.sxd.b.MainThread.sendLog("　成功领取 %d 灵石", new Object[] {
+                                            Integer.valueOf(l1.readInt())
+                                    });
+                                    return;
+                                }
+                            case 0x290001:
+                                if(l1.read() == 0)
+                                {
+                                    web.sxd.b.MainThread.sendLog("关公上香成功");
+                                    (new TempDataOutputStream(0x290002)).sendMain(C);
+                                    return;
+                                }
+                            case 0x290002:
+                                l1.readUnsignedShort();
+                                web.sxd.b.MainThread.sendLog("　祝福 %d 次经验+%d%%", new Object[] {
+                                        Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readInt())
+                                });
+                                return;
+                            case 0x300000:
+                                l1.readUTF();
+                            case 0x300003:
+                                i1 = l1.read();
+                                k1 = l1.read();
+                                int k2 = l1.readInt();
+                                if(i1 >= 10 && k1 >= 10)
+                                {
+                                    web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 已培养满", new Object[] {
+                                            Integer.valueOf(i1 - 1), Integer.valueOf(k1)
+                                    });
+                                    return;
+                                }
+                                if(j1 == 0x300003)
+                                {
+                                    web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 进化成功 经验%d", new Object[] {
+                                            Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2)
+                                    });
+                                } else
+                                {
+                                    j1 = l1.readInt();
+                                    web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 经验%d 剩余%d次", new Object[] {
+                                            Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2), Integer.valueOf(j1)
+                                    });
+                                    if(j1 <= 0)
+                                        return;//continue; /* Loop/switch isn't completed */
+                                    b(10);
+                                }
+                                c();
+                                (new TempDataOutputStream(0x300002, 0L)).sendMain(C);
+                                return;
+                            case 0x300002:
+                                i1 = l1.read();
+                                if(i1 == 2)
+                                    (new TempDataOutputStream(0x300003)).sendMain(C);
+                                if(i1 == 0)
+                                {
+                                    l1.read();
+                                    l1.read();
+                                    l1.readInt();
+                                    i1 = l1.readInt();
+                                    l1.read();
+                                    j1 = l1.readInt();
+                                    if(l1.read() > 0)
+                                        l1 = " !!";
+                                    else
+                                        l1 = "";
+                                    web.sxd.b.MainThread.sendLog("　培养龙宠: 经验+%d%s 剩余%d次", new Object[] {
+                                            Integer.valueOf(i1), l1, Integer.valueOf(j1)
+                                    });
+                                    if(j1 > 0)
+                                    {
+                                        b(2);
+                                        (new TempDataOutputStream(0x300002, 0L)).sendMain(C);
+                                        return;
+                                    } else
+                                    {
+                                        (new TempDataOutputStream(0x300000, C.d())).sendMain(C);
+                                        return;
+                                    }
+                                }
+                                return;
+                            //case 0x300003:
+                            case 0x680000:
+                                i1 = l1.readInt();
+                                j1 = l1.readUnsignedShort();
+                                web.sxd.b.MainThread.sendLog("灵气: %d, 葫芦: %d+%d, 灵脉x%d", new Object[] {
+                                        Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readUnsignedShort())
+                                });
+                                if(j1 > 0)
+                                {
+                                    c();
+                                    (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
+                                    return;
+                                }
+                            case 0x680001:
+                                i1 = l1.read();
+                                if(i1 == 0)
+                                {
+                                    i1 = l1.readInt();
+                                    j1 = l1.readInt();
+                                    int j2;
+                                    String str2;
+                                    if(l1.read() > 0)
+                                        str2 = "灵脉";
+                                    else
+                                        str2 = "";
+                                    k1 = l1.readUnsignedShort();
+                                    j2 = l1.readUnsignedShort();
+                                    web.sxd.b.MainThread.sendLog("　灵气+%d=>%d %sx%d 剩余%d", new Object[] {
+                                            Integer.valueOf(j1), Integer.valueOf(i1), str2, Integer.valueOf(k1), Integer.valueOf(j2)
+                                    });
+                                    if(j2 > 0)
+                                    {
+                                        c();
+                                        (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
+                                        return;
+                                    }
+                                } else
+                                {
+                                    web.sxd.b.MainThread.sendLog("木葫芦采集灵气失败: %d", new Object[] {
+                                            Integer.valueOf(i1)
+                                    });
+                                    return;
+                                }
+                            case 0x690001:
+                                i1 = l1.read();
+                                k1 = l1.read();
+                                l1.read();
+                                l1.readUnsignedShort();
+                                if(j1 == 0x690001)
+                                    web.sxd.b.MainThread.sendLog("[猎妖]剩余 %d次免费, %d次铜钱猎妖", new Object[] {
+                                            Integer.valueOf(i1), Integer.valueOf(k1)
+                                    });
+                                c();
+                                if(i1 > 0)
+                                {
+                                    (new m(0x690002, (byte)0, (byte)0)).a(C);
+                                    return;
+                                }
+                            case 0x690002:
+                                StringBuilder sb = new StringBuilder("[猎妖]");
+                                i1 = l1.read();
+                                if(i1 != 5)
+                                    sb.append("打开宝箱失败: ");
+                                switch (i1)
+                                {
+                                    default:
+                                        break;
+                                    case 5:
+                                        sb.append("成功");
+                                    case 6:
+                                        sb.append("背包已满");
+                                    case 7:
+                                        sb.append("元宝不足");
+                                    case 8:
+                                        sb.append("铜钱不足");
+                                    case 9:
+                                        sb.append("没次数了");
+                                    case 10:
+                                        sb.append("龙鱼令已满");
+                                }
+                                if(i1 != 5)
+                                {
+                                    web.sxd.b.MainThread.sendLog(sb.toString());
+                                    return;
+                                }
+                        }
+                    case 5:printFuncName(k1,a);break;
+                    case 8:printFuncName(k1,h);break;
+                    case 9:printFuncName(k1,b);break;
+                    case 34:printFuncName(k1,f);break;
+                    case 41:printFuncName(k1,e);break;
+                    case 48:printFuncName(k1,g);break;
+                    case 86:printFuncName(k1,d);break;
+                    case 104:printFuncName(k1,c);break;
+                }
+            case 0x50007:
+            case 0x9000A:
+            case 0x290003:
                 return;
-            }
-            k1 = l1.readInt();
-            int i2 = l1.readInt();
-            String.format("%d,%d,%d,%d,%d,%d", new Object[] {
-                Integer.valueOf(k1), Integer.valueOf(i2), Integer.valueOf(l1.readInt()), Integer.valueOf(l1.read()), Integer.valueOf(l1.read()), Integer.valueOf(l1.readUnsignedShort())
-            });
-            if(i2 == 35 || i2 == 62 || i2 == 70)
-                C.d(k1);
-            i1++;
-        } while(true);
-_L16:
-        l1.readUnsignedShort();
-        web.sxd.b.c.a("\u3000\u795D\u798F %d \u6B21\u7ECF\u9A8C+%d%%", new Object[] {
-            Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readInt())
-        });
-        return;
-_L15:
-        if(l1.read() == 0)
-        {
-            web.sxd.b.c.a("\u5173\u516C\u4E0A\u9999\u6210\u529F");
-            (new m(0x290002)).a(C);
-            return;
         }
-        if(true)
-            continue; /* Loop/switch isn't completed */
-_L20:
-        i1 = l1.readInt();
-        j1 = l1.readUnsignedShort();
-        web.sxd.b.c.a("\u7075\u6C14: %d, \u846B\u82A6: %d+%d, \u7075\u8109x%d", new Object[] {
-            Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readUnsignedShort())
-        });
-        if(j1 > 0)
-        {
-            c();
-            (new m(0x680001, 0L)).a(C);
-            return;
-        }
-        if(true) goto _L2; else goto _L21
-_L21:
-        i1 = l1.read();
-        if(i1 == 0)
-        {
-            i1 = l1.readInt();
-            j1 = l1.readInt();
-            int j2;
-            if(l1.read() > 0)
-                obj = "\u7075\u8109";
-            else
-                obj = "";
-            k1 = l1.readUnsignedShort();
-            j2 = l1.readUnsignedShort();
-            web.sxd.b.c.a("\u3000\u7075\u6C14+%d=>%d %sx%d \u5269\u4F59%d", new Object[] {
-                Integer.valueOf(j1), Integer.valueOf(i1), obj, Integer.valueOf(k1), Integer.valueOf(j2)
-            });
-            if(j2 > 0)
-            {
-                c();
-                (new m(0x680001, 0L)).a(C);
-                return;
-            }
-        } else
-        {
-            web.sxd.b.c.a("\u6728\u846B\u82A6\u91C7\u96C6\u7075\u6C14\u5931\u8D25: %d", new Object[] {
-                Integer.valueOf(i1)
-            });
-            return;
-        }
-        if(true)
-            continue; /* Loop/switch isn't completed */
-_L14:
-        if(l1.read() == 1)
-        {
-            web.sxd.b.c.a("\u3000\u6210\u529F\u9886\u53D6 %d \u7075\u77F3", new Object[] {
-                Integer.valueOf(l1.readInt())
-            });
-            return;
-        }
-        if(true) goto _L2; else goto _L17
-_L17:
-        l1.readUTF();
-_L19:
-        i1 = l1.read();
-        k1 = l1.read();
-        int k2 = l1.readInt();
-        if(i1 >= 10 && k1 >= 10)
-        {
-            web.sxd.b.c.a("\u9F99\u5BA0:%d\u53D8%d\u9636 \u5DF2\u57F9\u517B\u6EE1", new Object[] {
-                Integer.valueOf(i1 - 1), Integer.valueOf(k1)
-            });
-            return;
-        }
-        if(j1 == 0x300003)
-        {
-            web.sxd.b.c.a("\u9F99\u5BA0:%d\u53D8%d\u9636 \u8FDB\u5316\u6210\u529F \u7ECF\u9A8C%d", new Object[] {
-                Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2)
-            });
-        } else
-        {
-            j1 = l1.readInt();
-            web.sxd.b.c.a("\u9F99\u5BA0:%d\u53D8%d\u9636 \u7ECF\u9A8C%d \u5269\u4F59%d\u6B21", new Object[] {
-                Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2), Integer.valueOf(j1)
-            });
-            if(j1 <= 0)
-                continue; /* Loop/switch isn't completed */
-            b(10);
-        }
-        c();
-        (new m(0x300002, 0L)).a(C);
-        return;
-_L18:
-        i1 = l1.read();
-        if(i1 == 2)
-            (new m(0x300003)).a(C);
-        if(i1 == 0)
-        {
-            l1.read();
-            l1.read();
-            l1.readInt();
-            i1 = l1.readInt();
-            l1.read();
-            j1 = l1.readInt();
-            if(l1.read() > 0)
-                l1 = " !!";
-            else
-                l1 = "";
-            web.sxd.b.c.a("\u3000\u57F9\u517B\u9F99\u5BA0: \u7ECF\u9A8C+%d%s \u5269\u4F59%d\u6B21", new Object[] {
-                Integer.valueOf(i1), l1, Integer.valueOf(j1)
-            });
-            if(j1 > 0)
-            {
-                b(2);
-                (new m(0x300002, 0L)).a(C);
-                return;
-            } else
-            {
-                (new m(0x300000, C.d())).a(C);
-                return;
-            }
-        }
-        if(true) goto _L2; else goto _L23
-_L23:
-        obj = new StringBuilder("[\u730E\u5996]");
-        i1 = l1.read();
-        if(i1 != 5)
-            ((StringBuilder) (obj)).append("\u6253\u5F00\u5B9D\u7BB1\u5931\u8D25: ");
-        i1;
-        JVM INSTR tableswitch 5 10: default 1340
-    //                   5 1354
-    //                   6 1366
-    //                   7 1378
-    //                   8 1390
-    //                   9 1401
-    //                   10 1413;
-           goto _L25 _L26 _L27 _L28 _L29 _L30 _L31
-_L25:
-        if(i1 != 5)
-        {
-            web.sxd.b.c.a(((StringBuilder) (obj)).toString());
-            return;
-        }
-        break; /* Loop/switch isn't completed */
-_L26:
-        ((StringBuilder) (obj)).append("\u6210\u529F");
-        continue; /* Loop/switch isn't completed */
-_L27:
-        ((StringBuilder) (obj)).append("\u80CC\u5305\u5DF2\u6EE1");
-        continue; /* Loop/switch isn't completed */
-_L28:
-        ((StringBuilder) (obj)).append("\u5143\u5B9D\u4E0D\u8DB3");
-        continue; /* Loop/switch isn't completed */
-_L29:
-        ((StringBuilder) (obj)).append("\u94DC\u94B1\u4E0D\u8DB3");
-        continue; /* Loop/switch isn't completed */
-_L30:
-        ((StringBuilder) (obj)).append("\u6CA1\u6B21\u6570\u4E86");
-        continue; /* Loop/switch isn't completed */
-_L31:
-        ((StringBuilder) (obj)).append("\u9F99\u9C7C\u4EE4\u5DF2\u6EE1");
-        if(true) goto _L25; else goto _L32
-_L32:
-        k1 = l1.readUnsignedShort();
-        i1 = 0;
-_L45:
-        if(i1 < k1) goto _L34; else goto _L33
-_L33:
-        if(l1.read() == 1)
-            ((StringBuilder) (obj)).append(" !!");
-        web.sxd.b.c.a(((StringBuilder) (obj)).toString());
-_L22:
-        i1 = l1.read();
-        k1 = l1.read();
-        l1.read();
-        l1.readUnsignedShort();
-        if(j1 == 0x690001)
-            web.sxd.b.c.a("[\u730E\u5996]\u5269\u4F59 %d\u6B21\u514D\u8D39, %d\u6B21\u94DC\u94B1\u730E\u5996", new Object[] {
-                Integer.valueOf(i1), Integer.valueOf(k1)
-            });
-        c();
-        if(i1 > 0)
-        {
-            (new m(0x690002, (byte)0, (byte)0)).a(C);
-            return;
-        }
-        continue; /* Loop/switch isn't completed */
-_L34:
-        int l2 = l1.read();
-        int i3 = l1.readInt();
-        if(l2 >= 0 && l2 < l.length)
-            ((StringBuilder) (obj)).append(l[l2]);
-        else
-            ((StringBuilder) (obj)).append(l[l.length - 1]);
-        i3;
-        JVM INSTR lookupswitch 8: default 1660
-    //                   347: 1715
-    //                   1411: 1727
-    //                   1444: 1739
-    //                   1487: 1751
-    //                   1740: 1763
-    //                   1741: 1775
-    //                   1742: 1787
-    //                   1743: 1799;
-           goto _L35 _L36 _L37 _L38 _L39 _L40 _L41 _L42 _L43
-_L36:
-        break; /* Loop/switch isn't completed */
-_L35:
-        ((StringBuilder) (obj)).append(i3);
-_L46:
-        ((StringBuilder) (obj)).append("x");
-        ((StringBuilder) (obj)).append(l1.readInt());
-        i1++;
-        if(true) goto _L45; else goto _L44
-_L44:
-        ((StringBuilder) (obj)).append("\u9EC4\u7389\u724C");
-          goto _L46
-_L37:
-        ((StringBuilder) (obj)).append("\u5973\u5A32\u77F3");
-          goto _L46
-_L38:
-        ((StringBuilder) (obj)).append("\u7CBD\u5B50");
-          goto _L46
-_L39:
-        ((StringBuilder) (obj)).append("\u5305\u5B50");
-          goto _L46
-_L40:
-        ((StringBuilder) (obj)).append("\u5883\u754C\u70B9");
-          goto _L46
-_L41:
-        ((StringBuilder) (obj)).append("\u7075\u77F3");
-          goto _L46
-_L42:
-        ((StringBuilder) (obj)).append("\u547D\u683C\u788E\u7247");
-          goto _L46
-_L43:
-        ((StringBuilder) (obj)).append("\u4ED9\u4EE4");
-          goto _L46
-        if(!web.sxd.b.c.c(81) || k1 <= 0) goto _L2; else goto _L47
-_L47:
-        (new m(0x690002, (byte)1, (byte)0)).a(C);
-        return;
-        if(true) goto _L49; else goto _L48
-_L48:
+
+        int k1 = l1.readUnsignedShort();
+        int i1 = 0;
+        //TODO 没完
+
+
     }
 
     final void a(int ai[])
@@ -920,8 +820,8 @@ _L43:
     };
     private boolean j;
     private String k[] = {
-        "\u62DB\u52DF\u6210\u529F", "\u62DB\u52DF\u5931\u8D25", "\u94DC\u94B1\u4E0D\u8DB3", "\u58F0\u671B\u4E0D\u8DB3", "\u961F\u4F0D\u5DF2\u6EE1", "NOTCHANGE", "NO_ENOUGH_PIECES", "\u4F19\u4F34\u788E\u7247\u4E0D\u8DB3", "\u4E3B\u89D2\u7B49\u7EA7\u4E0D\u5230", "STAGE_COMPLETE", 
-        "INSUFFICIENT_KEY"
+            "招募成功", "招募失败", "铜钱不足", "声望不足", "队伍已满", "NOTCHANGE", "NO_ENOUGH_PIECES", "伙伴碎片不足", "主角等级不到", "STAGE_COMPLETE",
+            "INSUFFICIENT_KEY"
     };
     private String l[] = {
             ",铜钱", ",", ",阅历", ",龙鱼令", ",未知"
