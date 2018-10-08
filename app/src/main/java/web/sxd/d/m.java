@@ -122,6 +122,7 @@ public final class m extends BaseFunc
     }
 
 
+    @Override
     public final void a(TempDataInputStream l1)
     {
         int i1;
@@ -221,14 +222,14 @@ public final class m extends BaseFunc
                         C.m();
                     }
                     if (j2 >= 60) {
-                        //new r(C);
+                        //new r(C);//TODO 暂时注释
                         c();
-                        //web.sxd.d.r.a(C);
+                        //web.sxd.d.r.a(C);//TODO 暂时注释
                         web.sxd.b.MainThread.sendLog("达到60级");
                     } else {
                         web.sxd.b.MainThread.sendLog("未开启签到功能(60级)！");
                     }
-                    //web.sxd.d.j.a(C);
+                    //web.sxd.d.j.a(C);//TODO 暂时注释
                     c();
                     (new web.sxd.b.TempDataOutputStream(48, C.d())).sendMain(C);
                     c();
@@ -238,6 +239,7 @@ public final class m extends BaseFunc
                         (new web.sxd.b.TempDataOutputStream(42)).sendMain(C);
                         return;
                     }
+                    //break;
                     return;
                     //continue;
                 case 3:
@@ -259,13 +261,13 @@ public final class m extends BaseFunc
                             default:
                                 i1++;break;
                             case 13:
-                                C.f(j2);
+                                C.f(j2);//角色等级
                                 i1++;break;
                             case 15:
-                                if(l5>0) C.a(l5);
+                                if(l5>0) C.a(l5);//铜钱
                                 i1++;break;
                             case 18:
-                                if(C.i()>=j2)
+                                if(C.i()>=j2) //体力和获取的值
                                 {
                                     if(C.i()==j2)
                                     {i1++;break;}
@@ -289,10 +291,10 @@ public final class m extends BaseFunc
                                 C.g(j2);
                                 break;
                             case 20:
-                                C.b(l5);
+                                C.b(l5); //当前经验
                                 i1++;break;
                             case 21:
-                                C.c(l5);
+                                C.c(l5);//当前等级经验MAX
                                 i1++;break;
                             case 43:
                                 i1++;break;
@@ -319,7 +321,19 @@ public final class m extends BaseFunc
                                     ai = a;
                                     i4 = ai.length;
                                     j3 = 0;
-                                    //TODO weiwan
+                                    if(j3<i4) break;
+                                    c.b(a);
+                                    int j4;
+                                    if(C.b(38))
+                                    {
+                                        c();
+                                        //web.sxd.c.f.a(C); //TODO 暂时注释
+                                    } else
+                                    {
+                                        e = false;
+                                    }
+                                    break;
+
                                 }
                             case 67:
                                 if(j2 > 0)
@@ -329,7 +343,324 @@ public final class m extends BaseFunc
                                             Integer.valueOf(j2)
                                     });
                                 }
+                                break;
                         }
+                    }
+                    return;
+                case 6://_L5
+                    //int j2;
+                    j2 = l1.readUnsignedShort();
+                    i1 = 0;
+                    while(i1<j2)
+                    {
+                        j3 = l1.readInt();
+                        int k3 = l1.read();
+                        //c1 = C;
+                        boolean flag;
+                        if(k3 == 1)
+                            flag = true;
+                        else
+                            flag = false;
+                        C.a(j3, flag);
+                        i1++;
+                    }
+                    j2 = a.length;
+                    i1 = 0;
+                    while (i1<j2)
+                    {
+                        j3 = a[i1];
+                        if(!C.b(j3)){}else
+                        {
+                            switch (j3)
+                            {
+                                default:break;
+                                case 33:break;
+                                case 39:
+                                    c();
+                                    if(d)
+                                    {
+                                        //web.sxd.d.ad.a(C);//TODO 暂时注释
+                                    } else
+                                    {
+                                        web.sxd.b.MainThread.sendLog(5, null);//恢复阵型
+                                        c();
+                                        //new ad(C);//TODO 暂时注释
+                                        //web.sxd.d.ad.a(C, 0L);//TODO 暂时注释
+                                    }
+                                    c();
+                                    break;
+                                case 91:
+                                    //new x(C);//TODO 暂时注释
+                                    if(!d || !C.b(39))
+                                    {
+                                        c();
+                                        //web.sxd.d.x.a(C);//TODO 暂时注释
+                                    }
+                                    break;
+                                case 165:
+                                    //new ae(C);//TODO 暂时注释
+                                    if(!d || !C.b(39))
+                                    {
+                                        c();
+                                        //ae.a(C);//TODO 暂时注释
+                                    }
+                                    break;
+                                case 179:
+                                    //new ah(C);//TODO 暂时注释
+                                    c();
+                                    //ah.a(C);//TODO 暂时注释
+                                    break;
+                            }
+                        }
+                        i1++;
+                    }
+                    c.a(a);
+                    j2 = a.length;
+                    i1 = 0;
+                    while(i1<j2)
+                    {
+                        //int j3;
+                        int k3;
+                        boolean flag;
+                        //c c1;
+
+                        j3 = a[i1];
+                        if(!C.b(j3))
+                        {}else
+                        {
+                            switch (j3)
+                            {
+                                default:break;
+                                case 24:break;
+                                case 38:
+                                    //new f(C);//TODO 暂时注释
+                                    sleep(3);
+                                    //web.sxd.c.f.a(C);//TODO 暂时注释
+                                    //new b(C);//TODO 暂时注释
+                                    break;
+                            }
+                        }
+                        i1++;
+                    }
+                    e = false;
+                    return;
+                case 9://_L6
+                    j2 = l1.readUnsignedShort();
+                    i1 = 0;
+                    String s4;
+                    if(i1 >= j2) break;
+                        //continue; /* Loop/switch isn't completed */
+                    while(i1<j2) {
+                        s4 = a(l1.readUTF());
+                        j3 = l1.readInt();
+                        switch (j3) {
+                            default://_63
+                                Log.i((new StringBuilder("DelayMsg_")).append(j3).toString(), s4);
+                                web.sxd.b.MainThread.sendLog("%s[msg%d]", new Object[]{
+                                        s4, Integer.valueOf(j3)
+                                });
+                                break;
+                            case 3:break;//_64
+                            case 32:web.sxd.b.MainThread.sendLog(s4);break;//_65
+                            case 45:/*web.sxd.d.e.b(C);*/break;//_66//TODO 暂时注释
+                            case 47://_67
+                                web.sxd.b.MainThread.sendLog(s4.replace("[replace,7]", "周日 ")
+                                        .replace("[replace,", "周")
+                                        .replace(']', ' '));
+                                if(C.b(39))
+                                {
+                                    c();
+                                    //web.sxd.d.ad.a(C, 1L);//TODO 暂时注释
+                                }
+                                break;
+                            case 49:web.sxd.b.MainThread.sendLog(s4);break;//_65
+                            case 149:
+//                                if(C.a)
+//                                    web.sxd.d.u.a(C);//TODO 暂时注释
+//                                else
+//                                    web.sxd.d.q.a(C);//TODO 暂时注释
+                                break;
+                        }
+                        i1++;
+                    }
+                    return;
+                case 20://_L7
+                    if(l1.read() == 87)
+                    {
+                        web.sxd.b.MainThread.sendLog("[小助手]领取俸禄：%d 铜钱", new Object[] {
+                                Integer.valueOf(l1.readInt())
+                        });
+                        return;
+                    }
+                    return;
+                case 35://_L8
+                    int l2 = l1.readUnsignedShort();
+                    int k1 = 0;
+                    while(k1 < l2)
+                    {
+                        web.sxd.b.MainThread.sendLog("[公告%d]%s", new Object[] {
+                                Integer.valueOf(l1.readInt()), a(l1.readUTF())
+                        });
+                        k1++;
+                    }
+                    return;
+                case 40://_L9
+                    switch(l1.read())
+                    {
+                        case 83: // 'S'
+                        default:
+                            return;
+
+                        case 82: // 'R'
+                            int i2 = l1.readInt();
+                            int i3 = l1.readInt();
+                            if(i2 + i3 != f)
+                            {
+                                f = i2 + i3;
+                                web.sxd.b.MainThread.sendLog("[打坐]15秒经验%d + %d", new Object[] {
+                                        Integer.valueOf(i2), Integer.valueOf(i3)
+                                });
+                            }
+                            if(i3 > 0)
+                            {
+                                Log.v(b(), (new StringBuilder("UPDATE_PRACTICE: ")).append(i2).append(" + ").append(i3).toString());
+                                return;
+                            }
+                            break;
+
+                        case 84: // 'T'
+                            C.l();
+                            return;
+                    }
+                    return;
+                case 41://_L10
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                    {
+                        web.sxd.b.MainThread.sendLog("[阵营战]冷却中, %d秒后重试", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                        sleep(i1 * 5);
+                    }
+                    if(C.b(37))
+                    {
+                        if(C.g() >= 40 && C.g() <= 80)
+                        {
+                            //web.sxd.d.l.b(C);//TODO 暂时注释
+                            return;
+                        }
+                        if(C.g() > 80)
+                        {
+                            web.sxd.b.MainThread.sendLog("[阵营战]功能已终结");
+                            return;
+                        }
+                    }
+                    return;
+                case 42://_L11
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    if(l1.readInt() != 1)
+                    {
+                        c();
+                        (new web.sxd.b.TempDataOutputStream(20)).sendMain(C);
+                    }
+                    l1.readInt();
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可帮派祭神 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可竞技场挑战 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    l1.readInt();
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可护送取经 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    l1.readInt();
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                    {
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可送花 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                        if(C.b(45))
+                        {
+                            //new web.sxd.c.h(C);//TODO 暂时注释
+                            c();
+                            //web.sxd.c.h.a(C);//TODO 暂时注释
+                        }
+                    }
+                    l1.readInt();
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可使用药园仙露 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可吉星高照投掷 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可祭拜关公 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    l1.readInt();
+                    i1 = l1.readInt();
+                    if(i1 > 0)
+                        web.sxd.b.MainThread.sendLog("[小助手]今日还可摘仙桃 %d 次", new Object[] {
+                                Integer.valueOf(i1)
+                        });
+                    l1.readInt();
+                    l1.readInt();
+                    l1.readInt();
+                    l1.skipBytes(l1.readUnsignedShort() * 16);
+                    l1.skipBytes(l1.readUnsignedShort() * 16);
+                    return;
+                case 46://_L12
+                    int k2 = l1.readUnsignedShort();
+                    int j1 = 0;
+                    do
+                    {
+                        if(j1 >= k2)
+                        {
+                            (new web.sxd.b.TempDataOutputStream(35)).sendMain(C);
+                            return;
+                        }
+                        web.sxd.b.MainThread.sendLog("[公告]%s", new Object[] {
+                                l1.readUTF()
+                        });
+                        j1++;
+                    } while(true);
+                case 48://_L13
+                    if(l1.readUnsignedShort() != 0)
+                    {
+                        //c c2 = C;
+                        i1 = l1.readInt();
+                        j2 = l1.readInt();
+                        l1.readUTF();
+                        C.a(i1, j2, l1.readInt());
+                        return;
                     }
             }
         }catch (Exception e)

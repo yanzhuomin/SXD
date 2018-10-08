@@ -140,8 +140,6 @@ public final class n extends BaseFunc
         int funcCode = l1.getFuncCode();
         if( (funcCode ==0x50007) || (funcCode ==0x9000A) || (funcCode ==0x290003) ) return;
         try {
-
-
 //        switch (funcCode)
 //        {
 //            default:
@@ -152,206 +150,10 @@ public final class n extends BaseFunc
             i1 = l1.getFuncCodeH();
             k1 = l1.getFuncCodeL();
             switch (i1) {
-                default:
-                    String str = (new StringBuilder(String.valueOf(i1))).append("_").append(k1).toString();
-                    Log.d(s, str);
-                    switch (funcCode) {
-                        default:
-                            return;
-                        case 0x50008:
-                            int j1 = l1.readUnsignedShort();
-                            i1 = 0;
-                            do {
-                                if (i1 >= j1) {
-                                    sleep(10);
-                                    (new TempDataOutputStream(0x80001, 132)).sendMain(C);
-                                    return;
-                                }
-                                k1 = l1.readInt();
-                                int i2 = l1.readInt();
-//                                    String.format("%d,%d,%d,%d,%d,%d",
-//                                            Integer.valueOf(k1), Integer.valueOf(i2), Integer.valueOf(l1.readInt()), Integer.valueOf(l1.read()), Integer.valueOf(l1.read()), Integer.valueOf(l1.readUnsignedShort())
-//                                    );
-                                if (i2 == 35 || i2 == 62 || i2 == 70)
-                                    C.d(k1);
-                                i1++;
-                            } while (true);
-
-
-                        case 0x80001:
-                            i1 = l1.read();
-                            if (i1 >= 6) {
-                                String str1 = b();
-                                StringBuilder stringbuilder = new StringBuilder("Partners_invite: ");
-                                String str5;
-                                if (i1 - 6 < k.length)
-                                    str5 = k[i1 - 6];
-                                else
-                                    str5 = Integer.valueOf(i1).toString();
-                                Log.i(str1, stringbuilder.append(l1).toString());
-                                return;
-                            } else {
-                                Log.i(b(), (new StringBuilder("Partners_invite: ")).append(i1).toString());
-                                return;
-                            }
-                        case 0x220012:
-                            if (l1.read() == 1) {
-                                web.sxd.b.MainThread.sendLog("　成功领取 %d 灵石", new Object[]{
-                                        Integer.valueOf(l1.readInt())
-                                });
-                                return;
-                            }
-                        case 0x290001:
-                            if (l1.read() == 0) {
-                                web.sxd.b.MainThread.sendLog("关公上香成功");
-                                (new TempDataOutputStream(0x290002)).sendMain(C);
-                                return;
-                            }
-                        case 0x290002:
-                            l1.readUnsignedShort();
-                            web.sxd.b.MainThread.sendLog("　祝福 %d 次经验+%d%%", new Object[]{
-                                    Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readInt())
-                            });
-                            return;
-                        case 0x300000:
-                            l1.readUTF();
-                        case 0x300003:
-                            i1 = l1.read();
-                            k1 = l1.read();
-                            int k2 = l1.readInt();
-                            if (i1 >= 10 && k1 >= 10) {
-                                web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 已培养满", new Object[]{
-                                        Integer.valueOf(i1 - 1), Integer.valueOf(k1)
-                                });
-                                return;
-                            }
-                            if (funcCode == 0x300003) {
-                                web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 进化成功 经验%d", new Object[]{
-                                        Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2)
-                                });
-                            } else {
-                                j1 = l1.readInt();
-                                web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 经验%d 剩余%d次", new Object[]{
-                                        Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2), Integer.valueOf(j1)
-                                });
-                                if (j1 <= 0)
-                                    return;//continue; /* Loop/switch isn't completed */
-                                sleep(10);
-                            }
-                            c();
-                            (new TempDataOutputStream(0x300002, 0L)).sendMain(C);
-                            return;
-                        case 0x300002:
-                            i1 = l1.read();
-                            if (i1 == 2)
-                                (new TempDataOutputStream(0x300003)).sendMain(C);
-                            if (i1 == 0) {
-                                l1.read();
-                                l1.read();
-                                l1.readInt();
-                                i1 = l1.readInt();
-                                l1.read();
-                                j1 = l1.readInt();
-                                String str3;
-                                if (l1.read() > 0)
-                                    str3 = " !!";
-                                else
-                                    str3 = "";
-                                web.sxd.b.MainThread.sendLog("　培养龙宠: 经验+%d%s 剩余%d次", new Object[]{
-                                        Integer.valueOf(i1), str3, Integer.valueOf(j1)
-                                });
-                                if (j1 > 0) {
-                                    sleep(2);
-                                    (new TempDataOutputStream(0x300002, 0L)).sendMain(C);
-                                    return;
-                                } else {
-                                    (new TempDataOutputStream(0x300000, C.d())).sendMain(C);
-                                    return;
-                                }
-                            }
-                            return;
-                        //case 0x300003:
-                        case 0x680000:
-                            i1 = l1.readInt();
-                            j1 = l1.readUnsignedShort();
-                            web.sxd.b.MainThread.sendLog("灵气: %d, 葫芦: %d+%d, 灵脉x%d", new Object[]{
-                                    Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readUnsignedShort())
-                            });
-                            if (j1 > 0) {
-                                c();
-                                (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
-                                return;
-                            }
-                        case 0x680001:
-                            i1 = l1.read();
-                            if (i1 == 0) {
-                                i1 = l1.readInt();
-                                j1 = l1.readInt();
-                                int j2;
-                                String str2;
-                                if (l1.read() > 0)
-                                    str2 = "灵脉";
-                                else
-                                    str2 = "";
-                                k1 = l1.readUnsignedShort();
-                                j2 = l1.readUnsignedShort();
-                                web.sxd.b.MainThread.sendLog("　灵气+%d=>%d %sx%d 剩余%d", new Object[]{
-                                        Integer.valueOf(j1), Integer.valueOf(i1), str2, Integer.valueOf(k1), Integer.valueOf(j2)
-                                });
-                                if (j2 > 0) {
-                                    c();
-                                    (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
-                                    return;
-                                }
-                            } else {
-                                web.sxd.b.MainThread.sendLog("木葫芦采集灵气失败: %d", new Object[]{
-                                        Integer.valueOf(i1)
-                                });
-                                return;
-                            }
-                        case 0x690001:
-                            i1 = l1.read();
-                            k1 = l1.read();
-                            l1.read();
-                            l1.readUnsignedShort();
-                            web.sxd.b.MainThread.sendLog("[猎妖]剩余 %d次免费, %d次铜钱猎妖", new Object[]{
-                                    Integer.valueOf(i1), Integer.valueOf(k1)
-                            });
-                            c();
-                            if (i1 > 0) {
-                                (new TempDataOutputStream(0x690002, (byte) 0, (byte) 0)).sendMain(C);
-                                return;
-                            }
-                        case 0x690002:
-                            StringBuilder sb = new StringBuilder("[猎妖]");
-                            i1 = l1.read();
-                            if (i1 != 5)
-                                sb.append("打开宝箱失败: ");
-                            switch (i1) {
-                                default:
-                                    break;
-                                case 5:
-                                    sb.append("成功");
-                                case 6:
-                                    sb.append("背包已满");
-                                case 7:
-                                    sb.append("元宝不足");
-                                case 8:
-                                    sb.append("铜钱不足");
-                                case 9:
-                                    sb.append("没次数了");
-                                case 10:
-                                    sb.append("龙鱼令已满");
-                            }
-                            if (i1 != 5) {
-                                web.sxd.b.MainThread.sendLog(sb.toString());
-                                return;
-                            }
-                    }
-                case 5:
+                case 5: //_L4
                     printFuncName(k1, a);
                     break;
-                case 8:
+                case 8://_L5
                     printFuncName(k1, h);
                     break;
                 case 9:
@@ -372,7 +174,207 @@ public final class n extends BaseFunc
                 case 104:
                     printFuncName(k1, c);
                     break;
+
+                default:
+                    String str = (new StringBuilder(String.valueOf(i1))).append("_").append(k1).toString();
+                    Log.d(s, str);
             }
+
+            switch (funcCode) {
+                default:
+                    return;
+                case 0x50008:
+                    int j1 = l1.readUnsignedShort();
+                    i1 = 0;
+                    do {
+                        if (i1 >= j1) {
+                            sleep(10);
+                            (new TempDataOutputStream(0x80001, 132)).sendMain(C);
+                            return;
+                        }
+                        k1 = l1.readInt();
+                        int i2 = l1.readInt();
+//                                    String.format("%d,%d,%d,%d,%d,%d",
+//                                            Integer.valueOf(k1), Integer.valueOf(i2), Integer.valueOf(l1.readInt()), Integer.valueOf(l1.read()), Integer.valueOf(l1.read()), Integer.valueOf(l1.readUnsignedShort())
+//                                    );
+                        if (i2 == 35 || i2 == 62 || i2 == 70)
+                            C.d(k1);
+                        i1++;
+                    } while (true);
+
+
+                case 0x80001:
+                    i1 = l1.read();
+                    if (i1 >= 6) {
+                        String str1 = b();
+                        StringBuilder stringbuilder = new StringBuilder("Partners_invite: ");
+                        String str5;
+                        if (i1 - 6 < k.length)
+                            str5 = k[i1 - 6];
+                        else
+                            str5 = Integer.valueOf(i1).toString();
+                        Log.i(str1, stringbuilder.append(l1).toString());
+                        return;
+                    } else {
+                        Log.i(b(), (new StringBuilder("Partners_invite: ")).append(i1).toString());
+                        return;
+                    }
+                case 0x220012:
+                    if (l1.read() == 1) {
+                        web.sxd.b.MainThread.sendLog("　成功领取 %d 灵石", new Object[]{
+                                Integer.valueOf(l1.readInt())
+                        });
+                        return;
+                    }
+                case 0x290001:
+                    if (l1.read() == 0) {
+                        web.sxd.b.MainThread.sendLog("关公上香成功");
+                        (new TempDataOutputStream(0x290002)).sendMain(C);
+                        return;
+                    }
+                case 0x290002:
+                    l1.readUnsignedShort();
+                    web.sxd.b.MainThread.sendLog("　祝福 %d 次经验+%d%%", new Object[]{
+                            Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readInt())
+                    });
+                    return;
+                case 0x300000:
+                    l1.readUTF();
+                case 0x300003:
+                    i1 = l1.read();
+                    k1 = l1.read();
+                    int k2 = l1.readInt();
+                    if (i1 >= 10 && k1 >= 10) {
+                        web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 已培养满", new Object[]{
+                                Integer.valueOf(i1 - 1), Integer.valueOf(k1)
+                        });
+                        return;
+                    }
+                    if (funcCode == 0x300003) {
+                        web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 进化成功 经验%d", new Object[]{
+                                Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2)
+                        });
+                    } else {
+                        j1 = l1.readInt();
+                        web.sxd.b.MainThread.sendLog("龙宠:%d变%d阶 经验%d 剩余%d次", new Object[]{
+                                Integer.valueOf(i1 - 1), Integer.valueOf(k1), Integer.valueOf(k2), Integer.valueOf(j1)
+                        });
+                        if (j1 <= 0)
+                            return;//continue; /* Loop/switch isn't completed */
+                        sleep(10);
+                    }
+                    c();
+                    (new TempDataOutputStream(0x300002, 0L)).sendMain(C);
+                    return;
+                case 0x300002:
+                    i1 = l1.read();
+                    if (i1 == 2)
+                        (new TempDataOutputStream(0x300003)).sendMain(C);
+                    if (i1 == 0) {
+                        l1.read();
+                        l1.read();
+                        l1.readInt();
+                        i1 = l1.readInt();
+                        l1.read();
+                        j1 = l1.readInt();
+                        String str3;
+                        if (l1.read() > 0)
+                            str3 = " !!";
+                        else
+                            str3 = "";
+                        web.sxd.b.MainThread.sendLog("　培养龙宠: 经验+%d%s 剩余%d次", new Object[]{
+                                Integer.valueOf(i1), str3, Integer.valueOf(j1)
+                        });
+                        if (j1 > 0) {
+                            sleep(2);
+                            (new TempDataOutputStream(0x300002, 0L)).sendMain(C);
+                            return;
+                        } else {
+                            (new TempDataOutputStream(0x300000, C.d())).sendMain(C);
+                            return;
+                        }
+                    }
+                    return;
+                //case 0x300003:
+                case 0x680000:
+                    i1 = l1.readInt();
+                    j1 = l1.readUnsignedShort();
+                    web.sxd.b.MainThread.sendLog("灵气: %d, 葫芦: %d+%d, 灵脉x%d", new Object[]{
+                            Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(l1.readUnsignedShort()), Integer.valueOf(l1.readUnsignedShort())
+                    });
+                    if (j1 > 0) {
+                        c();
+                        (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
+                        return;
+                    }
+                case 0x680001:
+                    i1 = l1.read();
+                    if (i1 == 0) {
+                        i1 = l1.readInt();
+                        j1 = l1.readInt();
+                        int j2;
+                        String str2;
+                        if (l1.read() > 0)
+                            str2 = "灵脉";
+                        else
+                            str2 = "";
+                        k1 = l1.readUnsignedShort();
+                        j2 = l1.readUnsignedShort();
+                        web.sxd.b.MainThread.sendLog("　灵气+%d=>%d %sx%d 剩余%d", new Object[]{
+                                Integer.valueOf(j1), Integer.valueOf(i1), str2, Integer.valueOf(k1), Integer.valueOf(j2)
+                        });
+                        if (j2 > 0) {
+                            c();
+                            (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
+                            return;
+                        }
+                    } else {
+                        web.sxd.b.MainThread.sendLog("木葫芦采集灵气失败: %d", new Object[]{
+                                Integer.valueOf(i1)
+                        });
+                        return;
+                    }
+                case 0x690001:
+                    i1 = l1.read();
+                    k1 = l1.read();
+                    l1.read();
+                    l1.readUnsignedShort();
+                    web.sxd.b.MainThread.sendLog("[猎妖]剩余 %d次免费, %d次铜钱猎妖", new Object[]{
+                            Integer.valueOf(i1), Integer.valueOf(k1)
+                    });
+                    c();
+                    if (i1 > 0) {
+                        (new TempDataOutputStream(0x690002, (byte) 0, (byte) 0)).sendMain(C);
+                        return;
+                    }
+                case 0x690002:
+                    StringBuilder sb = new StringBuilder("[猎妖]");
+                    i1 = l1.read();
+                    if (i1 != 5)
+                        sb.append("打开宝箱失败: ");
+                    switch (i1) {
+                        default:
+                            break;
+                        case 5:
+                            sb.append("成功");
+                        case 6:
+                            sb.append("背包已满");
+                        case 7:
+                            sb.append("元宝不足");
+                        case 8:
+                            sb.append("铜钱不足");
+                        case 9:
+                            sb.append("没次数了");
+                        case 10:
+                            sb.append("龙鱼令已满");
+                    }
+                    if (i1 != 5) {
+                        web.sxd.b.MainThread.sendLog(sb.toString());
+                        return;
+                    }
+            }
+
+
 //            case 0x50007:
 //            case 0x9000A:
 //            case 0x290003:
