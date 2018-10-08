@@ -42,17 +42,24 @@ public final class i extends BaseFunc
     public static final String e(int j)
     {
         int k;
-label0:
+        if(j < b.length && j>=0)
         {
-            if(j >= 0)
-            {
-                k = j;
-                if(j < b.length)
-                    break label0;
-            }
-            k = 0;
+            Log.v("web.sxd.c.i","城镇index:"+j);
+            return b[j];
         }
-        return b[k];
+        Log.v("web.sxd.c.i","城镇index:"+j);
+        return b[0];
+//label0:
+//        {
+//            if(j >= 0)
+//            {
+//                k = j;
+//                if(j < b.length)
+//                    break label0;
+//            }
+//            k = 0;
+//        }
+//        return b[k];
     }
 
     public final void a(TempDataInputStream l1)
@@ -136,7 +143,8 @@ label0:
             "云中界(Lv165-170)", "仙界", "跨服BOSS", "海云台(Lv170-175)", "七夕鹊桥会", "爬塔90", "爬塔100", "爬塔110", "爬塔120", "爬塔130",
             "爬塔140", "爬塔150", "爬塔160", "爬塔170", "海市蜃楼(Lv176-180)", "天河镇(Lv181-185)", "神域(Lv186-190)", "王城争霸", "仙府(Lv191-195)", "仙盟集会所",
             "爬塔180", "爬塔190", "盘龙城(Lv196-200)", "结婚拜堂仪式", "家园住宅", "上古禁地(Lv201-205)", "仙盟攻城战", "占领", "帝苑(Lv206-210)", "夺宝奇兵",
-            "凤凰城(Lv211-215)", "白泽", "青龙", "无妄之海(Lv216-220)", "地宫探宝", "天穹岭(Lv221-225)", "幻雪城(Lv226-230)", "游乐城", "圣域", "须弥山(Lv231-235)"
+            "凤凰城(Lv211-215)", "白泽", "青龙", "无妄之海(Lv216-220)", "地宫探宝", "天穹岭(Lv221-225)", "幻雪城(Lv226-230)", "游乐城", "圣域", "须弥山(Lv231-235)",
+            "雪月湖(Lv236-240)","浮水湾(Lv241-245)"
     };
     private static final String c[] = {
         "Town_", "enter_town", "leave_town", "move_to"

@@ -17,7 +17,7 @@ import web.sxd.b.TempDataInputStream;
 //import web.sxd.c.b;
 //import web.sxd.c.f;
 //import web.sxd.c.g;
-//import web.sxd.c.i;
+import web.sxd.c.i;
 
 // Referenced classes of package web.sxd.d:
 //            n, l, x, ad, 
@@ -27,16 +27,16 @@ import web.sxd.b.TempDataInputStream;
 public final class m extends BaseFunc
 {
 
-    public m(MainThread c1)
+    public m(MainThread mainThread)
     {
-        super(c1, 0);
+        super(mainThread, 0);
         e = true;
         f = 0;
 //        new g(c1);
-        c = new n(c1);
+        c = new n(mainThread);
 //        new i(c1);
 //        new a(c1);
-        c1.start();
+        mainThread.start();
         d = false;
     }
 
@@ -209,14 +209,14 @@ public final class m extends BaseFunc
                     d = flag1;
                     if (d) {
                         web.sxd.b.MainThread.sendLog("[BOSS]%s, %s", new Object[]{
-                                "未知","未知"//i.e(j3), i.e(i1)
+                                i.e(j3), i.e(i1)
                         });
                         //new ad(C); //TODO 暂时注释
                         c();
                         C.j(j3);
                     } else {
                         web.sxd.b.MainThread.sendLog("进入城镇: %s", new Object[]{
-                                "未知"//i.e(i1)
+                                i.e(i1)
                         });
                         C.m();
                     }
@@ -334,7 +334,8 @@ public final class m extends BaseFunc
             }
         }catch (Exception e)
         {
-            Log.d("sxd.web.d.m",e.getMessage());
+            Log.v("web.sxd.d.m", e.getLocalizedMessage(), e);
+            //Log.d("sxd.web.d.m",e.printStackTrace());
         }
 //        i1;
 //        JVM INSTR lookupswitch 13: default 144
