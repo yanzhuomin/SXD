@@ -44,10 +44,10 @@ public final class i extends BaseFunc
         int k;
         if(j < b.length && j>=0)
         {
-            Log.v("web.sxd.c.i","城镇index:"+j);
+            //Log.v("web.sxd.c.i","城镇index:"+j);
             return b[j];
         }
-        Log.v("web.sxd.c.i","城镇index:"+j);
+        //Log.v("web.sxd.c.i","城镇index:"+j);  //打印城镇索引
         return b[0];
 //label0:
 //        {
