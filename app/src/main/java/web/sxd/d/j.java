@@ -11,7 +11,7 @@ import web.sxd.b.*;
 import web.sxd.c.e;
 
 // Referenced classes of package web.sxd.d:
-//            b
+//            Fate
 
 public final class j extends BaseFunc
 {

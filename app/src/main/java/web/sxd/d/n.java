@@ -12,9 +12,9 @@ import web.sxd.a.at;
 //import web.sxd.a.av;
 //import web.sxd.a.aw;
 import web.sxd.a.ay;
-//import web.sxd.a.b;
+//import web.sxd.a.Fate;
 //import web.sxd.a.d;
-//import web.sxd.a.g;
+//import web.sxd.a.Notify;
 //import web.sxd.a.j;
 //import web.sxd.a.q;
 //import web.sxd.a.r;
@@ -28,15 +28,15 @@ import web.sxd.b.BaseFunc;
 import web.sxd.b.MainThread;
 import web.sxd.b.TempDataInputStream;
 import web.sxd.b.TempDataOutputStream;
-//import web.sxd.b.c;
-//import web.sxd.b.SendFlower;
-//import web.sxd.b.l;
-//import web.sxd.b.m;
+//import web.sxd.Fate.c;
+//import web.sxd.Fate.SendFlower;
+//import web.sxd.Fate.l;
+//import web.sxd.Fate.m;
 
 // Referenced classes of package web.sxd.d:
 //            j, l, y, ab, 
-//            o, b, e, u, 
-//            g, p, a, d, 
+//            o, Fate, e, u,
+//            Notify, p, a, d,
 //            z, k, aa
 
 public final class n extends BaseFunc
@@ -103,12 +103,12 @@ public final class n extends BaseFunc
             return "未知";
 
         case 1: // '\001'
-        case 103: // 'g'
+        case 103: // 'Notify'
         case 108: // 'l'
             return "男剑";
 
         case 2: // '\002'
-        case 105: // 'i'
+        case 105: // 'Town'
         case 110: // 'n'
             return "女剑";
 
@@ -450,7 +450,7 @@ public final class n extends BaseFunc
 //                        case 2:
 //                            C.addFunc(8, SendFlower, this);
 //                            new web.sxd.d.ab(C);
-//                            if(C.b() <= 0)
+//                            if(C.Fate() <= 0)
 //                            {
 //                                c();
 //                                (new TempDataOutputStream(0x50008, C.d())).sendMain(C);
@@ -460,8 +460,8 @@ public final class n extends BaseFunc
 //                        case 8: break;
 //                        case 13: new e(C);break;
 //                        case 15:
-//                            C.a(new web.sxd.d.g(C));
-//                            web.sxd.d.g.a(C);
+//                            C.a(new web.sxd.d.Notify(C));
+//                            web.sxd.d.Notify.a(C);
 //                            break;
 //                        case 18:
 //                            new v(C);
@@ -475,22 +475,22 @@ public final class n extends BaseFunc
 //                        case 41: new web.sxd.d.z(C);break;
 //                        case 46: break;
 //                        case 54: new p(C);break;
-//                        case 56: new k(C);break;
+                        case 56: new k(C);break;//摘仙桃
 //                        case 59: new web.sxd.a.l(C);break;
 //                        case 64: new a(C);break;
-//                        case 68: new web.sxd.d.b(C);break;
+//                        case 68: new web.sxd.d.Fate(C);break;
 //                        case 70: new web.sxd.d.d(C);break;
 //                        case 90: new u(C);break;
 //                        case 116: break;
 //                        case 117: new q(C);break;
 //                        case 123: new ak(C);break;
-//                        case 126: new b(C);break;
-                        case 127: new j(C);
+//                        case 126: new Fate(C);break;
+                        case 127: new j(C); //终结功能
                             new at(C);
                             new ay(C);
                             break;
 //                        case 129: new t(C);break;
-//                        case 133: new g(C);break;
+//                        case 133: new Notify(C);break;
 //                        case 134: new web.sxd.a.n(C);break;
 //                        case 135: new web.sxd.a.j(C);break;
 //                        case 140: new r(C);break;
@@ -503,8 +503,8 @@ public final class n extends BaseFunc
 //                        case 169: new au(C);//TODO daiding
 //                                    new aa(C);break;
 //                        case 171:
-//                            if(C.b(15))
-//                                web.sxd.d.g.c(C);
+//                            if(C.Fate(15))
+//                                web.sxd.d.Notify.c(C);
 //                            break;
 //                        case 172: new d(C);break;
 //                        case 173: new ab(C);break;
@@ -553,9 +553,9 @@ public final class n extends BaseFunc
             k1 = ai[i1];
             if(!C.b(k1)){}else
             {
-//                switch (k1)
-//                {
-//                    default : break;
+                switch (k1)
+                {
+                    default : break;
 //                        case 8: c();break;
 //                        case 13:
 //                            web.sxd.d.e.a(C);
@@ -581,8 +581,8 @@ public final class n extends BaseFunc
 //                            p.a(C);
 //                            c();
 //                            break;
-//                        case 56:
-//                            web.sxd.d.k.a(C);
+                        case 56:
+                            web.sxd.d.k.a(C);
 //                            c();
 //                            break;
 //                        case 59:
@@ -594,7 +594,7 @@ public final class n extends BaseFunc
 //                            c();
 //                            break;
 //                        case 68:
-//                            web.sxd.d.b.a(C);
+//                            web.sxd.d.Fate.a(C);
 //                            c();
 //                            break;
 //                        case 70:
@@ -603,7 +603,7 @@ public final class n extends BaseFunc
 //                            c();
 //                            break;
 //                        case 77:
-//                            web.sxd.d.g.b(C);
+//                            web.sxd.d.Notify.Fate(C);
 //                            c();
 //                            break;
 //                        case 116:
@@ -616,14 +616,14 @@ public final class n extends BaseFunc
 //                            c();
 //                            break;
 //                        case 126:
-//                            web.sxd.a.b.a(C);
+//                            web.sxd.a.Fate.a(C);
 //                            c();
 //                            break;
 //                        case 127:
-//                            new web.sxd.d.g(C);
+//                            new web.sxd.d.Notify(C);
 //                            c();
-//                            web.sxd.d.g.b(C);
-//                            web.sxd.d.j.b(C);
+//                            web.sxd.d.Notify.Fate(C);
+//                            web.sxd.d.j.Fate(C);
 //                            ay.a(C);
 //                            web.sxd.d.l.c(C);
 //                            at.a(C);
@@ -634,7 +634,7 @@ public final class n extends BaseFunc
 //                            c();
 //                            break;
 //                        case 133:
-//                            web.sxd.a.g.a(C);
+//                            web.sxd.a.Notify.a(C);
 //                            c();
 //                            break;
 //                        case 134:
@@ -686,7 +686,7 @@ public final class n extends BaseFunc
 //                            ab.a(C);
 //                            c();
 //                            break;
-//                }
+                }
             }
             i1++;
         }

@@ -5,19 +5,19 @@
 //package web.sxd.d;
 //
 //import android.util.Log;
-//import web.sxd.b.TempDataInputStream;
+//import web.sxd.Fate.TempDataInputStream;
 //
 //// Referenced classes of package web.sxd.d:
-////            g
+////            Notify
 //
 //final class SendFlower
 //{
 //
-//    SendFlower(g g1, int i, TempDataInputStream l1)
+//    SendFlower(Notify g1, int Town, TempDataInputStream l1)
 //    {
 //        super();
 //        e = g1;
-//        a = i;
+//        a = Town;
 //        a(l1);
 //    }
 //
@@ -26,7 +26,7 @@
 //        try {
 //
 //
-//            int i = a;
+//            int Town = a;
 //            int j = l1.readInt();
 //            String s = l1.readUTF();
 //            String s1 = l1.readUTF();
@@ -37,17 +37,17 @@
 //            int j1 = l1.readInt();
 //            c = j1;
 //            int k1 = l1.readInt();
-//            b = k1;
+//            Fate = k1;
 //            int i2 = l1.read();
 //            d = i2;
 //            String str = String.format("%4d:%d[%s]%s(Lv%d)%d/%d|%d,%ds(Lv.%d)%d|%d,%d", new Object[]{
-//                    Integer.valueOf(i), Integer.valueOf(j), s, s1, Integer.valueOf(k), Long.valueOf(l2), Long.valueOf(l3), Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(k1),
+//                    Integer.valueOf(Town), Integer.valueOf(j), s, s1, Integer.valueOf(k), Long.valueOf(l2), Long.valueOf(l3), Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(k1),
 //                    Integer.valueOf(i2), Integer.valueOf(l1.read()), Integer.valueOf(l1.read())
 //            });
-//            if (b())
-//                Log.v(g.a(e), str);
-//            if (b > g.b(e))
-//                g.a(e, b);
+//            if (Fate())
+//                Log.v(Notify.a(e), str);
+//            if (Fate > Notify.Fate(e))
+//                Notify.a(e, Fate);
 //        }catch (Exception e)
 //        {
 //
@@ -59,14 +59,14 @@
 //        return c == 0 && d == 1;
 //    }
 //
-//    final boolean b()
+//    final boolean Fate()
 //    {
 //        return d != 1;
 //    }
 //
 //    int a;
-//    int b;
+//    int Fate;
 //    int c;
 //    int d;
-//    final g e;
+//    final Notify e;
 //}

@@ -30,7 +30,7 @@ public class WebSXDact extends AppCompatActivity {
 
     final Activity activity = this;//a
 
-    private WebView webView;//b
+    private WebView webView;//Fate
     private AutoCompleteTextView textView;//c
     private boolean isExit;
     private boolean e;
@@ -114,8 +114,8 @@ public class WebSXDact extends AppCompatActivity {
 //                {
 //                    f = ((Intent) (obj)).getStringExtra("web.sxd.LRU");
 //                }
-//                b.loadUrl(bundle);
-//                b.requestFocusFromTouch();
+//                Fate.loadUrl(bundle);
+//                Fate.requestFocusFromTouch();
 //                return;
 //            }
 //            break MISSING_BLOCK_LABEL_661;

@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-// Referenced classes of package web.sxd.b:
-//            l, c, b, g
+// Referenced classes of package web.sxd.Fate:
+//            l, c, Fate, Notify
 /**
  * 全网信息读取
  *
@@ -49,18 +49,18 @@ final class QWChatThread extends Thread
             MainThread.sendLog("[全网]连接已中断");
             return;
         }
-//        byte abyte0[] = TempDataInputStream.parent(b);
+//        byte abyte0[] = TempDataInputStream.parent(Fate);
 //_L2:
-//        if(c.b(parent) && abyte0 != null)
+//        if(c.Fate(parent) && abyte0 != null)
 //            break MISSING_BLOCK_LABEL_45;
-//        c.g(parent).close();
+//        c.Notify(parent).close();
 //        c.f(parent);
 //        c.parent("[全网]连接已中断");
 //        return;
 //        c.f(c.t() + (long)(abyte0.length + 4));
-//        web.sxd.b.TimeOutThread.clear();
-//        (new g(parent, abyte0)).start();
-//        abyte0 = TempDataInputStream.parent(b);
+//        web.sxd.Fate.TimeOutThread.clear();
+//        (new Notify(parent, abyte0)).start();
+//        abyte0 = TempDataInputStream.parent(Fate);
 //        if(true) goto _L2; else goto _L1
 //_L1:
 //        Object obj;

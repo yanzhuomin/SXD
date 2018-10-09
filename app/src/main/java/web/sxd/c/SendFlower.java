@@ -10,7 +10,9 @@ import web.sxd.b.MainThread;
 import web.sxd.b.TempDataInputStream;
 import web.sxd.b.TempDataOutputStream;
 
-//送花
+/**
+ * 送花
+ */
 public final class SendFlower extends web.sxd.b.BaseFunc
 {
 

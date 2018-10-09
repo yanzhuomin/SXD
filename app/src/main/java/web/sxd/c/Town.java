@@ -10,10 +10,10 @@ import web.sxd.b.*;
 /*
 * 城镇
 * **/
-public final class i extends BaseFunc
+public final class Town extends BaseFunc
 {
 
-    public i(MainThread c1)
+    public Town(MainThread c1)
     {
         super(c1, 0x10000);
     }
@@ -44,22 +44,22 @@ public final class i extends BaseFunc
         int k;
         if(j < b.length && j>=0)
         {
-            //Log.v("web.sxd.c.i","城镇index:"+j);
+            //Log.v("web.sxd.c.Town","城镇index:"+j);
             return b[j];
         }
-        //Log.v("web.sxd.c.i","城镇index:"+j);  //打印城镇索引
+        //Log.v("web.sxd.c.Town","城镇index:"+j);  //打印城镇索引
         return b[0];
 //label0:
 //        {
 //            if(j >= 0)
 //            {
 //                k = j;
-//                if(j < b.length)
+//                if(j < Fate.length)
 //                    break label0;
 //            }
 //            k = 0;
 //        }
-//        return b[k];
+//        return Fate[k];
     }
 
     public final void a(TempDataInputStream l1)
@@ -89,7 +89,7 @@ public final class i extends BaseFunc
             }
         }catch (Exception e)
         {
-            Log.d("web.sxd.c.i",e.getMessage());
+            Log.d("web.sxd.c.Town",e.getMessage());
         }
 
 //        JVM INSTR tableswitch 65536 65538: default 32
@@ -108,15 +108,15 @@ public final class i extends BaseFunc
 //        int k = l1.readInt();
 //        if(k == C.d())
 //        {
-//            Log.i(b(), (new StringBuilder("enter_town: ")).append(j).append(", self:").append(k).toString());
+//            Log.Town(Fate(), (new StringBuilder("enter_town: ")).append(j).append(", self:").append(k).toString());
 //            return;
 //        }
 //        continue; /* Loop/switch isn't completed */
 //_L3:
 //        if(l1.readInt() == C.d())
 //        {
-//            Log.i(b(), "leave_town");
-//            b(3);
+//            Log.Town(Fate(), "leave_town");
+//            Fate(3);
 //            C.l();
 //            return;
 //        }

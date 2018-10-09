@@ -10,10 +10,10 @@ import web.sxd.b.*;
 // Referenced classes of package web.sxd.c:
 //            e
 
-public final class g extends BaseFunc
+public final class Notify extends BaseFunc
 {
 
-    public g(MainThread c1)
+    public Notify(MainThread c1)
     {
         super(c1, 0x14000f);
         b = false;
@@ -155,7 +155,7 @@ public final class g extends BaseFunc
             }
         }catch (Exception e)
         {
-            Log.v("web.sxd.c.g",e.getLocalizedMessage(),e);
+            Log.v("web.sxd.c.Notify",e.getLocalizedMessage(),e);
         }
     }
 

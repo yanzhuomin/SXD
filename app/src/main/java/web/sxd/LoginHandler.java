@@ -12,7 +12,7 @@ import web.sxd.b.BaseHandler;
 //import web.sxd.d.y;
 
 // Referenced classes of package web.sxd:
-//            LoginAct, b
+//            LoginAct, Fate
 
 //LoginAct 的Handler 用来接收其他线程的数据更新UI
 final class LoginHandler extends BaseHandler

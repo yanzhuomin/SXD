@@ -6,18 +6,17 @@ package web.sxd.d;
 
 import android.util.Log;
 
-import java.io.IOException;
-
 //import web.sxd.a.ae;
 //import web.sxd.a.ah;
 import web.sxd.b.MainThread;
 import web.sxd.b.BaseFunc;
 import web.sxd.b.TempDataInputStream;
-//import web.sxd.c.a;
-//import web.sxd.c.b;
+import web.sxd.c.Chat;
+//import web.sxd.c.Fate;
 //import web.sxd.c.f;
-import web.sxd.c.g;
-import web.sxd.c.i;
+import web.sxd.c.Fate;
+import web.sxd.c.Notify;
+import web.sxd.c.Town;
 
 // Referenced classes of package web.sxd.d:
 //            n, l, x, ad, 
@@ -32,10 +31,10 @@ public final class m extends BaseFunc
         super(mainThread, 0);
         e = true;
         f = 0;
-        new g(mainThread);
+        new Notify(mainThread);
         c = new n(mainThread);
-//        new i(c1);
-//        new a(c1);
+        new Town(mainThread);
+        new Chat(mainThread);
         mainThread.start();
         d = false;
     }
@@ -210,14 +209,14 @@ public final class m extends BaseFunc
                     d = flag1;
                     if (d) {
                         web.sxd.b.MainThread.sendLog("[BOSS]%s, %s", new Object[]{
-                                i.e(j3), i.e(i1)
+                                Town.e(j3), Town.e(i1)
                         });
-                        //new ad(C); //TODO 暂时注释
+                        new ad(C); //TODO 暂时注释
                         c();
                         C.j(j3);
                     } else {
                         web.sxd.b.MainThread.sendLog("进入城镇: %s", new Object[]{
-                                i.e(i1)
+                                Town.e(i1)
                         });
                         C.m();
                     }
@@ -275,7 +274,7 @@ public final class m extends BaseFunc
                                     Log.i(b(), C.toString());
                                     web.sxd.b.MainThread.sendLog((new StringBuilder("[流量]")).append(C).toString());
                                     //TODO 暂时删除
-//                                    web.sxd.d.s.a(C);
+                                    web.sxd.d.s.a(C);
 //                                    MainThread c3 = C;
 //                                    t.e();
 
@@ -379,13 +378,13 @@ public final class m extends BaseFunc
                                     c();
                                     if(d)
                                     {
-                                        //web.sxd.d.ad.a(C);//TODO 暂时注释
+                                        web.sxd.d.ad.a(C);
                                     } else
                                     {
                                         web.sxd.b.MainThread.sendLog(5, null);//恢复阵型
                                         c();
-                                        //new ad(C);//TODO 暂时注释
-                                        //web.sxd.d.ad.a(C, 0L);//TODO 暂时注释
+                                        new ad(C);
+                                        web.sxd.d.ad.a(C, 0L);
                                     }
                                     c();
                                     break;
@@ -436,7 +435,7 @@ public final class m extends BaseFunc
                                     //new f(C);//TODO 暂时注释
                                     sleep(3);
                                     //web.sxd.c.f.a(C);//TODO 暂时注释
-                                    //new b(C);//TODO 暂时注释
+                                    new Fate(C);//TODO 暂时注释
                                     break;
                             }
                         }
@@ -462,7 +461,7 @@ public final class m extends BaseFunc
                                 break;
                             case 3:break;//_64
                             case 32:web.sxd.b.MainThread.sendLog(s4);break;//_65
-                            case 45:/*web.sxd.d.e.b(C);*/break;//_66//TODO 暂时注释
+                            case 45:/*web.sxd.d.e.Fate(C);*/break;//_66//TODO 暂时注释
                             case 47://_67
                                 web.sxd.b.MainThread.sendLog(s4.replace("[replace,7]", "周日 ")
                                         .replace("[replace,", "周")
@@ -546,7 +545,7 @@ public final class m extends BaseFunc
                     {
                         if(C.g() >= 40 && C.g() <= 80)
                         {
-                            //web.sxd.d.l.b(C);//TODO 暂时注释
+                            //web.sxd.d.l.Fate(C);//TODO 暂时注释
                             return;
                         }
                         if(C.g() > 80)

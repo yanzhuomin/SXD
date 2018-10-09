@@ -12,10 +12,10 @@ import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.*;
 
-// Referenced classes of package web.sxd.b:
+// Referenced classes of package web.sxd.Fate:
 //            SYSocket, l, QWSocket, XJSocket,
 //            XJOutputStream, runState, valueMap, e,
-//            b, namePrefixMap
+//            Fate, namePrefixMap
 
 public final class MainThread extends Thread {
 
@@ -28,8 +28,8 @@ public final class MainThread extends Thread {
     private static boolean iniReadFailed;  //ini配置文件读取失败标志  失败为true
     /**<value,j>*/
     private static HashMap valueMap = new HashMap();  //<value,j> 读取配置 获取j对象 放入
-    /**<namePrefix,i>*/
-    private static HashMap namePrefixMap = new HashMap();  //<namePrefix,i>读取配置生成i对象 放入 重复不放入
+    /**<namePrefix,Town>*/
+    private static HashMap namePrefixMap = new HashMap();  //<namePrefix,Town>读取配置生成i对象 放入 重复不放入
     private static boolean funcSelect[] = new boolean[320];//功能选择
     private String A;//角色名称
     private String B;
@@ -387,7 +387,7 @@ public final class MainThread extends Thread {
                 return;
             }
             Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
-            //Log.i("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
+            //Log.Town("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
             funcCode = j2.parent.getFuncCode(j2);
             try {
                 m1.send(funcCode, out, j1);//信息发送 init
@@ -397,10 +397,10 @@ public final class MainThread extends Thread {
             }
 
         }
-//        Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//        Log.Town("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
 //        Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
-//        Log.i("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
-//        Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//        Log.Town("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
+//        Log.Town("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
 
 
 //_L4:
@@ -433,7 +433,7 @@ public final class MainThread extends Thread {
 //          goto _L7
 //        obj = mainOutputStream;
 //          goto _L7
-//        Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//        Log.Town("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
 //          goto _L4
 //        obj = (j)e.get(Integer.valueOf(i1));
 //        if(obj == null)
@@ -459,9 +459,9 @@ public final class MainThread extends Thread {
 //          goto _L10
 //        obj = mainOutputStream;
 //          goto _L10
-//        Log.i("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).funcCode()).append(") unSent").toString());
+//        Log.Town("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).funcCode()).append(") unSent").toString());
 //          goto _L4
-//        Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
+//        Log.Town("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
 //          goto _L4
     }
 
@@ -503,7 +503,7 @@ public final class MainThread extends Thread {
                     {
                         j j1 = i2.addConfig(funcName[index], index - 1);
                         int value = i2.getFuncCode(j1);
-                        Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(valueH % 0x10000).append(")").toString());
+                        Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(value % 0x10000).append(")").toString());
                         valueMap.put(Integer.valueOf(value), j1);
                         i2.setChildValue(funcName[index], index - 1);
                     }

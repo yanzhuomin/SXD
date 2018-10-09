@@ -6,7 +6,7 @@ package web.sxd.b;
 
 import java.util.HashMap;
 
-// Referenced classes of package web.sxd.b:
+// Referenced classes of package web.sxd.Fate:
 //            j, BaseFunc
 
 public final class i

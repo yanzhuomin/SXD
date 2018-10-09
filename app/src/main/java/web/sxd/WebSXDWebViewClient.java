@@ -77,7 +77,7 @@ final class WebSXDWebViewClient extends WebViewClient
                 if(i > 0)
                 {
                     s = WebSXDact.getLRU(a).substring(0, i);
-                    if(s.endsWith(".baidu.sxd.xd.com") || s.endsWith("g.iqiyi.com/shenxiandao") || s.endsWith(".sxd.wan.sogou.com"))
+                    if(s.endsWith(".baidu.sxd.xd.com") || s.endsWith("Notify.iqiyi.com/shenxiandao") || s.endsWith(".sxd.wan.sogou.com"))
                     {
                         WebSXDact.setLRU(a, s);
                         webview.loadUrl(s);

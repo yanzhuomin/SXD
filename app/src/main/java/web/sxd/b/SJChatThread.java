@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-// Referenced classes of package web.sxd.b:
-//            l, c, b, g
+// Referenced classes of package web.sxd.Fate:
+//            l, c, Fate, Notify
 
 /**
  * 仙界信息读取

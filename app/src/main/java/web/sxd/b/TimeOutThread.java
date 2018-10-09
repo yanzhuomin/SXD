@@ -5,7 +5,7 @@
 package web.sxd.b;
 
 
-// Referenced classes of package web.sxd.b:
+// Referenced classes of package web.sxd.Fate:
 //            c
 /*
 *  3分钟超时退出 监测线程

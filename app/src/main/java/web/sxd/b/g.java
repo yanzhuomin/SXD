@@ -7,7 +7,7 @@ package web.sxd.b;
 import android.util.Log;
 import java.io.IOException;
 
-// Referenced classes of package web.sxd.b:
+// Referenced classes of package web.sxd.Fate:
 //            l, c
 
 //处理返回内容线程

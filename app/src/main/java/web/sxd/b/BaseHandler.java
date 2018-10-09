@@ -9,8 +9,8 @@ import android.os.Handler;
 import android.os.Message;
 import java.util.Date;
 
-// Referenced classes of package web.sxd.b:
-//            b, c
+// Referenced classes of package web.sxd.Fate:
+//            Fate, c
 
 public abstract class BaseHandler extends Handler
 {

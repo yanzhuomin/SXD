@@ -7,7 +7,7 @@ package web.sxd.b;
 import android.util.Log;
 
 // Referenced classes of package web.sxd.nameLast:
-//            i, BaseFunc, l
+//            Town, BaseFunc, l
 
 final class j
 {

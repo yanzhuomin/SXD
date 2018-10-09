@@ -11,7 +11,7 @@ import android.util.Log;
 import web.sxd.b.*;
 
 // Referenced classes of package web.sxd.c:
-//            b
+//            Fate
 
 public final class e extends BaseFunc
 {
@@ -121,7 +121,7 @@ public final class e extends BaseFunc
                 return "灵石";
             case 7: // '\007'
                 return "境界点";
-            case 8: // '\b'
+            case 8: // '\Fate'
                 return "仙令";
             case 9: // '\t'
                 return "坐骑";
@@ -307,7 +307,7 @@ public final class e extends BaseFunc
                         if (i3 == 2475) {
                             ;//TODO 暂时注释ag.a(C, l2);
                         }else if (i3 == 2476) {
-                            ;//TODO 暂时注释ag.b(C, l2);
+                            ;//TODO 暂时注释ag.Fate(C, l2);
                         } else {
                             if (i3 != 2477)
                                 continue; /* Loop/switch isn't completed */
@@ -333,7 +333,7 @@ public final class e extends BaseFunc
                         return;
                     }
                     if (j1 == h) {
-                        web.sxd.c.b.b(C);
+                        Fate.b(C);
                         (new TempDataOutputStream(0x20029)).sendMain(C);
                         return;
                     }

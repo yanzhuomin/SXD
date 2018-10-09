@@ -7,7 +7,7 @@ package web.sxd.b;
 import android.util.Log;
 import java.util.Random;
 
-// Referenced classes of package web.sxd.b:
+// Referenced classes of package web.sxd.Fate:
 //            c, l
 
 public abstract class BaseFunc

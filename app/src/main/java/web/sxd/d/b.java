@@ -75,7 +75,7 @@ public final class b extends BaseFunc
             }
         }catch (Exception e)
         {
-            Log.v("web.sxd.d.b",e.getLocalizedMessage(),e);
+            Log.v("web.sxd.d.Fate",e.getLocalizedMessage(),e);
         }
     }
 

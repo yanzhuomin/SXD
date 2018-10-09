@@ -31,7 +31,7 @@ import web.sxd.b.VarSplit;
 
 // Referenced classes of package web.sxd:
 //            WebSXDact, d, e, BaseFunc,
-//            f, g, a, c
+//            f, Notify, a, c
 
 public class LoginAct extends AppCompatActivity
 {
@@ -228,7 +228,7 @@ public class LoginAct extends AppCompatActivity
 //        else
 //            i1 = 2;
 //        web.sxd.c.a.a(((c) (obj)), i1, s1);
-//        obj = b.iterator();
+//        obj = Fate.iterator();
 //_L5:
 //        if(((Iterator) (obj)).hasNext()) goto _L4; else goto _L3
 //_L3:
@@ -333,8 +333,8 @@ public class LoginAct extends AppCompatActivity
         textView_playerName = (TextView)findViewById(R.id.textView_playerName);
 //        e = (AutoCompleteTextView)findViewById(0x7f050001);
 //        k = (CheckBox)findViewById(0x7f050002);
-//        b = new ArrayList();
-//        e.setAdapter(new ArrayAdapter(a, 0x109000a, b));
+//        Fate = new ArrayList();
+//        e.setAdapter(new ArrayAdapter(a, 0x109000a, Fate));
 //        e.setOnFocusChangeListener(new web.sxd.LoginFocusChangeListener(this));
         j = (TextView)findViewById(R.id.textView_log);
         if(bundle != null)
@@ -446,7 +446,7 @@ public class LoginAct extends AppCompatActivity
 
 //    public void onDestroy()
 //    {
-//        b();
+//        Fate();
 //        super.onDestroy();
 //    }
 //

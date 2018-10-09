@@ -8,7 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-// Referenced classes of package web.sxd.b:
+// Referenced classes of package web.sxd.Fate:
 //            parent, c
 
 public final class TempDataOutputStream extends DataOutputStream

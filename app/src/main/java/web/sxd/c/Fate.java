@@ -8,10 +8,13 @@ import android.util.Log;
 import java.util.*;
 import web.sxd.b.*;
 
-public final class b extends BaseFunc
+/**
+ * 猎命
+ * */
+public final class Fate extends BaseFunc
 {
 
-    public b(MainThread c1)
+    public Fate(MainThread c1)
     {
         super(c1, 0x160000);
     }
@@ -277,7 +280,7 @@ public final class b extends BaseFunc
             }
         }catch (Exception e)
         {
-            Log.v("web.sxd.c.b",e.getLocalizedMessage(),e);
+            Log.v("web.sxd.c.Fate",e.getLocalizedMessage(),e);
         }
 
 

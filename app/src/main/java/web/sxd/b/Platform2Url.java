@@ -20,7 +20,7 @@ public final class Platform2Url
                 {
                     s1 = s1.toLowerCase();
                     if (s1.equals("iqiyi") || s1.equals("pps"))
-                        return "http://g.iqiyi.com/shenxiandao";
+                        return "http://Notify.iqiyi.com/shenxiandao";
                 } else {
                     s1 = s;
                     if (!s.startsWith("http://"))
@@ -31,8 +31,8 @@ public final class Platform2Url
                 s1 = s.substring(s.lastIndexOf('.') + 1);
 //                int j;
 //                do {
-//                    j = i + 1;
-//                    i = j;
+//                    j = Town + 1;
+//                    Town = j;
 //                } while (s.charAt(j) == '.');
 //                s1 = s.substring(j);
             }
