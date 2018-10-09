@@ -10,10 +10,10 @@
 //// Referenced classes of package web.sxd.d:
 ////            g
 //
-//final class h
+//final class SendFlower
 //{
 //
-//    h(g g1, int i, TempDataInputStream l1)
+//    SendFlower(g g1, int i, TempDataInputStream l1)
 //    {
 //        super();
 //        e = g1;

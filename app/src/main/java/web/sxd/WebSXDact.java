@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -56,15 +57,22 @@ public class WebSXDact extends AppCompatActivity {
         textView.setOnFocusChangeListener(new WebSXDFocusChangeListener(this));
         webView = (WebView)findViewById(R.id.webView);
         //webView.getSettings().setPluginsEnabled(false);
+        //支持javascript
         webView.getSettings().setJavaScriptEnabled(true);
+        // 设置可以支持缩放
+        webView.getSettings().setSupportZoom(true);
         webView.getSettings().setDomStorageEnabled(true);
+        //自适应屏幕
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
         webView.addJavascriptInterface(new JSInterface(), "asxd");
         webView.setWebChromeClient(new WebSXDWebChromeClient(this));
         webView.setWebViewClient(new WebSXDWebViewClient(this));
         sharedpreferences = activity.getPreferences(0);
         String url =sharedpreferences.getString("web.sxd.URL", "http://baidu.com");
         //textView.setText(url);
-        webView.loadUrl(url);
+        //webView.loadUrl(url);
+        webView.loadUrl("http://sxd.xd.com");
         webView.requestFocusFromTouch();
 //        arraylist = new ArrayList();
 //        textView.setAdapter(new ArrayAdapter(a,"",arraylist));

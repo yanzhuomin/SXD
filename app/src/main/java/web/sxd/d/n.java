@@ -7,11 +7,11 @@ package web.sxd.d;
 import android.util.Log;
 //import web.sxd.a.ab;
 //import web.sxd.a.ak;
-//import web.sxd.a.at;
+import web.sxd.a.at;
 //import web.sxd.a.au;
 //import web.sxd.a.av;
 //import web.sxd.a.aw;
-//import web.sxd.a.ay;
+import web.sxd.a.ay;
 //import web.sxd.a.b;
 //import web.sxd.a.d;
 //import web.sxd.a.g;
@@ -29,7 +29,7 @@ import web.sxd.b.MainThread;
 import web.sxd.b.TempDataInputStream;
 import web.sxd.b.TempDataOutputStream;
 //import web.sxd.b.c;
-//import web.sxd.b.h;
+//import web.sxd.b.SendFlower;
 //import web.sxd.b.l;
 //import web.sxd.b.m;
 
@@ -124,7 +124,7 @@ public final class n extends BaseFunc
 
         case 5: // '\005'
         case 100: // 'd'
-        case 104: // 'h'
+        case 104: // 'SendFlower'
             return "男弓";
 
         case 6: // '\006'
@@ -149,37 +149,38 @@ public final class n extends BaseFunc
             s = b();
             i1 = l1.getFuncCodeH();
             k1 = l1.getFuncCodeL();
+            String str = "";
             switch (i1) {
                 case 5: //_L4
-                    printFuncName(k1, a);
+                    str = printFuncName(k1, a);
                     break;
                 case 8://_L5
-                    printFuncName(k1, h);
+                    str = printFuncName(k1, h);
                     break;
                 case 9:
-                    printFuncName(k1, b);
+                    str = printFuncName(k1, b);
                     break;
                 case 34:
-                    printFuncName(k1, f);
+                    str = printFuncName(k1, f);
                     break;
                 case 41:
-                    printFuncName(k1, e);
+                    str = printFuncName(k1, e);
                     break;
                 case 48:
-                    printFuncName(k1, g);
+                    str = printFuncName(k1, g);
                     break;
                 case 86:
-                    printFuncName(k1, d);
+                    str = printFuncName(k1, d);
                     break;
                 case 104:
-                    printFuncName(k1, c);
+                    str = printFuncName(k1, c);
                     break;
 
                 default:
-                    String str = (new StringBuilder(String.valueOf(i1))).append("_").append(k1).toString();
-                    Log.d(s, str);
+                    str = (new StringBuilder(String.valueOf(i1))).append("_").append(k1).toString();
+                    break;
             }
-
+            Log.d(s, str);
             switch (funcCode) {
                 default:
                     return;
@@ -307,6 +308,7 @@ public final class n extends BaseFunc
                         (new TempDataOutputStream(0x680001, 0L)).sendMain(C);
                         return;
                     }
+                    return;
                 case 0x680001:
                     i1 = l1.read();
                     if (i1 == 0) {
@@ -353,7 +355,7 @@ public final class n extends BaseFunc
                     if (i1 != 5)
                         sb.append("打开宝箱失败: ");
                     switch (i1) {
-                        default:
+                        default:sb.append("未知："+i1);
                             break;
                         case 5:
                             sb.append("成功");
@@ -381,8 +383,43 @@ public final class n extends BaseFunc
 //                return;
 //        }
 
-//            int k1 = l1.readUnsignedShort();
-//            int i1 = 0;
+            //猎妖奖励
+            k1 = l1.readUnsignedShort();
+            i1 = 0;
+            StringBuilder obj = new StringBuilder();
+            while(i1<k1)
+            {
+                int l2 = l1.read();
+                int i3 = l1.readInt();
+                if(l2 >= 0 && l2 < l.length)
+                    obj.append(l[l2]);
+                else
+                    obj.append(l[l.length - 1]);
+                switch (i3)
+                {
+                    default :
+                        obj.append(i3);break;
+                    case 347: break;
+                    case 1411: obj.append("女娲石");break;
+                    case 1444: obj.append("粽子");break;
+                    case 1487: obj.append("包子");break;
+                    case 1740: obj.append("境界点");break;
+                    case 1741: obj.append("灵石");break;
+                    case 1742: obj.append("命格碎片");break;
+                    case 1743: obj.append("仙令");break;
+                }
+                ((StringBuilder) (obj)).append("x");
+                ((StringBuilder) (obj)).append(l1.readInt());
+                i1++;
+            }
+            if(l1.read() == 1)
+                ((StringBuilder) (obj)).append(" !!");
+            web.sxd.b.MainThread.sendLog(obj.toString());
+            if(!web.sxd.b.MainThread.isFuncSelect(81) || k1 <= 0)
+                return;
+            else
+                (new TempDataOutputStream(0x690002, (byte)1, (byte)0)).sendMain(C);
+            return;
             //TODO 没完
 
         }catch (Exception e)
@@ -407,11 +444,11 @@ public final class n extends BaseFunc
             if(!C.b(k1))
             {}else
             {
-//                switch (k1)
-//                {
+                switch (k1)
+                {
 //                    default : break;
 //                        case 2:
-//                            C.addFunc(8, h, this);
+//                            C.addFunc(8, SendFlower, this);
 //                            new web.sxd.d.ab(C);
 //                            if(C.b() <= 0)
 //                            {
@@ -448,14 +485,14 @@ public final class n extends BaseFunc
 //                        case 117: new q(C);break;
 //                        case 123: new ak(C);break;
 //                        case 126: new b(C);break;
-//                        case 127: new web.sxd.d.j(C);
-//                            new at(C);
-//                            new ay(C);
-//                            break;
+                        case 127: new j(C);
+                            new at(C);
+                            new ay(C);
+                            break;
 //                        case 129: new t(C);break;
 //                        case 133: new g(C);break;
 //                        case 134: new web.sxd.a.n(C);break;
-//                        case 135: new j(C);break;
+//                        case 135: new web.sxd.a.j(C);break;
 //                        case 140: new r(C);break;
 //                        case 142: new aw(C);break;
 //                        case 143: new y(C);break;
@@ -471,7 +508,7 @@ public final class n extends BaseFunc
 //                            break;
 //                        case 172: new d(C);break;
 //                        case 173: new ab(C);break;
-//                }
+                }
             }
             i1++;
         }
@@ -481,7 +518,7 @@ public final class n extends BaseFunc
         if(C.b(85))
             C.addFunc(104, c, this);
         if(C.b(55))
-            C.addFunc(41, e, this);
+            C.addFunc(0x29, e, this);
         if(C.b(48))
             C.addFunc(34, f, this);
         if(C.b(86))
@@ -493,6 +530,7 @@ public final class n extends BaseFunc
         return;
     }
 
+    @Override
     protected final String[] a()
     {
         return a;
@@ -703,7 +741,7 @@ public final class n extends BaseFunc
     private static final String d[] = {
         "HuntDemon_", "", "open_hunt_demon", "hunt_demon"
     };
-    private static final String e[] = {
+    private static final String e[] = {//关公
         "WorshipMars_", "mars_info", "incense", "get_blessing_times_and_exp_add", "blessing_times_and_exp_add_notify", "get_remain_incense_times"
     };
     private static final String f[] = {

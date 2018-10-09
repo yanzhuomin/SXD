@@ -5,7 +5,6 @@
 package web.sxd.b;
 
 import java.io.DataOutputStream;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -22,13 +21,13 @@ public final class TempDataOutputStream extends DataOutputStream
         writeShort(word0);
     }
 
-    public TempDataOutputStream(int i) throws IOException
+    public TempDataOutputStream(int funcCode) throws IOException
     {
         super(new BaseByteArrayOutputStream());
         b = null;
         writeInt(4);
-        a = i;
-        writeInt(i);
+        this.funcCode = funcCode;
+        writeInt(funcCode);
     }
 
     public TempDataOutputStream(int i, byte byte0) throws IOException
@@ -161,26 +160,26 @@ public final class TempDataOutputStream extends DataOutputStream
     //给主界面发送数据
     public final void sendMain(MainThread c1)
     {
-        c1.send(a, this, 0);
+        c1.send(funcCode, this, 0);
     }
     //给仙界发送数据
     public final void sendXJ(MainThread c1)
     {
-        c1.send(a, this, 1);
+        c1.send(funcCode, this, 1);
     }
     //给圣域发送数据
     public final void sendSY(MainThread c1)
     {
-        c1.send(a, this, 2);
+        c1.send(funcCode, this, 2);
     }
     //给全网发送数据
     public final void sendQW(MainThread c1)
     {
-        c1.send(a, this, 3);
+        c1.send(funcCode, this, 3);
     }
 
     private static int c[] = new int[4];
-    int a;
+    int funcCode;
     private BaseByteArrayOutputStream b;
 
 }

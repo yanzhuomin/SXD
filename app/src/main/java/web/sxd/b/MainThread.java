@@ -420,7 +420,7 @@ public final class MainThread extends Thread {
 //_L5:
 //        Object obj = QWOutputStream;
 //_L7:
-//        m1.a(i1, ((OutputStream) (obj)), j1);
+//        m1.funcCode(i1, ((OutputStream) (obj)), j1);
 //          goto _L4
 //_L6:
 //        if(j1 != 2)
@@ -440,13 +440,13 @@ public final class MainThread extends Thread {
 //            break MISSING_BLOCK_LABEL_388;
 //        if(!runState)
 //            break MISSING_BLOCK_LABEL_343;
-//        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(")").toString());
-//        i1 = ((j) (obj)).parent.a(((j) (obj)));
+//        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).funcCode()).append(")").toString());
+//        i1 = ((j) (obj)).parent.funcCode(((j) (obj)));
 //        if(j1 != 3) goto _L9; else goto _L8
 //_L8:
 //        obj = QWOutputStream;
 //_L10:
-//        m1.a(i1, ((OutputStream) (obj)), j1);
+//        m1.funcCode(i1, ((OutputStream) (obj)), j1);
 //          goto _L4
 //_L9:
 //        if(j1 != 2)
@@ -459,7 +459,7 @@ public final class MainThread extends Thread {
 //          goto _L10
 //        obj = mainOutputStream;
 //          goto _L10
-//        Log.i("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).a()).append(") unSent").toString());
+//        Log.i("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).funcCode()).append(") unSent").toString());
 //          goto _L4
 //        Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
 //          goto _L4

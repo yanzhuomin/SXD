@@ -95,6 +95,7 @@
         android:id="@+id/textView_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/button_login"
         android:text="TextView" />
 
