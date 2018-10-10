@@ -454,7 +454,7 @@ public final class n extends BaseFunc
 //                            (new o(this)).start();
 //                            break;
 //                        case 8: break;
-//                        case 13: new e(C);break;
+                        case 13: new e(C);break;
 //                        case 15:
 //                            C.a(new web.sxd.d.Notify(C));
 //                            web.sxd.d.Notify.a(C);
@@ -473,7 +473,7 @@ public final class n extends BaseFunc
 //                        case 54: new p(C);break;
                         case 56: new k(C);break;//摘仙桃
 //                        case 59: new web.sxd.a.l(C);break;
-                        case 64: new a(C);break;
+                        case 64: new Assistant(C);break;
 //                        case 68: new web.sxd.d.Fate(C);break;
 //                        case 70: new web.sxd.d.d(C);break;
 //                        case 90: new u(C);break;
@@ -553,10 +553,10 @@ public final class n extends BaseFunc
                 {
                     default : break;
 //                        case 8: c();break;
-//                        case 13:
-//                            web.sxd.d.e.a(C);
-//                            c();
-//                            break;
+                        case 13:
+                            web.sxd.d.e.a(C);
+                            c();
+                            break;
 //                        case 18:
 //                            v.a(C);
 //                            c();
@@ -586,7 +586,7 @@ public final class n extends BaseFunc
 //                            c();
 //                            break;
                         case 64:
-                            web.sxd.d.a.a(C);
+                            web.sxd.d.Assistant.a(C);
                             c();
                             break;
 //                        case 68:

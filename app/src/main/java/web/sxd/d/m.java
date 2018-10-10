@@ -13,7 +13,7 @@ import web.sxd.b.BaseFunc;
 import web.sxd.b.TempDataInputStream;
 import web.sxd.c.Chat;
 //import web.sxd.c.Fate;
-//import web.sxd.c.f;
+import web.sxd.c.f;
 import web.sxd.c.Fate;
 import web.sxd.c.Notify;
 import web.sxd.c.Town;
@@ -211,7 +211,7 @@ public final class m extends BaseFunc
                         web.sxd.b.MainThread.sendLog("[BOSS]%s, %s", new Object[]{
                                 Town.e(j3), Town.e(i1)
                         });
-                        new ad(C);
+                        new WorldBoss(C);
                         c();
                         C.j(j3);
                     } else {
@@ -251,6 +251,10 @@ public final class m extends BaseFunc
                         //continue; /* Loop/switch isn't completed */
                     while(i1<l3) {
                         j3 = l1.read();
+                        if(l1.available()<8){
+                            Log.v("web.sxd.d.m",l1.toString());
+                            return;
+                        }
                         l5 = l1.readLong();
                         if (l5 < 0x7fffffffL)
                             j2 = (int) l5;
@@ -333,7 +337,7 @@ public final class m extends BaseFunc
                                     break;
 
                                 }
-                            case 67:
+                            case 67: //TODO 不知道对不对
                                 if(j2 > 0)
                                 {
                                     C.g(-j2);
@@ -377,13 +381,13 @@ public final class m extends BaseFunc
                                     c();
                                     if(d)
                                     {
-                                        web.sxd.d.ad.a(C);
+                                        web.sxd.d.WorldBoss.a(C);
                                     } else
                                     {
                                         web.sxd.b.MainThread.sendLog(5, null);//恢复阵型
                                         c();
-                                        new ad(C);
-                                        web.sxd.d.ad.a(C, 0L);
+                                        new WorldBoss(C);
+                                        web.sxd.d.WorldBoss.a(C, 0L);
                                     }
                                     c();
                                     break;
@@ -431,9 +435,9 @@ public final class m extends BaseFunc
                                 default:break;
                                 case 24:break;
                                 case 38:
-                                    //new f(C);//TODO 暂时注释
+                                    new f(C);//TODO 暂时注释
                                     sleep(3);
-                                    //web.sxd.c.f.a(C);//TODO 暂时注释
+                                    web.sxd.c.f.a(C);//TODO 暂时注释
                                     new Fate(C);//TODO 暂时注释
                                     break;
                             }
@@ -468,7 +472,7 @@ public final class m extends BaseFunc
                                 if(C.b(39))
                                 {
                                     c();
-                                    web.sxd.d.ad.a(C, 1L);//TODO 暂时注释
+                                    web.sxd.d.WorldBoss.a(C, 1L);
                                 }
                                 break;
                             case 49:web.sxd.b.MainThread.sendLog(s4);break;//_65
@@ -480,6 +484,11 @@ public final class m extends BaseFunc
                                 break;
                         }
                         i1++;
+                    }
+                    if(C.b(38))
+                    {
+                        c();
+                        web.sxd.c.f.a(C);
                     }
                     return;
                 case 20://_L7

@@ -7,10 +7,11 @@ package web.sxd.d;
 import android.util.Log;
 import web.sxd.b.*;
 
-public final class a extends BaseFunc
+//小助手领取奖励
+public final class Assistant extends BaseFunc
 {
 
-    public a(MainThread c1)
+    public Assistant(MainThread c1)
     {
         super(c1, 0x340000);
     }
@@ -47,7 +48,7 @@ public final class a extends BaseFunc
                                 (new TempDataOutputStream(0x340001, i)).sendMain(C);
                                 return;
                             }
-                            continue; /* Loop/switch isn't completed */
+                            break; /* Loop/switch isn't completed */
                         }
                         if (i % 3 == 0)
                             stringbuilder.append(',');

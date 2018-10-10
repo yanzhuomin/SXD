@@ -14,10 +14,11 @@ import web.sxd.b.TempDataOutputStream;
 // Referenced classes of package web.sxd.d:
 //            c, y, x
 
-public final class ad extends BaseFunc
+//Boss
+public final class WorldBoss extends BaseFunc
 {
 
-    ad(MainThread c1)
+    WorldBoss(MainThread c1)
     {
         super(c1, 0x180000);
         c = new web.sxd.d.c[12];
