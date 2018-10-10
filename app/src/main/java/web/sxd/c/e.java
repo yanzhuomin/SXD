@@ -207,7 +207,7 @@ public final class e extends BaseFunc
             switch (l1.getFuncCode()) {
                 default:
                     return;
-                case 131078:
+                case 131078://0x20006
                     m = l1.readUnsignedShort();
                     if (m <= 0) break;
                     //continue; /* Loop/switch isn't completed */
@@ -217,7 +217,8 @@ public final class e extends BaseFunc
                         String s = l1.readUTF();
                         l1.readUTF();
                         l1.skipBytes(l1.readUnsignedShort() * 9);
-                        if (j2 == 4 || j2 == 10 || j2 == 14 || j2 == 16 || j2 == 19 || j2 == 27 || j2 == 40 || j2 == 90) {
+                        if (j2 == 4 || j2 == 10 || j2 == 14 || j2 == 16 || j2 == 19 ||
+                                j2 == 27 || j2 == 40 || j2 == 90 || j2 == 149 || j2 == 145) {
                             a(5);
                             (new TempDataOutputStream(0x2001d, k1)).sendMain(C);
                             web.sxd.b.MainThread.sendLog((new StringBuilder("[礼包]")).append(s).toString());
@@ -231,8 +232,8 @@ public final class e extends BaseFunc
                             web.sxd.b.MainThread.sendLog((new StringBuilder("[礼包]")).append(s).toString());
                             if (C.b(32))
                                 (new TempDataOutputStream(0x20029)).sendMain(C);
-                        } else {
-                            web.sxd.b.MainThread.sendLog((new StringBuilder("[不领礼包]")).append(s).toString());
+                        } else{
+                            web.sxd.b.MainThread.sendLog((new StringBuilder("[不领礼包]")).append(j2).append(s).toString());
                         }
                         i1++;
                     }
@@ -241,7 +242,7 @@ public final class e extends BaseFunc
                         (new TempDataOutputStream(0x20029)).sendMain(C);
                         return;
                     }
-                case 131101:
+                case 131101://0x2001D
                     switch (l1.read()) {
                         default:
                             return;
@@ -255,7 +256,7 @@ public final class e extends BaseFunc
                         return;
                     }
                     break;
-                case 131113:
+                case 131113://0x20029
                     int k2;
                     l1.readUnsignedShort();
                     l1.readInt();
@@ -324,7 +325,7 @@ public final class e extends BaseFunc
                     }
                     break;
 
-                case 131125:
+                case 131125://0x20035
                     int j1 = l1.read();
                     if (j1 == a) {
                         web.sxd.b.MainThread.sendLog("[礼包]%s 成功打开 ", new Object[]{
@@ -338,7 +339,7 @@ public final class e extends BaseFunc
                         return;
                     }
                     break;
-                case 131202:
+                case 131202://0x20082
                     if (l1.read() == a) {
                         web.sxd.b.MainThread.sendLog("[礼包]%s 批量打开成功 ", new Object[]{
                                 d(j)

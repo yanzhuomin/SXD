@@ -9,10 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import web.sxd.b.*;
 
-public final class r extends BaseFunc
+/**
+ * 签到
+ * */
+public final class SignIn extends BaseFunc
 {
 
-    public r(MainThread c1)
+    public SignIn(MainThread c1)
     {
         super(c1, 0x970000);
     }
@@ -145,7 +148,7 @@ public final class r extends BaseFunc
             }
         }catch (Exception e)
         {
-            Log.v("web.sxd.d.r",e.getLocalizedMessage(),e);
+            Log.v("web.sxd.d.SignIn",e.getLocalizedMessage(),e);
         }
     }
 

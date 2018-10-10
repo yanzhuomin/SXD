@@ -20,7 +20,7 @@ import web.sxd.c.Town;
 
 // Referenced classes of package web.sxd.d:
 //            n, l, x, ad, 
-//            r, j, s, t, 
+//            r, j, s, t,
 //            k, u, quit, e
 
 public final class m extends BaseFunc
@@ -211,7 +211,7 @@ public final class m extends BaseFunc
                         web.sxd.b.MainThread.sendLog("[BOSS]%s, %s", new Object[]{
                                 Town.e(j3), Town.e(i1)
                         });
-                        new ad(C); //TODO 暂时注释
+                        new ad(C);
                         c();
                         C.j(j3);
                     } else {
@@ -221,9 +221,9 @@ public final class m extends BaseFunc
                         C.m();
                     }
                     if (j2 >= 60) {
-                        new r(C);
+                        new SignIn(C); //签到
                         c();
-                        web.sxd.d.r.a(C);
+                        SignIn.a(C);
                         web.sxd.b.MainThread.sendLog("达到60级");
                     } else {
                         web.sxd.b.MainThread.sendLog("未开启签到功能(60级)！");
@@ -275,8 +275,7 @@ public final class m extends BaseFunc
                                     web.sxd.b.MainThread.sendLog((new StringBuilder("[流量]")).append(C).toString());
                                     //TODO 暂时删除
                                     web.sxd.d.s.a(C);
-//                                    MainThread c3 = C;
-//                                    t.e();
+                                    t.e();
 
                                 }
                                 String s3;
@@ -326,7 +325,7 @@ public final class m extends BaseFunc
                                     if(C.b(38))
                                     {
                                         c();
-                                        //web.sxd.c.f.a(C); //TODO 暂时注释
+                                        web.sxd.c.f.a(C);
                                     } else
                                     {
                                         e = false;
@@ -389,15 +388,15 @@ public final class m extends BaseFunc
                                     c();
                                     break;
                                 case 91:
-                                    //new x(C);//TODO 暂时注释
+                                    new x(C);//仙界
                                     if(!d || !C.b(39))
                                     {
                                         c();
-                                        //web.sxd.d.x.a(C);//TODO 暂时注释
+                                        web.sxd.d.x.a(C);
                                     }
                                     break;
                                 case 165:
-                                    //new ae(C);//TODO 暂时注释
+                                    //new ae(C);//TODO 暂时注释  圣域
                                     if(!d || !C.b(39))
                                     {
                                         c();
@@ -469,7 +468,7 @@ public final class m extends BaseFunc
                                 if(C.b(39))
                                 {
                                     c();
-                                    //web.sxd.d.ad.a(C, 1L);//TODO 暂时注释
+                                    web.sxd.d.ad.a(C, 1L);//TODO 暂时注释
                                 }
                                 break;
                             case 49:web.sxd.b.MainThread.sendLog(s4);break;//_65

@@ -38,7 +38,7 @@ public final class MainThread extends Thread {
     private int E;//元宝个数
     private int F;//铜钱(w)
     private int G;
-    private int H;
+    private int H;//战力
     private int I;//体力
     private int J;
     private int K;

@@ -84,8 +84,8 @@ public final class ad extends BaseFunc
             h = true;
             web.sxd.b.MainThread.sendLog(5, null);
             //TODO 暂时注释
-//            if(!x.a(C) && !web.sxd.a.ad.a(C))
-//                C.m();
+            if(!x.a(C) && !web.sxd.a.ad.a(C))
+                C.m();
         }
     }
 

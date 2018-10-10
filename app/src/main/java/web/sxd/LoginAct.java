@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -337,6 +339,8 @@ public class LoginAct extends AppCompatActivity
 //        e.setAdapter(new ArrayAdapter(a, 0x109000a, Fate));
 //        e.setOnFocusChangeListener(new web.sxd.LoginFocusChangeListener(this));
         j = (TextView)findViewById(R.id.textView_log);
+        j.setGravity(Gravity.BOTTOM);
+        j.setMovementMethod(ScrollingMovementMethod.getInstance());
         if(bundle != null)
         {
             swf = bundle.getString("web.sxd.SWF");

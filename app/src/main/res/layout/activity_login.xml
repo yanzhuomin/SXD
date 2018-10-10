@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="web.sxd.LoginAct"
+    android:layout_marginBottom="8px"
     android:id="@+id/login_parent">
 
 
@@ -90,13 +92,14 @@
             android:text="退出" />
 
 
-
-    <TextView
-        android:id="@+id/textView_log"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/button_login"
-        android:text="TextView" />
+        <TextView
+            android:id="@+id/textView_log"
+            android:layout_width="match_parent"
+            android:layout_height="520dp"
+            android:fadeScrollbars="true"
+            android:scrollbars="vertical"
+            android:text="TextView"
+            app:layout_constraintTop_toBottomOf="@id/button_exit"
+            app:layout_constraintBottom_toBottomOf="@id/login_parent" />
 
 </android.support.constraint.ConstraintLayout>

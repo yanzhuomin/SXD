@@ -5,19 +5,19 @@
 //package web.sxd.d;
 //
 //import android.util.Log;
-//import web.sxd.Fate.TempDataInputStream;
+//import web.sxd.b.TempDataInputStream;
 //
 //// Referenced classes of package web.sxd.d:
-////            Notify
+////            g
 //
-//final class SendFlower
+//final class h
 //{
 //
-//    SendFlower(Notify g1, int Town, TempDataInputStream l1)
+//    h(g g1, int i, TempDataInputStream l1)
 //    {
 //        super();
 //        e = g1;
-//        a = Town;
+//        a = i;
 //        a(l1);
 //    }
 //
@@ -26,7 +26,7 @@
 //        try {
 //
 //
-//            int Town = a;
+//            int i = a;
 //            int j = l1.readInt();
 //            String s = l1.readUTF();
 //            String s1 = l1.readUTF();
@@ -37,17 +37,17 @@
 //            int j1 = l1.readInt();
 //            c = j1;
 //            int k1 = l1.readInt();
-//            Fate = k1;
+//            b = k1;
 //            int i2 = l1.read();
 //            d = i2;
 //            String str = String.format("%4d:%d[%s]%s(Lv%d)%d/%d|%d,%ds(Lv.%d)%d|%d,%d", new Object[]{
-//                    Integer.valueOf(Town), Integer.valueOf(j), s, s1, Integer.valueOf(k), Long.valueOf(l2), Long.valueOf(l3), Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(k1),
+//                    Integer.valueOf(i), Integer.valueOf(j), s, s1, Integer.valueOf(k), Long.valueOf(l2), Long.valueOf(l3), Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(k1),
 //                    Integer.valueOf(i2), Integer.valueOf(l1.read()), Integer.valueOf(l1.read())
 //            });
-//            if (Fate())
-//                Log.v(Notify.a(e), str);
-//            if (Fate > Notify.Fate(e))
-//                Notify.a(e, Fate);
+//            if (b())
+//                Log.v(g.a(e), str);
+//            if (b > g.b(e))
+//                g.a(e, b);
 //        }catch (Exception e)
 //        {
 //
@@ -59,14 +59,14 @@
 //        return c == 0 && d == 1;
 //    }
 //
-//    final boolean Fate()
+//    final boolean b()
 //    {
 //        return d != 1;
 //    }
 //
 //    int a;
-//    int Fate;
+//    int b;
 //    int c;
 //    int d;
-//    final Notify e;
+//    final g e;
 //}

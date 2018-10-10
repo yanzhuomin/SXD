@@ -28,10 +28,7 @@ import web.sxd.b.BaseFunc;
 import web.sxd.b.MainThread;
 import web.sxd.b.TempDataInputStream;
 import web.sxd.b.TempDataOutputStream;
-//import web.sxd.Fate.c;
-//import web.sxd.Fate.SendFlower;
-//import web.sxd.Fate.l;
-//import web.sxd.Fate.m;
+
 
 // Referenced classes of package web.sxd.d:
 //            j, l, y, ab, 
@@ -46,10 +43,9 @@ public final class n extends BaseFunc
     {
         super(c1, 0x50007);
         j = true;
-        //TODO 暂时注释
-//        new web.sxd.d.j(c1);
-//        new web.sxd.d.l(c1);
-//        new web.sxd.d.y(c1);
+        new web.sxd.d.j(c1);
+        //new web.sxd.d.l(c1);
+        new web.sxd.d.y(c1);
     }
 
     public static String a(MainThread mainThread, TempDataInputStream inputStream)
@@ -477,7 +473,7 @@ public final class n extends BaseFunc
 //                        case 54: new p(C);break;
                         case 56: new k(C);break;//摘仙桃
 //                        case 59: new web.sxd.a.l(C);break;
-//                        case 64: new a(C);break;
+                        case 64: new a(C);break;
 //                        case 68: new web.sxd.d.Fate(C);break;
 //                        case 70: new web.sxd.d.d(C);break;
 //                        case 90: new u(C);break;
@@ -491,7 +487,7 @@ public final class n extends BaseFunc
                             break;
 //                        case 129: new t(C);break;
 //                        case 133: new Notify(C);break;
-//                        case 134: new web.sxd.a.n(C);break;
+                        case 134: new web.sxd.a.n(C);break;
 //                        case 135: new web.sxd.a.j(C);break;
 //                        case 140: new r(C);break;
 //                        case 142: new aw(C);break;
@@ -583,16 +579,16 @@ public final class n extends BaseFunc
 //                            break;
                         case 56:
                             web.sxd.d.k.a(C);
-//                            c();
-//                            break;
+                            c();
+                            break;
 //                        case 59:
 //                            web.sxd.a.l.a(C);
 //                            c();
 //                            break;
-//                        case 64:
-//                            web.sxd.d.a.a(C);
-//                            c();
-//                            break;
+                        case 64:
+                            web.sxd.d.a.a(C);
+                            c();
+                            break;
 //                        case 68:
 //                            web.sxd.d.Fate.a(C);
 //                            c();
@@ -619,16 +615,16 @@ public final class n extends BaseFunc
 //                            web.sxd.a.Fate.a(C);
 //                            c();
 //                            break;
-//                        case 127:
-//                            new web.sxd.d.Notify(C);
-//                            c();
-//                            web.sxd.d.Notify.Fate(C);
-//                            web.sxd.d.j.Fate(C);
-//                            ay.a(C);
-//                            web.sxd.d.l.c(C);
-//                            at.a(C);
-//                            c();
-//                            break;
+                        case 127:
+                            //new web.sxd.d.g(C); //药园
+                            c();
+                           // web.sxd.d.g.b(C);
+                            web.sxd.d.j.b(C);//终结功能
+                            ay.a(C);
+                            //web.sxd.d.l.c(C); //阵营战
+                            at.a(C);
+                            c();
+                            break;
 //                        case 129:
 //                            t.a(C);
 //                            c();
@@ -637,10 +633,10 @@ public final class n extends BaseFunc
 //                            web.sxd.a.Notify.a(C);
 //                            c();
 //                            break;
-//                        case 134:
-//                            web.sxd.a.n.a(C);
-//                            c();
-//                            break;
+                        case 134:
+                            web.sxd.a.n.a(C);
+                            c();
+                            break;
 //                        case 135:
 //                            web.sxd.a.j.a(C);
 //                            c();
