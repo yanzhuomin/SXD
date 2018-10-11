@@ -664,9 +664,11 @@ public final class m extends BaseFunc
                     {
                         //c c2 = C;
                         i1 = l1.readInt();
-                        j2 = l1.readInt();
+                        j2 = l1.readInt();//竞技排名
                         l1.readUTF();
-                        C.a(i1, j2, l1.readInt());
+                        //MainThread.sendLog("帮派：%s 测试：%d 竞技排名：%d ",new Object[]{l1.readUTF(),i1,j2});
+                        C.a(i1, j2, l1.readInt());//i1 不知道 (应该是自己的ID号)     j2  竞技排名     最后一个战力
+
                         return;
                     }
             }

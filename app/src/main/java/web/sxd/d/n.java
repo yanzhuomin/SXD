@@ -442,7 +442,7 @@ public final class n extends BaseFunc
             {
                 switch (k1)
                 {
-//                    default : break;
+                    default : break;
 //                        case 2:
 //                            C.addFunc(8, SendFlower, this);
 //                            new web.sxd.d.ab(C);
@@ -455,10 +455,10 @@ public final class n extends BaseFunc
 //                            break;
 //                        case 8: break;
                         case 13: new e(C);break;
-//                        case 15:
-//                            C.a(new web.sxd.d.Notify(C));
-//                            web.sxd.d.Notify.a(C);
-//                            break;
+                        case 15:
+                            C.a(new web.sxd.d.g(C));
+                            web.sxd.d.g.a(C);
+                            break;
 //                        case 18:
 //                            new v(C);
 //                            c();
@@ -475,7 +475,7 @@ public final class n extends BaseFunc
 //                        case 59: new web.sxd.a.l(C);break;
                         case 64: new Assistant(C);break;
 //                        case 68: new web.sxd.d.Fate(C);break;
-//                        case 70: new web.sxd.d.d(C);break;
+                        case 70: new web.sxd.d.d(C);break;
 //                        case 90: new u(C);break;
 //                        case 116: break;
 //                        case 117: new q(C);break;
@@ -498,10 +498,10 @@ public final class n extends BaseFunc
 //                        case 166: new x(C);break;
 //                        case 169: new au(C);//TODO daiding
 //                                    new aa(C);break;
-//                        case 171:
-//                            if(C.Fate(15))
-//                                web.sxd.d.Notify.c(C);
-//                            break;
+                        case 171:
+                            if(C.b(15))
+                                web.sxd.d.g.c(C);
+                            break;
 //                        case 172: new d(C);break;
 //                        case 173: new ab(C);break;
                 }
@@ -593,15 +593,15 @@ public final class n extends BaseFunc
 //                            web.sxd.d.Fate.a(C);
 //                            c();
 //                            break;
-//                        case 70:
-//                            sleep(3);
-//                            web.sxd.d.d.a(C);
-//                            c();
-//                            break;
-//                        case 77:
-//                            web.sxd.d.Notify.Fate(C);
-//                            c();
-//                            break;
+                        case 70:
+                            sleep(3);
+                            web.sxd.d.d.a(C);
+                            c();
+                            break;
+                        case 77:
+                            web.sxd.d.g.b(C);
+                            c();
+                            break;
 //                        case 116:
 //                        case 117:
 //                            q.a(C);
@@ -616,9 +616,9 @@ public final class n extends BaseFunc
 //                            c();
 //                            break;
                         case 127:
-                            //new web.sxd.d.g(C); //药园
+                            new web.sxd.d.g(C); //药园
                             c();
-                           // web.sxd.d.g.b(C);
+                           web.sxd.d.g.b(C);
                             web.sxd.d.j.b(C);//终结功能
                             ay.a(C);
                             //web.sxd.d.l.c(C); //阵营战
@@ -740,8 +740,8 @@ public final class n extends BaseFunc
     private static final String e[] = {//关公
         "WorshipMars_", "mars_info", "incense", "get_blessing_times_and_exp_add", "blessing_times_and_exp_add_notify", "get_remain_incense_times"
     };
-    private static final String f[] = {
-        "SealSoul_", "get_day_stone"
+    private static final String f[] = {//灵石
+        "SealSoul_","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","","get_day_stone"
     };
     private static final String g[] = {
         "PetAnimal_", "pet_animal_info", "change_name", "feed_pet_animal", "up_pet_animal"

@@ -68,12 +68,14 @@ public class WebSXDact extends AppCompatActivity {
         webView.addJavascriptInterface(new JSInterface(), "asxd");
         webView.setWebChromeClient(new WebSXDWebChromeClient(this));
         webView.setWebViewClient(new WebSXDWebViewClient(this));
+        webView.setInitialScale(100);
         sharedpreferences = activity.getPreferences(0);
         String url =sharedpreferences.getString("web.sxd.URL", "http://baidu.com");
         //textView.setText(url);
         //webView.loadUrl(url);
         webView.loadUrl("http://sxd.xd.com");
         webView.requestFocusFromTouch();
+
 //        arraylist = new ArrayList();
 //        textView.setAdapter(new ArrayAdapter(a,"",arraylist));
 //        webView.loadUrl("http://www.baidu.com");

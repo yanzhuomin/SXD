@@ -32,15 +32,15 @@ public final class MainThread extends Thread {
     private static HashMap namePrefixMap = new HashMap();  //<namePrefix,Town>读取配置生成i对象 放入 重复不放入
     private static boolean funcSelect[] = new boolean[320];//功能选择
     private String A;//角色名称
-    private String B;
+    private String B;//服务器名：S1370
     private int C;
     private int D;//角色等级
     private int E;//元宝个数
     private int F;//铜钱(w)
-    private int G;
+    private int G;//竞技排名
     private int H;//战力
     private int I;//体力
-    private int J;
+    private int J;//所在城镇的ID
     private int K;
     private int L;
     private long M;//角色当前等级经验
