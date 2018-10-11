@@ -252,7 +252,7 @@ public final class g extends BaseFunc
                         l2 = l1.readInt();
                         k1 = 0;
 
-                        while (k1 < l.length) {
+                        if (k1 < l.length) {
                             if (l[k1] == null) {
                                 l[k1] = new web.sxd.d.h(this, l2, l1);
                             } else {
@@ -263,8 +263,9 @@ public final class g extends BaseFunc
                                     l[k1].a(l1);
                                 }
                             }
-                            k1++;
+
                         }
+                        k1++;
                         i1++;
 
                     }
@@ -446,6 +447,8 @@ public final class g extends BaseFunc
                     return;
                 case 851980://_L8
                     h = l1.readInt();
+                    c();
+                    sleep(10);
                     if (o) {
                         web.sxd.b.MainThread.sendLog("　可种植 %d 棵发财树", new Object[]{
                                 Integer.valueOf(h)
@@ -480,7 +483,7 @@ public final class g extends BaseFunc
                     break;
                 case 851981:
                     return;
-                case 851982://_L9
+                case 851982://_L9  0xD000E
                     i1 = l1.readInt();
                     web.sxd.b.MainThread.sendLog("　可种植 %d 棵发财树", new Object[]{
                             Integer.valueOf(i1)

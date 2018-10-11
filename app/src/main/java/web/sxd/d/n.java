@@ -5,7 +5,7 @@
 package web.sxd.d;
 
 import android.util.Log;
-//import web.sxd.a.ab;
+import web.sxd.a.ab;
 //import web.sxd.a.ak;
 import web.sxd.a.at;
 //import web.sxd.a.au;
@@ -443,17 +443,17 @@ public final class n extends BaseFunc
                 switch (k1)
                 {
                     default : break;
-//                        case 2:
-//                            C.addFunc(8, SendFlower, this);
-//                            new web.sxd.d.ab(C);
-//                            if(C.Fate() <= 0)
-//                            {
-//                                c();
-//                                (new TempDataOutputStream(0x50008, C.d())).sendMain(C);
-//                            }
-//                            (new o(this)).start();
-//                            break;
-//                        case 8: break;
+                        case 2:
+                            C.addFunc(8, h, this);
+                            new web.sxd.d.ab(C);    //培养
+                            if(C.b() <= 0)
+                            {
+                                c();
+                                (new TempDataOutputStream(0x50008, C.d())).sendMain(C);
+                            }
+                            (new o(this)).start();
+                            break;
+                        case 8: break;
                         case 13: new e(C);break;
                         case 15:
                             C.a(new web.sxd.d.g(C));
@@ -480,7 +480,7 @@ public final class n extends BaseFunc
 //                        case 116: break;
 //                        case 117: new q(C);break;
 //                        case 123: new ak(C);break;
-//                        case 126: new Fate(C);break;
+//                        case 126: new b(C);break;
                         case 127: new j(C); //终结功能
                             new at(C);
                             new ay(C);
@@ -503,7 +503,7 @@ public final class n extends BaseFunc
                                 web.sxd.d.g.c(C);
                             break;
 //                        case 172: new d(C);break;
-//                        case 173: new ab(C);break;
+                        case 173: new ab(C);break;
                 }
             }
             i1++;
@@ -678,10 +678,10 @@ public final class n extends BaseFunc
 //                            web.sxd.a.d.a(C);
 //                            c();
 //                            break;
-//                        case 173:
-//                            ab.a(C);
-//                            c();
-//                            break;
+                        case 173:
+                            ab.a(C);
+                            c();
+                            break;
                 }
             }
             i1++;

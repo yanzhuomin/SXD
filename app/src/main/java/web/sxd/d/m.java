@@ -277,7 +277,6 @@ public final class m extends BaseFunc
                                 }else{
                                     Log.i(b(), C.toString());
                                     web.sxd.b.MainThread.sendLog((new StringBuilder("[流量]")).append(C).toString());
-                                    //TODO 暂时删除
                                     web.sxd.d.s.a(C);
                                     t.e();
 
@@ -400,7 +399,7 @@ public final class m extends BaseFunc
                                     }
                                     break;
                                 case 165:
-                                    //new ae(C);//TODO 暂时注释  圣域
+                                    //new ae(C);//TODO 暂时注释  圣域修炼
                                     if(!d || !C.b(39))
                                     {
                                         c();
@@ -408,7 +407,7 @@ public final class m extends BaseFunc
                                     }
                                     break;
                                 case 179:
-                                    //new ah(C);//TODO 暂时注释
+                                    //new ah(C);//TODO 暂时注释  全网宠物喂养
                                     c();
                                     //ah.a(C);//TODO 暂时注释
                                     break;
@@ -435,10 +434,10 @@ public final class m extends BaseFunc
                                 default:break;
                                 case 24:break;
                                 case 38:
-                                    new f(C);//TODO 暂时注释
+                                    new f(C);
                                     sleep(3);
-                                    web.sxd.c.f.a(C);//TODO 暂时注释
-                                    new Fate(C);//TODO 暂时注释
+                                    web.sxd.c.f.a(C);
+                                    new Fate(C);
                                     break;
                             }
                         }
@@ -464,7 +463,7 @@ public final class m extends BaseFunc
                                 break;
                             case 3:break;//_64
                             case 32:web.sxd.b.MainThread.sendLog(s4);break;//_65
-                            case 45:/*web.sxd.d.e.Fate(C);*/break;//_66//TODO 暂时注释
+                            case 45:web.sxd.d.e.b(C);break;//_66
                             case 47://_67
                                 web.sxd.b.MainThread.sendLog(s4.replace("[replace,7]", "周日 ")
                                         .replace("[replace,", "周")
@@ -478,9 +477,9 @@ public final class m extends BaseFunc
                             case 49:web.sxd.b.MainThread.sendLog(s4);break;//_65
                             case 149:
 //                                if(C.a)
-//                                    web.sxd.d.u.a(C);//TODO 暂时注释
+//                                    web.sxd.d.u.a(C);//TODO 暂时注释   仙界取经
 //                                else
-//                                    web.sxd.d.q.a(C);//TODO 暂时注释
+//                                    web.sxd.d.q.a(C);//TODO 暂时注释   仙界如来上香
                                 break;
                         }
                         i1++;
@@ -553,7 +552,7 @@ public final class m extends BaseFunc
                     {
                         if(C.g() >= 40 && C.g() <= 80)
                         {
-                            //web.sxd.d.l.Fate(C);//TODO 暂时注释
+                            //web.sxd.d.l.b(C);//TODO 暂时注释  阵营战
                             return;
                         }
                         if(C.g() > 80)

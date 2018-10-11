@@ -6,13 +6,14 @@ package web.sxd.d;
 
 import android.util.Log;
 
-//import web.sxd.a.an;
+import web.sxd.a.an;
 import web.sxd.b.*;
 import web.sxd.c.e;
 
 // Referenced classes of package web.sxd.d:
 //            Fate
 
+//功能终结
 public final class j extends BaseFunc
 {
 
@@ -79,9 +80,9 @@ public final class j extends BaseFunc
                                     s
                             });
                             if (k1 == 106) {
-                                //TODO 暂时注释 new an(C);
+                                new an(C);
                                 c();
-                                //TODO 暂时注释 an.a(C);
+                                an.a(C);
                             }
                             if (k1 == 68) {
                                 new b(C);

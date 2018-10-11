@@ -50,7 +50,7 @@ public final class e extends BaseFunc
             switch (j1) {
                 default:
                     return;
-                case 655378:
+                case 655378://0xA0012
                     if (i1 == 0 && l1.read() == 0) {
                         web.sxd.b.MainThread.sendLog("[帮派]没有加入帮派");
                         C.a(13, false);
@@ -126,7 +126,7 @@ public final class e extends BaseFunc
                         return;
                     }
                     break;
-                case 655388:
+                case 655388://0xA001C
                     StringBuilder sb = new StringBuilder("[帮派]七星封魔加入");
                     switch (i1) {
                         default:
@@ -136,8 +136,6 @@ public final class e extends BaseFunc
                             return;
 
                         case 55: // '7'
-                            break;
-
                         case 54: // '6'
                             sb.append("成功");
                             web.sxd.b.MainThread.sendLog(l1.toString());
@@ -148,8 +146,9 @@ public final class e extends BaseFunc
                             sb.append("失败: 重试");
                             break; /* Loop/switch isn't completed */
                     }
+                    web.sxd.b.MainThread.sendLog(sb+""+i1);
                     return;
-                case 655399:
+                case 655399://0xA0027
                     if (i1 == 32) {
                         web.sxd.b.MainThread.sendLog("[帮派]仙宴参加成功");
                         return;
@@ -181,7 +180,7 @@ public final class e extends BaseFunc
                         return;
                     }
                     return;
-                case 655410:
+                case 655410://0xA0032
                     if (i1 != 32)
                         break; /* Loop/switch isn't completed */
                     l1.readInt();
@@ -204,7 +203,7 @@ public final class e extends BaseFunc
                         l1.read();
                         i++;
                     } while (true);
-                case 655412:
+                case 655412://0xa0034
                     if (i1 == 32) {
                         l1.read();
                         l1.read();
@@ -213,7 +212,7 @@ public final class e extends BaseFunc
                         return;
                     }
                     break;
-                case 655413:
+                case 655413://0xa0035
                     if (i1 == 32) {
                         web.sxd.b.MainThread.sendLog("[帮派]新仙宴参加成功");
                         return;
