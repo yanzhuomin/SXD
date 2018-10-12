@@ -138,7 +138,7 @@ public final class e extends BaseFunc
                         case 55: // '7'
                         case 54: // '6'
                             sb.append("成功");
-                            web.sxd.b.MainThread.sendLog(l1.toString());
+                            web.sxd.b.MainThread.sendLog(sb.toString());
                             return;
 
                         case 56: // '8'

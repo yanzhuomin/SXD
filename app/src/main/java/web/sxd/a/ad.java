@@ -17,9 +17,9 @@ public final class ad extends BaseFunc
     public ad(MainThread c1)
     {
         super(c1, 0x1250001);
-        //TODO 暂时注释 new ae(c1);
-        c1.addFunc(293, a, this);
-        //TODO 暂时注释 new af(c1);
+        new ae(c1);//TODO 暂时注释
+        //c1.addFunc(293, a, this);
+        new af(c1);
     }
 
     public static boolean a(MainThread c1) throws Exception
@@ -52,7 +52,7 @@ public final class ad extends BaseFunc
                         MainThread.sendLog("[圣域] -_- 跨服登录失败");
                     c();
                     C.m();
-                    //TODO 暂时注释 ae.b(C);
+                    ae.b(C);
                     return;
 
                 case 19202049:

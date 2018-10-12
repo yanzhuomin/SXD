@@ -6,7 +6,7 @@ package web.sxd.d;
 
 import android.util.Log;
 
-//import web.sxd.a.ae;
+import web.sxd.a.ae;
 //import web.sxd.a.ah;
 import web.sxd.b.MainThread;
 import web.sxd.b.BaseFunc;
@@ -252,7 +252,8 @@ public final class m extends BaseFunc
                     while(i1<l3) {
                         j3 = l1.read();
                         if(l1.available()<8){
-                            Log.v("web.sxd.d.m",l1.toString());
+                            byte[] bytes = new byte[10];
+                            MainThread.sendLog("web.sxd.d.m"+web.sxd.b.HexPrint.Print(bytes));
                             return;
                         }
                         l5 = l1.readLong();
@@ -399,11 +400,11 @@ public final class m extends BaseFunc
                                     }
                                     break;
                                 case 165:
-                                    //new ae(C);//TODO 暂时注释  圣域修炼
+                                    new ae(C);//TODO 暂时注释  圣域
                                     if(!d || !C.b(39))
                                     {
                                         c();
-                                        //ae.a(C);//TODO 暂时注释
+                                        ae.a(C);//TODO 暂时注释
                                     }
                                     break;
                                 case 179:

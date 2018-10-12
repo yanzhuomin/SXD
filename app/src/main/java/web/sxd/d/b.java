@@ -46,7 +46,7 @@ public final class b extends BaseFunc
                     else
                         str = "尝试领取";
                     MainThread.sendLog("道行经验%d(Lv.%d) %s", new Object[]{
-                            Integer.valueOf(i), Integer.valueOf(j), l1
+                            Integer.valueOf(i), Integer.valueOf(j), str
                     });
                     if (j > 0 && !flag) {
                         sleep(5);

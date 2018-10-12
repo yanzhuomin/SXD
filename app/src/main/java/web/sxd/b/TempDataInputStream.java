@@ -14,8 +14,12 @@ public final class TempDataInputStream extends DataInputStream
     {
         super(null);
         Object obj = new ByteArrayInputStream(abyte0);
-        if(abyte0[0] == 120 && abyte0[1] == -100)
-            obj = new InflaterInputStream(((InputStream) (obj)));
+        if(abyte0[0] == 120 && abyte0[1] == -100) {
+            byte[] bytebuff = new byte[abyte0.length*10];
+            InflaterInputStream infInput = new InflaterInputStream(((InputStream) (obj)));
+            int len = infInput.read(bytebuff,0,bytebuff.length);
+            obj = new ByteArrayInputStream(bytebuff,0,len);
+        }
         this.in = ((InputStream) (obj));//super(((InputStream) (obj)));
 
         length = abyte0.length;
