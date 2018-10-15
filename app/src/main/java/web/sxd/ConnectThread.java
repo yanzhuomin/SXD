@@ -16,9 +16,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
-import web.sxd.b.MainThread;
-import web.sxd.b.TempDataOutputStream;
-
+//import web.sxd.b.MainThread;//TODO 主版本
+//import web.sxd.b.TempDataOutputStream;//TODO 主版本
+import web.sxd.Thread.MainThread;//TODO 副版本
+import web.sxd.base.MESSAGE_TAG;//TODO 副版本
+import web.sxd.base.TempDataOutputStream;
 // Referenced classes of package web.sxd:
 //            LoginAct
 
@@ -59,10 +61,12 @@ final class ConnectThread extends  Thread
             m1.writeUTF(LoginAct.getStage(a));
             if(LoginAct.getCurVer(a).compareTo("20130802") > 0)
                 m1.writeUTF(LoginAct.getClient(a));
-            m1.send(0, bos, 0);
-
+            //m1.send(0, bos, 0);//TODO 主版本
+            m1.setMessageTag(MESSAGE_TAG.TAG_MAIN);//TODO 副版本
+            m1.send(bos);//TODO 副版本
             LoginAct.setMainThread(a, new MainThread(LoginAct.getCurVer(a), LoginAct.getSocket(a).getInputStream(), bos));
-            new web.sxd.d.m(LoginAct.getMainThread(a));
+            //new web.sxd.d.m(LoginAct.getMainThread(a));//TODO 主版本
+            LoginAct.getMainThread(a).start();
             a.button_login.setText("停止");
             a.button_login.setEnabled(false);
             //a.c.setVisibility(0);

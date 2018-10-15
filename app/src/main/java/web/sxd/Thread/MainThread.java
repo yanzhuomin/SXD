@@ -2,15 +2,47 @@
 // Home Page: http://www.neshkov.com/dj.html - Check often for new version!
 // Decompiler options: packimports(3)
 
-package web.sxd.b;
+package web.sxd.Thread;
 
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import java.io.*;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.Socket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import web.sxd.LoginAct;
+import web.sxd.Rule.MainLoginRule;
+import web.sxd.base.BaseFunc;
+import web.sxd.base.BaseFuncImp;
+import web.sxd.base.BaseRule;
+import web.sxd.base.ClassUtils;
+import web.sxd.base.MESSAGE_TAG;
+import web.sxd.base.Rule;
+import web.sxd.base.TempDataInputStream;
+import web.sxd.base.TempDataOutputStream;
+
+//import web.sxd.base.BaseFunc;
+//import web.sxd.b.QWChatThread;
+//import web.sxd.b.SJChatThread;
+//import web.sxd.b.SYChatThread;
+//import web.sxd.b.TempDataInputStream;
+//import web.sxd.b.TempDataOutputStream;
+//import web.sxd.b.g;
+//import web.sxd.b.i;
+//import web.sxd.b.j;
 
 // Referenced classes of package web.sxd.Fate:
 //            SYSocket, l, QWSocket, XJSocket,
@@ -26,25 +58,32 @@ public final class MainThread extends Thread {
     private static long QWStatistics = 0L;//全网流量
     private static Handler uiHandler;//UI线程的Handler 发消息给UI时使用
     private static boolean iniReadFailed;  //ini配置文件读取失败标志  失败为true
+
+    private static BaseRule rule ;
+    private static HashMap<Integer,BaseFuncImp> funcMap = new HashMap<Integer, BaseFuncImp>();
+    private static HashMap<String,Object> argMap = new HashMap<String, Object>();
+//    private static HashMap<String,Object> xjArgMap = new HashMap<String, Object>();
+//    private static HashMap<String,Object> syArgMap = new HashMap<String, Object>();
+//    private static HashMap<String,Object> qwArgMap = new HashMap<String, Object>();
     /**<value,j>*/
-    private static HashMap valueMap = new HashMap();  //<value,j> 读取配置 获取j对象 放入
+    //private static HashMap valueMap = new HashMap();  //<value,j> 读取配置 获取j对象 放入
     /**<namePrefix,Town>*/
-    private static HashMap namePrefixMap = new HashMap();  //<namePrefix,Town>读取配置生成i对象 放入 重复不放入
-    private static boolean funcSelect[] = new boolean[320];//功能选择
-    private String A;//角色名称
-    private String B;//服务器名：S1370
-    private int C;
-    private int D;//角色等级
-    private int E;//元宝个数
-    private int F;//铜钱(w)
-    private int G;//竞技排名
+    //private static HashMap namePrefixMap = new HashMap();  //<namePrefix,Town>读取配置生成i对象 放入 重复不放入
+    //private static boolean funcSelect[] = new boolean[320];//功能选择
+    private String PlayerName;//角色名称
+    private String ServerName;//服务器名：S1370
+    private int PlayerID;
+    private int PlayerGrade;//角色等级
+    private int Gold;//元宝个数
+    private int Coin;//铜钱(w)
+    private int PlayerRanking;//竞技场排名
     private int H;//战力
     private int I;//体力
-    private int J;//所在城镇的ID
+    private int TownID;//所在城镇的ID
     private int K;
     private int L;
-    private long M;//角色当前等级经验
-    private long N;//角色当前等级的最大经验
+    private long Exp;//角色当前等级经验
+    private long MaxExp;//角色当前等级的最大经验
     public boolean a;
     private boolean runState;//运行状态 线程判断标志
     //private HashMap e; /**<value,j>  web.sxd.runState.*类中定义的  **/
@@ -58,7 +97,7 @@ public final class MainThread extends Thread {
     private OutputStream QWOutputStream;//全网
     private boolean p[];
     private boolean q[];
-    private String s[][][];
+    //private String s[][][];
     private HashMap t;
     private int u;
     private int v;
@@ -71,17 +110,19 @@ public final class MainThread extends Thread {
 
     public MainThread(String s1, InputStream inputstream, OutputStream outputstream)
     {
+        rule = new MainLoginRule();
+        new Thread(new RuleRunnable()).start();
         p = new boolean[320];
         q = new boolean[320];
-        s = (String[][][])Array.newInstance(String.class/*java/lang/String*/, new int[] {
-            255, 10, 2
-        });
+//        s = (String[][][])Array.newInstance(String.class/*java/lang/String*/, new int[] {
+//            255, 10, 2
+//        });
         t = new HashMap();
         w = -1;
-        B = null;
+        ServerName = null;
         K = 0;
         L = 0;
-        N = 0x7fffffffL;
+        MaxExp = 0x7fffffffL;
         mainInputStream = inputstream;
         mainOutputStream = outputstream;
         XJSocket = null;
@@ -95,6 +136,7 @@ public final class MainThread extends Thread {
             flag = false;
         a = flag;
         //e = new HashMap();
+        init();
         runState = true;
     }
 
@@ -126,81 +168,123 @@ public final class MainThread extends Thread {
     public static void setHandler(Handler handler)
     {
         uiHandler = handler;
-        namePrefixMap.clear();
-        valueMap.clear();
-        iniReadFailed = false;
+        //namePrefixMap.clear();
+        //valueMap.clear();
+        //iniReadFailed = false;
+    }
+
+    public void init()
+    {
+        //List<Class> classes = ClassUtils.getAllClassByInterface(BaseFuncImp.class);
+        for (String className: LoginAct.classList
+             ) {
+            try {
+                Class classBaseFunc = Class.forName(className);
+                Method method = classBaseFunc.getMethod("GetFuncCodeH");
+                Constructor c1=classBaseFunc.getDeclaredConstructor(new Class[]{MainThread.class});
+                c1.setAccessible(true);
+                BaseFuncImp imp =  (BaseFuncImp) c1.newInstance(new Object[]{this});
+                //Field field = classBaseFunc.getField("FuncCodeH");
+                int funcCodeH = imp.GetFuncCodeH();
+                //int funcCodeH = field.getInt (classBaseFunc);//int)method.invoke(classBaseFunc);
+                if(funcMap.containsKey(funcCodeH))
+                {
+                    sendLog(0,"[注册]："+funcCodeH+"已经注册");
+                }else
+                {
+
+                    funcMap.put(funcCodeH,imp);
+                }
+            }catch (Exception e)
+            {
+                Log.v("MainThread",e.getLocalizedMessage(),e);
+            }
+
+        }
+    }
+
+    public void setArg(String key,Object value)
+    {
+        argMap.put(key,value);
+    }
+    public Object getArg(String key){
+        return argMap.get(key);
+    }
+    public void removArg(String key)
+    {
+        if(argMap.get(key)!=null) argMap.remove(key);
     }
 
     // ini配置文件读取
-    public static void iniRead(InputStream inputstream) throws IOException
-    {
-        BufferedReader bufferedreader;
-        bufferedreader = new BufferedReader(new InputStreamReader(inputstream));
-        if(!bufferedreader.ready())
-        {
-            bufferedreader.close();
-            return;
-        }
-        do {
-            String str = bufferedreader.readLine();
-            if(str == null) break;
-            if(str.length() == 0 || str.charAt(0) == ';') //忽略空行和注释行
-            {}else
-            {
-                int i1;
-                int k1 = str.indexOf(',');
-                i1 = k1;
-                if(k1 < 0)
-                    i1 = str.indexOf('=');
-                if(i1 <= 0)
-                {
-                    Log.v("PktThread", (new StringBuilder("',' or '=' not found in protocol line: ")).append(inputstream).toString());
-                }else
-                {
-                    String name;
-                    String valueStr;
-                    /*  eg:    Player_player_ui_list,70
-                        name        =   Player_player_ui_list
-                        value       =   70
-                        namePrefix  =   Player_
-                    */
-                    name = str.substring(0, i1);
-                    valueStr = str.substring(i1 + 1);
-                    i1 = name.indexOf('_');
-                    if(i1 <= 0)
-                    {
-                        Log.v("PktThread", (new StringBuilder(String.valueOf(name))).append(" protocol with invalid code ").append(valueStr).toString());
-                    }else
-                    {
-                        int value;
-                        i j2;
-                        String namePrefix;
-                        namePrefix = name.substring(0, i1 + 1);
-                        value = Integer.valueOf(valueStr); //字符串转Int
-                        j2 = (i) namePrefixMap.get(namePrefix);
-                        if(j2 != null)
-                            break ;
-                        j2 = new i(value / 0x10000, namePrefix);
-                        namePrefixMap.put(namePrefix, j2);
-                        valueMap.put(value, j2.addConfig(name.substring(i1 + 1), value % 0x10000));
-                    }
-                }
-            }
-        }while(bufferedreader.ready());
-        bufferedreader.close();
-        Iterator value = namePrefixMap.values().iterator();
-        do{
-            if(!value.hasNext())
-            {
-                iniReadFailed = true;
-                return;
-            }
-            i k2 = (i)value.next();
-            int j1 = k2.getFuncCodeH() * 0x10000;
-            if(j1 > 0 && !valueMap.containsKey(j1))
-                valueMap.put(j1, k2.addConfig("?", -1));
-        }while (true);
-    }
+//    public static void iniRead(InputStream inputstream) throws IOException
+//    {
+//        BufferedReader bufferedreader;
+//        bufferedreader = new BufferedReader(new InputStreamReader(inputstream));
+//        if(!bufferedreader.ready())
+//        {
+//            bufferedreader.close();
+//            return;
+//        }
+//        do {
+//            String str = bufferedreader.readLine();
+//            if(str == null) break;
+//            if(str.length() == 0 || str.charAt(0) == ';') //忽略空行和注释行
+//            {}else
+//            {
+//                int i1;
+//                int k1 = str.indexOf(',');
+//                i1 = k1;
+//                if(k1 < 0)
+//                    i1 = str.indexOf('=');
+//                if(i1 <= 0)
+//                {
+//                    Log.v("PktThread", (new StringBuilder("',' or '=' not found in protocol line: ")).append(inputstream).toString());
+//                }else
+//                {
+//                    String name;
+//                    String valueStr;
+//                    /*  eg:    Player_player_ui_list,70
+//                        name        =   Player_player_ui_list
+//                        value       =   70
+//                        namePrefix  =   Player_
+//                    */
+//                    name = str.substring(0, i1);
+//                    valueStr = str.substring(i1 + 1);
+//                    i1 = name.indexOf('_');
+//                    if(i1 <= 0)
+//                    {
+//                        Log.v("PktThread", (new StringBuilder(String.valueOf(name))).append(" protocol with invalid code ").append(valueStr).toString());
+//                    }else
+//                    {
+//                        int value;
+//                        i j2;
+//                        String namePrefix;
+//                        namePrefix = name.substring(0, i1 + 1);
+//                        value = Integer.valueOf(valueStr); //字符串转Int
+//                        j2 = (i) namePrefixMap.get(namePrefix);
+//                        if(j2 != null)
+//                            break ;
+//                        j2 = new i(value / 0x10000, namePrefix);
+//                        namePrefixMap.put(namePrefix, j2);
+//                        valueMap.put(value, j2.addConfig(name.substring(i1 + 1), value % 0x10000));
+//                    }
+//                }
+//            }
+//        }while(bufferedreader.ready());
+//        bufferedreader.close();
+//        Iterator value = namePrefixMap.values().iterator();
+//        do{
+//            if(!value.hasNext())
+//            {
+//                iniReadFailed = true;
+//                return;
+//            }
+//            i k2 = (i)value.next();
+//            int j1 = k2.getFuncCodeH() * 0x10000;
+//            if(j1 > 0 && !valueMap.containsKey(j1))
+//                valueMap.put(j1, k2.addConfig("?", -1));
+//        }while (true);
+//    }
 
     public static void sendLog(Object obj)
     {
@@ -214,41 +298,68 @@ public final class MainThread extends Thread {
 
 
 
-    public static void setFuncSelect(int i1, boolean flag)
-    {
-        if(i1 < 320 && i1 >= 0)
-            funcSelect[i1] = flag;
-    }
+//    public static void setFuncSelect(int i1, boolean flag)
+//    {
+//        if(i1 < 320 && i1 >= 0)
+//            funcSelect[i1] = flag;
+//    }
 
     //解析接收的消息
-    public static void processReceive(TempDataInputStream inputStream)
-    {
-        j j2 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCode()));
-        j j1 = j2;
-        if(j2 == null)
-            j1 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCodeH() * 0x10000));
-        if(j1 == null)
-        {
-            Log.i("PktThread", (new StringBuilder("Unknown: ")).append(inputStream.getFuncCodeH()).append("_").append(inputStream.getFuncCodeL()).toString());
-            return;
-        } else
-        {
-            j1.a(inputStream);
-            return;
+    public static void ProcessReceive(TempDataInputStream inputStream) {
+        //inputStream.getFuncCodeH();
+        BaseFuncImp funcClass = funcMap.get(inputStream.getFuncCodeH());
+        if(funcClass!=null) {
+            int result = funcClass.Process(inputStream);
+            //if (inputStream.getFuncCode() == rule.getFuncCode()) {
+            if (rule.getWaitReason() == Rule.WAIT_FUNC_FINSH) {
+                if (inputStream.getFuncCode() == rule.getArg()) {//等待触发的功能码和当前的一样
+                    rule.state = true;
+                }
+            }
+            if (result == 0 && rule.getWaitReason() == Rule.WAIT_FUNC_SUCCESS) {
+                if (inputStream.getFuncCode() == rule.getArg()) {//等待触发的功能码和当前的一样
+                    rule.state = true;
+                }
+            }
+
+            if (rule.getWaitReason() == Rule.WAIT_FUNC_TRIGGER) {
+                if (inputStream.getFuncCode() == rule.getArg()) {//等待触发的功能码和当前的一样
+                    rule.state = true;
+                }
+            }
+        }else {
+            sendLog("[未注册]"+String.format("%x",inputStream.getFuncCode()));
         }
     }
+    //解析接收的消息
+//    public static void processReceive(TempDataInputStream inputStream)
+//    {
+//        j j2 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCode()));
+//        j j1 = j2;
+//        if(j2 == null)
+//            j1 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCodeH() * 0x10000));
+//        if(j1 == null)
+//        {
+//            Log.i("PktThread", (new StringBuilder("Unknown: ")).append(inputStream.getFuncCodeH()).append("_").append(inputStream.getFuncCodeL()).toString());
+//            return;
+//        } else
+//        {
+//            j1.a(inputStream);
+//            return;
+//        }
+//    }
 
-    static boolean b(MainThread c1)
+    static boolean getRunState(MainThread c1)
     {
         return c1.runState;
     }
 
 
 
-    public static boolean isFuncSelect(int i1)
-    {
-        return i1 < 320 && i1 >= 0 && funcSelect[i1];
-    }
+//    public static boolean isFuncSelect(int i1)
+//    {
+//        return i1 < 320 && i1 >= 0 && funcSelect[i1];
+//    }
 
 
     //设置仙界Socket
@@ -331,43 +442,44 @@ public final class MainThread extends Thread {
 
     public final void a(int i1, int j1, int k1)
     {
-        if(C == i1)
+        if(PlayerID == i1)
         {
-            G = j1;
+            PlayerRanking = j1;
             H = k1;
         }
     }
 
-    public final void a(int i1, BaseFunc h1)
-    {
-        addFunc(i1, h1.a(), h1);
-    }
+//    public final void a(int i1, BaseFunc h1)
+//    {
+//        addFunc(i1, h1.a(), h1);
+//    }
     /**
      * 发送数据到服务器
-     * @param j1 类型 ： 主界面：0   仙界：1  圣域：2 全网：3
+     * tag类型 ： 主界面：0   仙界：1  圣域：2 全网：3
      *
      */
-    public final void send(int funcCode, TempDataOutputStream m1, int j1) //throws  Exception
+    public final void send(TempDataOutputStream m1) //throws  Exception
     {
         OutputStream out;
 //        this;
 //        JVM INSTR monitorenter ;
         synchronized (this)
         {
-            if(j1 == 1){
+            int tag = m1.getMessageTag();
+            if(tag == MESSAGE_TAG.TAG_XJ){
                 if(XJOutputStream == null){
                     Log.e("PacketOS", "[仙界]连接未建立");
                     return;
                 }
                 out = XJOutputStream;
 
-            }else if(j1 == 2){
+            }else if(tag == MESSAGE_TAG.TAG_SY){
                 if(SYOutputStream == null){
                     Log.e("PacketOS", "[圣域]连接未建立");
                     return;
                 }
                 out = SYOutputStream;
-            }else if(j1 == 3){
+            }else if(tag == MESSAGE_TAG.TAG_QW){
                 if(QWOutputStream == null){
                     Log.e("PacketOS", "[全网]连接未建立");
                     return;
@@ -378,23 +490,29 @@ public final class MainThread extends Thread {
             {
                 out = mainOutputStream;
             }
-            //j j2 =    (j)e.get(Integer.valueOf(funcCode));
-            j j2 =    (j)valueMap.get(Integer.valueOf(funcCode));
-            if(j2 == null)
-            {
-                Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
-                Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
-                return;
-            }
-            Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
-            //Log.Town("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
-            funcCode = j2.parent.getFuncCode(j2);
             try {
-                m1.send(funcCode, out, j1);//信息发送 init
-            }catch (IOException e)
+                m1.send(out);
+            }catch (Exception e)
             {
-
+                Log.v("MainTread.Send",e.getLocalizedMessage(),e);
             }
+//            //j j2 =    (j)e.get(Integer.valueOf(funcCode));
+//            j j2 =    (j)valueMap.get(Integer.valueOf(funcCode));
+//            if(j2 == null)
+//            {
+//                Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
+//                Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
+//                return;
+//            }
+//            Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
+//            //Log.Town("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
+//            funcCode = j2.parent.getFuncCode(j2);
+//            try {
+//                m1.send(funcCode, out, j1);//信息发送 init
+//            }catch (IOException e)
+//            {
+//
+//            }
 
         }
 //        Log.Town("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
@@ -473,65 +591,65 @@ public final class MainThread extends Thread {
 
 
     //将as中列出的功能添加到HashMap中  valueH  是功能码的高两个字节
-    public final void addFunc(int valueH, String funcName[], BaseFunc h1)
-    {
-        boolean flag;
-        boolean flag1;
-        i l1;
-        flag1 = true;
-        flag = true;
-        l1 = (i) namePrefixMap.get(funcName[0]);
-        if(!iniReadFailed || l1 == null)
-        {
-            if(iniReadFailed || l1 != null)
-            {
-                return;
-            }else   //ini加载失败的话
-            {
-                i i2 = new i(valueH, funcName[0]);
-                namePrefixMap.put(funcName[0], i2);
-                i2.a(valueH, h1);
-                int index = ((flag1) ? 1 : 0);
-                if(valueH == 0)
-                {
-                    valueMap.put(Integer.valueOf(0), i2.addConfig("Login", 0));
-                    i2.setChildValue("Login", 0);
-                    //return;
-                }
-                for(; index < funcName.length; index++)
-                    if(funcName[index].length() > 0)
-                    {
-                        j j1 = i2.addConfig(funcName[index], index - 1);
-                        int value = i2.getFuncCode(j1);
-                        Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(value % 0x10000).append(")").toString());
-                        valueMap.put(Integer.valueOf(value), j1);
-                        i2.setChildValue(funcName[index], index - 1);
-                    }
+//    public final void addFunc(int valueH, String funcName[], BaseFunc h1)
+//    {
+//        boolean flag;
+//        boolean flag1;
+//        i l1;
+//        flag1 = true;
+//        flag = true;
+//        l1 = (i) namePrefixMap.get(funcName[0]);
+//        if(!iniReadFailed || l1 == null)
+//        {
+//            if(iniReadFailed || l1 != null)
+//            {
+//                return;
+//            }else   //ini加载失败的话
+//            {
+//                i i2 = new i(valueH, funcName[0]);
+//                namePrefixMap.put(funcName[0], i2);
+//                i2.a(valueH, h1);
+//                int index = ((flag1) ? 1 : 0);
+//                if(valueH == 0)
+//                {
+//                    valueMap.put(Integer.valueOf(0), i2.addConfig("Login", 0));
+//                    i2.setChildValue("Login", 0);
+//                    //return;
+//                }
+//                for(; index < funcName.length; index++)
+//                    if(funcName[index].length() > 0)
+//                    {
+//                        j j1 = i2.addConfig(funcName[index], index - 1);
+//                        int value = i2.getFuncCode(j1);
+//                        Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(value % 0x10000).append(")").toString());
+//                        valueMap.put(Integer.valueOf(value), j1);
+//                        i2.setChildValue(funcName[index], index - 1);
+//                    }
+//
+//                return;
+//            }
+//        }else{//ini加载成功的话
+//            l1.a(valueH, h1);// valueH = valueH  类中的value
+//            int index = ((flag) ? 1 : 0);
+//            while ((index < funcName.length)){
+//                if (funcName[index].length() != 0) {
+//                        j j1 = l1.setChildValue(funcName[index], index - 1);
+//                        if (j1 != null) {
+//                            int j2 = j1.getFuncCode();
+//                            //e.put(Integer.valueOf(j2), j1);
+//                            valueMap.put(Integer.valueOf(j2), j1);
+//                        } else {
+//                            Log.e("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).toString());
+//                        }
+//                }
+//                index++;
+//
+//            }
+//
+//        }
+//    }
 
-                return;
-            }
-        }else{//ini加载成功的话
-            l1.a(valueH, h1);// valueH = valueH  类中的value
-            int index = ((flag) ? 1 : 0);
-            while ((index < funcName.length)){
-                if (funcName[index].length() != 0) {
-                        j j1 = l1.setChildValue(funcName[index], index - 1);
-                        if (j1 != null) {
-                            int j2 = j1.getFuncCode();
-                            //e.put(Integer.valueOf(j2), j1);
-                            valueMap.put(Integer.valueOf(j2), j1);
-                        } else {
-                            Log.e("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).toString());
-                        }
-                }
-                index++;
-
-            }
-
-        }
-    }
-
-    public final void a(long l1)
+    public final void setCoin(long l1)
     {
         if(l1 < 20000L)
         {
@@ -540,13 +658,13 @@ public final class MainThread extends Thread {
                 i1 = 1;
             else
                 i1 = 0;
-            F = i1;
+            Coin = i1;
         } else
         {
             l1 /= 10000L;
             if(l1 < 0x7fffffffL)
             {
-                F = (int)l1;
+                Coin = (int)l1;
                 return;
             }
         }
@@ -554,21 +672,21 @@ public final class MainThread extends Thread {
 
     public final void a(String s1, int i1, int j1, int k1)
     {
-        A = s1;
-        D = i1;
-        E = j1;
-        F = k1;
+        PlayerName = s1;
+        PlayerGrade = i1;
+        Gold = j1;
+        Coin = k1;
     }
 
-    public final void a(BaseFunc h1)
-    {
-        if(h1 != null)
-        {
-            BaseFunc h2 = (BaseFunc)t.put(h1.getClass(), h1);
-            if(h2 != null && !h2.equals(h1))
-                h2.d();
-        }
-    }
+//    public final void a(BaseFunc h1)
+//    {
+//        if(h1 != null)
+//        {
+//            BaseFunc h2 = (BaseFunc)t.put(h1.getClass(), h1);
+//            if(h2 != null && !h2.equals(h1))
+//                h2.d();
+//        }
+//    }
 
     public final void a(TempDataInputStream l1) throws IOException
     {
@@ -586,7 +704,7 @@ public final class MainThread extends Thread {
 
     public final boolean a(String s1)
     {
-        return s1.equals(B);
+        return s1.equals(ServerName);
     }
 
 
@@ -612,16 +730,17 @@ public final class MainThread extends Thread {
                 XJSocket = null;
                 return false;
             }
-            B = s2;
-            Log.i("PktThread", (new StringBuilder("[仙界]尝试登录 ")).append(B).toString());
+            ServerName = s2;
+            Log.i("PktThread", (new StringBuilder("[仙界]尝试登录 ")).append(ServerName).toString());
             XJOutputStream = new BufferedOutputStream(XJSocket.getOutputStream());
             TempDataOutputStream out = new TempDataOutputStream(0x5e0000);
             out.writeUTF(s2);
-            out.writeInt(C);
-            out.writeUTF(A);
+            out.writeInt(PlayerID);
+            out.writeUTF(PlayerName);
             out.writeInt(j1);
             out.writeUTF(s3);
-            out.send(0x5e0000, XJOutputStream, 1);
+            out.setMessageTag(MESSAGE_TAG.TAG_XJ);
+            out.send(XJOutputStream);
             if (XJSocket.isClosed()) {
                 //break MISSING_BLOCK_LABEL_217;
                 Log.i("PktThread", "[仙界]连接已中断");
@@ -637,7 +756,7 @@ public final class MainThread extends Thread {
         }
         try
         {
-            (new SJChatThread(this, XJSocket.getInputStream())).start();
+            (new SJThread(this, XJSocket.getInputStream())).start();
         }
         // Misplaced declaration of an exception variable
         catch(Exception e)
@@ -672,17 +791,18 @@ public final class MainThread extends Thread {
                 QWSocket = null;
                 return false;
             }
-            B = s3;
-            Log.i("PktThread", (new StringBuilder("[全网]尝试登录 ")).append(B).toString());
+            ServerName = s3;
+            Log.i("PktThread", (new StringBuilder("[全网]尝试登录 ")).append(ServerName).toString());
             QWOutputStream = new BufferedOutputStream(QWSocket.getOutputStream());
             TempDataOutputStream out = new TempDataOutputStream(0x150000c);
             out.writeUTF(s2);
-            out.writeInt(C);
+            out.writeInt(PlayerID);
             out.writeUTF(s3);
             out.writeUTF(s4);
             out.writeInt(j1);
             out.writeUTF(s5);
-            out.send(0x150000c, QWOutputStream, 3);
+            out.setMessageTag(MESSAGE_TAG.TAG_QW);
+            out.send(QWOutputStream);
             if (!QWSocket.isClosed()) {
                 //break MISSING_BLOCK_LABEL_222;
                 Log.i("PktThread", "[全网]连接已中断");
@@ -698,7 +818,7 @@ public final class MainThread extends Thread {
         }
         try
         {
-            (new QWChatThread(this, QWSocket.getInputStream())).start();
+            (new QWThread(this, QWSocket.getInputStream())).start();
         }
         // Misplaced declaration of an exception variable
         catch(Exception e)
@@ -733,16 +853,17 @@ public final class MainThread extends Thread {
                 SYSocket = null;
                 return false;
             }
-            B = s2;
-            Log.i("PktThread", (new StringBuilder("[圣域]尝试登录 ")).append(B).toString());
+            ServerName = s2;
+            Log.i("PktThread", (new StringBuilder("[圣域]尝试登录 ")).append(ServerName).toString());
             SYOutputStream = new BufferedOutputStream(SYSocket.getOutputStream());
             TempDataOutputStream out = new TempDataOutputStream(0x1250000);
             out.writeUTF(s2);
-            out.writeInt(C);
-            out.writeUTF(A);
+            out.writeInt(PlayerID);
+            out.writeUTF(PlayerName);
             out.writeInt(j1);
             out.writeUTF(s3);
-            out.send(0x1250000, SYOutputStream, 2);
+            out.setMessageTag(MESSAGE_TAG.TAG_SY);
+            out.send(SYOutputStream);
             if (SYSocket.isClosed()) {
                 //break MISSING_BLOCK_LABEL_217;
                 Log.i("PktThread", "[圣域]连接已中断");
@@ -758,7 +879,7 @@ public final class MainThread extends Thread {
         }
         try
         {
-            (new SYChatThread(this, SYSocket.getInputStream())).start();
+            (new SYThread(this, SYSocket.getInputStream())).start();
         }
         // Misplaced declaration of an exception variable
         catch(Exception e)
@@ -776,15 +897,15 @@ public final class MainThread extends Thread {
         return w;
     }
 
-    public final void b(long l1)
+    public final void setExp(long l1)
     {
-        M = l1;
+        Exp = l1;
     }
 
-    public final boolean b(int i1)
-    {
-        return i1 < 320 && i1 >= 0 && p[i1] && !funcSelect[i1] && !q[i1];
-    }
+//    public final boolean b(int i1)
+//    {
+//        return i1 < 320 && i1 >= 0 && p[i1] && !funcSelect[i1] && !q[i1];
+//    }
 
 
 
@@ -793,15 +914,15 @@ public final class MainThread extends Thread {
         return H;
     }
 
-    public final void c(long l1)
+    public final void setMaxExp(long l1)
     {
         if(l1 > 0L)
-            N = l1;
+            MaxExp = l1;
     }
 
-    public final int d()
+    public final int getPlayerID()
     {
-        return C;
+        return PlayerID;
     }
 
     public final void d(int i1)
@@ -809,29 +930,29 @@ public final class MainThread extends Thread {
         w = i1;
     }
 
-    public final int e()
+    public final int getGold()
     {
-        return E;
+        return Gold;
     }
 
-    public final void e(int i1)
+    public final void setPlayerID(int i1)
     {
-        C = i1;
+        PlayerID = i1;
     }
 
-    public final int f()
+    public final int getCoin()
     {
-        return F;
+        return Coin;
     }
 
-    public final void f(int i1)
+    public final void setPlayerGrade(int i1)
     {
-        D = i1;
+        PlayerGrade = i1;
     }
 
     public final int g()
     {
-        return D;
+        return PlayerGrade;
     }
 
     public final void g(int i1)
@@ -849,12 +970,12 @@ public final class MainThread extends Thread {
 
     public final int h()
     {
-        return (int)((M * 100L) / N);
+        return (int)((Exp * 100L) / MaxExp);
     }
 
     public final void h(int i1)
     {
-        J = i1;
+        TownID = i1;
     }
 
     public final int i()
@@ -872,48 +993,48 @@ public final class MainThread extends Thread {
         return K;
     }
 
-    public final void j(int i1) throws IOException
-    {
-        (new TempDataOutputStream(0x10000, i1)).sendMain(this);
-        l();
-    }
-
-    public final void l() throws IOException
-    {
-        BaseFunc.a(3);
-        (new TempDataOutputStream(93)).sendMain(this);
-    }
-
-    public final void m() throws IOException
-    {
-        if(b(91) && XJSocket != null)
-        {
-            BaseFunc.c();
-            (new TempDataOutputStream(0x5f0000, 41)).sendXJ(this);
-        } else
-        {
-            j(J);
-        }
-        if(b(165) && SYSocket != null)
-        {
-            BaseFunc.c();
-            (new TempDataOutputStream(0x1260000, 78)).sendSY(this);
-        }
-    }
-
-    public final void n() throws IOException
-    {
-        (new TempDataOutputStream(41, 23)).sendMain(this);
-    }
+//    public final void j(int i1) throws IOException
+//    {
+//        (new TempDataOutputStream(0x10000, i1)).sendMain(this);
+//        l();
+//    }
+//
+//    public final void l() throws IOException
+//    {
+//        BaseFunc.a(3);
+//        (new TempDataOutputStream(93)).sendMain(this);
+//    }
+//
+//    public final void m() throws IOException
+//    {
+//        if(b(91) && XJSocket != null)
+//        {
+//            BaseFunc.c();
+//            (new TempDataOutputStream(0x5f0000, 41)).sendXJ(this);
+//        } else
+//        {
+//            j(TownID);
+//        }
+//        if(b(165) && SYSocket != null)
+//        {
+//            BaseFunc.c();
+//            (new TempDataOutputStream(0x1260000, 78)).sendSY(this);
+//        }
+//    }
+//
+//    public final void n() throws IOException
+//    {
+//        (new TempDataOutputStream(41, 23)).sendMain(this);
+//    }
 
     public final boolean o()
     {
-        return XJSocket == null && b(91);
+        return XJSocket == null ;//&& b(91);
     }
 
     public final boolean p()
     {
-        return SYSocket == null && b(165);
+        return SYSocket == null ;//&& b(165);
     }
 
     public final void quit()
@@ -969,7 +1090,7 @@ public final class MainThread extends Thread {
     public final void run()
     {
         try {
-            byte abyte0[] = web.sxd.b.TempDataInputStream.a(mainInputStream);
+            byte abyte0[] = TempDataInputStream.Read(mainInputStream);
             do {
                 boolean flag = runState;
                 if (!flag || abyte0 == null) {
@@ -979,9 +1100,9 @@ public final class MainThread extends Thread {
                     return;
                 }
                 AllStatistics += abyte0.length + 4;
-                web.sxd.b.TimeOutThread.clear();
-                (new g(this, abyte0)).start();
-                abyte0 = web.sxd.b.TempDataInputStream.a(mainInputStream);
+                //web.sxd.b.TimeOutThread.clear();
+                (new ProcessThread(this, abyte0)).start();
+                abyte0 = TempDataInputStream.Read(mainInputStream);
             } while (true);
         }catch (Exception e)
         {
@@ -1033,5 +1154,40 @@ public final class MainThread extends Thread {
                 statisticsFormat(AllStatistics), statisticsFormat(XJStatistics), statisticsFormat(SYStatistics), statisticsFormat(QWStatistics)
         });
     }
+
+
+    static boolean isRun(MainThread c1)
+    {
+        return c1.runState;
+    }
+
+
+    class RuleRunnable implements Runnable
+    {
+        private int time;
+        @Override
+        public void run() {
+            rule.start();
+            while (true) {
+                try {
+                    if(rule.getWaitReason()== Rule.WAIT_TIME && time==(rule.getArg()/100))
+                        rule.state = true;
+                    while (rule.state) {
+                        BaseFuncImp funcImp = funcMap.get(rule.getFuncCode()/0x10000);
+                        if(funcImp!=null)
+                            funcImp.SendOpertaion(rule.getFuncCode());
+                        time=0;
+                        rule.next();
+                    }
+                    time++;
+                    Thread.sleep(100);
+                }catch (Exception e)
+                {
+
+                }
+            }
+        }
+    }
+
 
 }

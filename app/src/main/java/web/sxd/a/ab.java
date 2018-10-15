@@ -23,6 +23,7 @@ public final class ab extends BaseFunc
         (new TempDataOutputStream(0x13a0000)).sendMain(c1);
     }
 
+    @Override
     public final void a(TempDataInputStream l1)
     {
         try {

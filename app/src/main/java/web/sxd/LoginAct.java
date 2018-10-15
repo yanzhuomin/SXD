@@ -6,6 +6,8 @@ package web.sxd;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +24,19 @@ import android.widget.Toast;
 import com.example.hi.sxd.R;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
-import web.sxd.b.MainThread;
+import dalvik.system.BaseDexClassLoader;
+import dalvik.system.DexClassLoader;
+import dalvik.system.DexFile;
+import dalvik.system.PathClassLoader;
+//import web.sxd.b.MainThread; //TODO 主版本
+import web.sxd.Thread.MainThread;//TODO 副版本
 import web.sxd.b.VarSplit;
 //import web.sxd.c.a;
 //import web.sxd.d.m;
@@ -38,6 +48,7 @@ import web.sxd.b.VarSplit;
 public class LoginAct extends AppCompatActivity
 {
 
+    public static List<String> classList;
     private static boolean B;
     private static final int F;//所有功能个数
     static boolean m;
@@ -341,6 +352,9 @@ public class LoginAct extends AppCompatActivity
         j = (TextView)findViewById(R.id.textView_log);
         j.setGravity(Gravity.BOTTOM);
         j.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+        classList = getClassName("web.sxd.func");
+
         if(bundle != null)
         {
             swf = bundle.getString("web.sxd.SWF");
@@ -396,7 +410,9 @@ public class LoginAct extends AppCompatActivity
                 textView_configName.setText(cur_ver);
 
                 web.sxd.b.MainThread.setHandler(handler);
+                web.sxd.Thread.MainThread.setHandler(handler);
                 web.sxd.b.MainThread.sendLog(0, 0);
+                web.sxd.Thread.MainThread.sendLog(0,0);
 
                 try
                 {
@@ -455,6 +471,45 @@ public class LoginAct extends AppCompatActivity
 //    }
 //
 
+    public List<String > getClassName(String packageName){
+        List<String > classNameList=new ArrayList<String >();
+        try {
+//            try {
+//                PackageInfo info = getPackageManager().getPackageInfo(this.getPackageCodePath(),1);
+//                //info.packageName
+//            } catch (PackageManager.NameNotFoundException e1) {
+//                e1.printStackTrace();
+//            }
+//            try {
+//                Field field = PathClassLoader.class.getDeclaredField("web.sxd.d.a");
+//
+//            } catch (NoSuchFieldException e1) {
+//                e1.printStackTrace();
+//            }
+//            DexClassLoader loader = new DexClassLoader(this.getPackageCodePath(),
+//                    "","",getClassLoader());
+//            DexFile file =
+//            //DexFile df = new DexFile();
+//           // try {
+//                loader.getResource(packageName);
+////            } catch (ClassNotFoundException e1) {
+////                e1.printStackTrace();
+////            }
+            //String path = this.getPackageCodePath();
+            DexFile df = new DexFile(this.getPackageCodePath());//通过DexFile查找当前的APK中可执行文件
+            Enumeration<String> enumeration = df.entries();//获取df中的元素  这里包含了所有可执行的类名 该类名包含了包名+类名的方式
+            while (enumeration.hasMoreElements()) {//遍历
+                String className = (String) enumeration.nextElement();
+
+                if (className.contains(packageName)) {//在当前所有可执行的类里面查找包含有该包名的所有类
+                    classNameList.add(className);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  classNameList;
+    }
 
     static
     {
