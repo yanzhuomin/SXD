@@ -24,11 +24,11 @@ public abstract class BaseRule implements BaseRuleImp {
     @Override
     public boolean next()
     {
-        index++;
-        if(list.get(index)==null) {
-            index--;
+        if( list.size() <= (index+1) ) {
+            state=false;
             return false;
         }
+        index++;
         if(list.get(index).WaitReason==Rule.WAIT_NONE)
             state=true;
         state=false;

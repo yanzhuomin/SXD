@@ -28,11 +28,6 @@ public final class Player extends BaseFunc
         super(mainThread);
         e = true;
         f = 0;
-//        new Notify(mainThread);
-//        c = new n(mainThread);
-//        new Town(mainThread);
-//        new Chat(mainThread);
-//        mainThread.start();
         d = false;
     }
 
@@ -123,8 +118,6 @@ public final class Player extends BaseFunc
     {
         int i1;
         i1 = l1.getFuncCode();
-//        if(i1 != 3 && i1 != 9 && i1 != 40)
-//            super.a(l1); //打印
         try {
             switch (i1) {
                 default:
@@ -139,8 +132,6 @@ public final class Player extends BaseFunc
                             String s1 = "登录成功，查询角色信息：";
                             mainThread.setPlayerID(l1.readInt());
                             //(new web.sxd.b.TempDataOutputStream(2)).sendMain(C);
-                            //l1 = s1;
-                            //continue;
                             MainThread.sendLog(s1);
                             return 0;
                         case 1:
@@ -155,12 +146,6 @@ public final class Player extends BaseFunc
                         case 4:
                             String s2 = "登录成功，查询角色信息：";
                             mainThread.setPlayerID(l1.readInt());
-                            //TempDataOutputStream out = (new TempDataOutputStream(2)).setMessageTag(MESSAGE_TAG.TAG_MAIN)
-                            //out.setMessageTag(MESSAGE_TAG.TAG_MAIN);
-                            //out.send(mainThread);
-                            //mainThread.send(new TempDataOutputStream(2).setMessageTag(MESSAGE_TAG.TAG_MAIN));
-                            //l1 = s1;
-                            //continue;
                             MainThread.sendLog(s2);
                             return 0;
                     }
@@ -193,9 +178,7 @@ public final class Player extends BaseFunc
                                 Integer.valueOf(j3), Long.valueOf(l4), Long.valueOf(l6), Integer.valueOf(mainThread.h())
                         });
                     }
-//                    c();
 //                    (new web.sxd.b.TempDataOutputStream(46)).sendMain(C);
-//                    c();
 //                    (new web.sxd.b.TempDataOutputStream(9)).sendMain(C);
                     i1 = l1.readInt();
                     j3 = l1.readInt();
@@ -335,7 +318,7 @@ public final class Player extends BaseFunc
 //                                    i4 = ai.length;
 //                                    j3 = 0;
 //                                    if(j3<i4) break;
-//                                    mainThread.b(a);
+//                                    c.b(a);
 //                                    int j4;
 //                                    if(mainThread.b(38))  //副本扫荡
 //                                    {
@@ -589,11 +572,12 @@ public final class Player extends BaseFunc
                     l1.readInt();
                     l1.readInt();
                     l1.readInt();
-//                    if(l1.readInt() != 1)
-//                    {
-//                        c();
-//                        (new web.sxd.b.TempDataOutputStream(20)).sendMain(C);
-//                    }
+                    if(l1.readInt() != 1)
+                    {
+                        mainThread.setArg("get_player_camp_salary",1); //领取俸禄
+                        //c();
+                        //(new web.sxd.b.TempDataOutputStream(20)).sendMain(C);
+                    }
                     l1.readInt();
                     i1 = l1.readInt();
                     if(i1 > 0)
@@ -663,7 +647,8 @@ public final class Player extends BaseFunc
                     {
                         if(j1 >= k2)
                         {
-                            //(new web.sxd.b.TempDataOutputStream(35)).sendMain(C);
+                            mainThread.sendMessage(new TempDataOutputStream(35)
+                                    .setMessageTag(MESSAGE_TAG.TAG_MAIN));
                             return 0;
                         }
                         MainThread.sendLog("[公告]%s", new Object[] {
@@ -698,22 +683,33 @@ public final class Player extends BaseFunc
         switch (funcCode)
         {
             default:return;
+            case 20:
+                if(mainThread.getArg("get_player_camp_salary")==null) return;
+                mainThread.removArg("get_player_camp_salary");
             case 2:
             case 6:
             case 9:
+            case 0x2A://42:
+            case 0x2E://46:
                 TempDataOutputStream out = new TempDataOutputStream(funcCode);
                 out.setMessageTag(MESSAGE_TAG.TAG_MAIN);
-                mainThread.send(out);//.send();
+                mainThread.sendMessage(out);//.send();
                 return ;
-
+//            case 0x23://35
+//                if(mainThread.getArg("get_affiche_list")==null) return;
+//                mainThread.removArg("get_affiche_list");
+//                out = new TempDataOutputStream(funcCode);
+//                out.setMessageTag(MESSAGE_TAG.TAG_MAIN);
+//                mainThread.send(out);//.send();
+//                return ;
+            case 0x30://48
+                out = new TempDataOutputStream(funcCode,mainThread.getPlayerID());
+                out.setMessageTag(MESSAGE_TAG.TAG_MAIN);
+                mainThread.sendMessage(out);
+                return;
         }
     }
 
-//    @Override
-//    protected final String[] a()
-//    {
-//        return funcNames;
-//    }
 
     public static final int a[] = {
         127, 32, 35, 34, 123, 135, 117, 166, 164, 64,
@@ -765,13 +761,5 @@ public final class Player extends BaseFunc
     private boolean d;
     private boolean e;
     private int f;
-
-
-
-//    static {
-//        funcList = new HashMap<Integer, String>();
-//        for (int i=0;i<b.length;i++ ){
-//            funcList.put(i,b[i]);
-//        }
 
 }

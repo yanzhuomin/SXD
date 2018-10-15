@@ -15,7 +15,7 @@ public interface BaseFuncImp {
 
 
     public int GetFuncCodeH(); //获取功能码
-    public int Process(TempDataInputStream imputStream);//处理消息
+    public int Process(TempDataInputStream inputStream);//处理消息
     public void SendOpertaion(int funcCode) throws IOException;//发送操作
 
 }

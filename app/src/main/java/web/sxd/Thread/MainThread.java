@@ -19,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,6 +63,7 @@ public final class MainThread extends Thread {
     private static BaseRule rule ;
     private static HashMap<Integer,BaseFuncImp> funcMap = new HashMap<Integer, BaseFuncImp>();
     private static HashMap<String,Object> argMap = new HashMap<String, Object>();
+    private static List<TempDataOutputStream>  messageList=  new ArrayList<TempDataOutputStream>();
 //    private static HashMap<String,Object> xjArgMap = new HashMap<String, Object>();
 //    private static HashMap<String,Object> syArgMap = new HashMap<String, Object>();
 //    private static HashMap<String,Object> qwArgMap = new HashMap<String, Object>();
@@ -173,7 +175,7 @@ public final class MainThread extends Thread {
         //iniReadFailed = false;
     }
 
-    public void init()
+    private void init()
     {
         //List<Class> classes = ClassUtils.getAllClassByInterface(BaseFuncImp.class);
         for (String className: LoginAct.classList
@@ -331,35 +333,12 @@ public final class MainThread extends Thread {
             sendLog("[未注册]"+String.format("%x",inputStream.getFuncCode()));
         }
     }
-    //解析接收的消息
-//    public static void processReceive(TempDataInputStream inputStream)
-//    {
-//        j j2 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCode()));
-//        j j1 = j2;
-//        if(j2 == null)
-//            j1 = (j) valueMap.get(Integer.valueOf(inputStream.getFuncCodeH() * 0x10000));
-//        if(j1 == null)
-//        {
-//            Log.i("PktThread", (new StringBuilder("Unknown: ")).append(inputStream.getFuncCodeH()).append("_").append(inputStream.getFuncCodeL()).toString());
-//            return;
-//        } else
-//        {
-//            j1.a(inputStream);
-//            return;
-//        }
-//    }
+
 
     static boolean getRunState(MainThread c1)
     {
         return c1.runState;
     }
-
-
-
-//    public static boolean isFuncSelect(int i1)
-//    {
-//        return i1 < 320 && i1 >= 0 && funcSelect[i1];
-//    }
 
 
     //设置仙界Socket
@@ -389,12 +368,6 @@ public final class MainThread extends Thread {
     {
         c1.QWSocket = null;
     }
-
-
-
-//    public static void mainInputStream()
-//    {
-//    }
 
     //获取仙界流量
     static long getXJStatistics()
@@ -448,17 +421,12 @@ public final class MainThread extends Thread {
             H = k1;
         }
     }
-
-//    public final void a(int i1, BaseFunc h1)
-//    {
-//        addFunc(i1, h1.a(), h1);
-//    }
     /**
      * 发送数据到服务器
      * tag类型 ： 主界面：0   仙界：1  圣域：2 全网：3
      *
      */
-    public final void send(TempDataOutputStream m1) //throws  Exception
+    private final void send(TempDataOutputStream m1) //throws  Exception
     {
         OutputStream out;
 //        this;
@@ -496,91 +464,7 @@ public final class MainThread extends Thread {
             {
                 Log.v("MainTread.Send",e.getLocalizedMessage(),e);
             }
-//            //j j2 =    (j)e.get(Integer.valueOf(funcCode));
-//            j j2 =    (j)valueMap.get(Integer.valueOf(funcCode));
-//            if(j2 == null)
-//            {
-//                Log.i("PacketOS", (new StringBuilder("UnSent: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
-//                Log.i("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(funcCode / 0x10000).append("_").append(funcCode % 0x10000).toString());
-//                return;
-//            }
-//            Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
-//            //Log.Town("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
-//            funcCode = j2.parent.getFuncCode(j2);
-//            try {
-//                m1.send(funcCode, out, j1);//信息发送 init
-//            }catch (IOException e)
-//            {
-//
-//            }
-
         }
-//        Log.Town("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
-//        Log.v("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(")").toString());
-//        Log.Town("PacketOS", (new StringBuilder()).append(j2).append("(").append(((j) (j2)).getFuncCodeL()).append(") unSent").toString());
-//        Log.Town("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
-
-
-//_L4:
-//        this;
-//        JVM INSTR monitorexit ;
-//        return;
-//
-//
-//
-//        if(i1 < 0x10000)
-//            break MISSING_BLOCK_LABEL_94;
-//        if(iniReadFailed)
-//            break MISSING_BLOCK_LABEL_203;
-//        if(!runState)
-//            break MISSING_BLOCK_LABEL_160;
-//        if(j1 != 3) goto _L6; else goto _L5
-//_L5:
-//        Object obj = QWOutputStream;
-//_L7:
-//        m1.funcCode(i1, ((OutputStream) (obj)), j1);
-//          goto _L4
-//_L6:
-//        if(j1 != 2)
-//            break MISSING_BLOCK_LABEL_137;
-//        obj = SYOutputStream;
-//          goto _L7
-//        if(j1 != 1)
-//            break MISSING_BLOCK_LABEL_151;
-//        obj = XJOutputStream;
-//          goto _L7
-//        obj = mainOutputStream;
-//          goto _L7
-//        Log.Town("PacketOS", (new StringBuilder("UnSent: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
-//          goto _L4
-//        obj = (j)e.get(Integer.valueOf(i1));
-//        if(obj == null)
-//            break MISSING_BLOCK_LABEL_388;
-//        if(!runState)
-//            break MISSING_BLOCK_LABEL_343;
-//        Log.v("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).funcCode()).append(")").toString());
-//        i1 = ((j) (obj)).parent.funcCode(((j) (obj)));
-//        if(j1 != 3) goto _L9; else goto _L8
-//_L8:
-//        obj = QWOutputStream;
-//_L10:
-//        m1.funcCode(i1, ((OutputStream) (obj)), j1);
-//          goto _L4
-//_L9:
-//        if(j1 != 2)
-//            break MISSING_BLOCK_LABEL_320;
-//        obj = SYOutputStream;
-//          goto _L10
-//        if(j1 != 1)
-//            break MISSING_BLOCK_LABEL_334;
-//        obj = XJOutputStream;
-//          goto _L10
-//        obj = mainOutputStream;
-//          goto _L10
-//        Log.Town("PacketOS", (new StringBuilder()).append(obj).append("(").append(((j) (obj)).funcCode()).append(") unSent").toString());
-//          goto _L4
-//        Log.Town("PacketOS", (new StringBuilder("UnRegFunc sends: ")).append(i1 / 0x10000).append("_").append(i1 % 0x10000).toString());
-//          goto _L4
     }
 
     public final void a(int i1, boolean flag)
@@ -588,66 +472,6 @@ public final class MainThread extends Thread {
         if(i1 < 320 && i1 >= 0)
             p[i1] = flag;
     }
-
-
-    //将as中列出的功能添加到HashMap中  valueH  是功能码的高两个字节
-//    public final void addFunc(int valueH, String funcName[], BaseFunc h1)
-//    {
-//        boolean flag;
-//        boolean flag1;
-//        i l1;
-//        flag1 = true;
-//        flag = true;
-//        l1 = (i) namePrefixMap.get(funcName[0]);
-//        if(!iniReadFailed || l1 == null)
-//        {
-//            if(iniReadFailed || l1 != null)
-//            {
-//                return;
-//            }else   //ini加载失败的话
-//            {
-//                i i2 = new i(valueH, funcName[0]);
-//                namePrefixMap.put(funcName[0], i2);
-//                i2.a(valueH, h1);
-//                int index = ((flag1) ? 1 : 0);
-//                if(valueH == 0)
-//                {
-//                    valueMap.put(Integer.valueOf(0), i2.addConfig("Login", 0));
-//                    i2.setChildValue("Login", 0);
-//                    //return;
-//                }
-//                for(; index < funcName.length; index++)
-//                    if(funcName[index].length() > 0)
-//                    {
-//                        j j1 = i2.addConfig(funcName[index], index - 1);
-//                        int value = i2.getFuncCode(j1);
-//                        Log.v("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).append("(").append(value / 0x10000).append("_").append(value % 0x10000).append(")").toString());
-//                        valueMap.put(Integer.valueOf(value), j1);
-//                        i2.setChildValue(funcName[index], index - 1);
-//                    }
-//
-//                return;
-//            }
-//        }else{//ini加载成功的话
-//            l1.a(valueH, h1);// valueH = valueH  类中的value
-//            int index = ((flag) ? 1 : 0);
-//            while ((index < funcName.length)){
-//                if (funcName[index].length() != 0) {
-//                        j j1 = l1.setChildValue(funcName[index], index - 1);
-//                        if (j1 != null) {
-//                            int j2 = j1.getFuncCode();
-//                            //e.put(Integer.valueOf(j2), j1);
-//                            valueMap.put(Integer.valueOf(j2), j1);
-//                        } else {
-//                            Log.e("PktThread", (new StringBuilder(String.valueOf(funcName[0]))).append(funcName[index]).toString());
-//                        }
-//                }
-//                index++;
-//
-//            }
-//
-//        }
-//    }
 
     public final void setCoin(long l1)
     {
@@ -902,10 +726,6 @@ public final class MainThread extends Thread {
         Exp = l1;
     }
 
-//    public final boolean b(int i1)
-//    {
-//        return i1 < 320 && i1 >= 0 && p[i1] && !funcSelect[i1] && !q[i1];
-//    }
 
 
 
@@ -1161,6 +981,10 @@ public final class MainThread extends Thread {
         return c1.runState;
     }
 
+    public void sendMessage(TempDataOutputStream tempDataOutputStream) {
+        messageList.add(tempDataOutputStream);
+    }
+
 
     class RuleRunnable implements Runnable
     {
@@ -1174,10 +998,23 @@ public final class MainThread extends Thread {
                         rule.state = true;
                     while (rule.state) {
                         BaseFuncImp funcImp = funcMap.get(rule.getFuncCode()/0x10000);
-                        if(funcImp!=null)
-                            funcImp.SendOpertaion(rule.getFuncCode());
+                        if(funcImp!=null) {
+                            int funcCode = rule.getFuncCode();
+                            rule.next();
+                            funcImp.SendOpertaion(funcCode);
+                            sendLog("rule:funcCode:"+rule.getFuncCode());
+                        }else
+                        {
+                            rule.next();
+                        }
                         time=0;
-                        rule.next();
+                        //rule.next();
+                    }
+
+                    while (!messageList.isEmpty())
+                    {
+                        send(messageList.get(0));
+                        messageList.remove(0);
                     }
                     time++;
                     Thread.sleep(100);

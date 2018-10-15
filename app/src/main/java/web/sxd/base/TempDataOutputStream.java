@@ -29,6 +29,7 @@ public final class TempDataOutputStream extends DataOutputStream
         writeInt(4);
         this.funcCode = funcCode;
         writeInt(funcCode);
+        messageTag = MESSAGE_TAG.TAG_MAIN; //default
     }
 
     public TempDataOutputStream(int i, byte byte0) throws IOException

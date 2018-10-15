@@ -111,7 +111,7 @@ public final class Town extends BaseFunc
                         Integer.valueOf(mainThread.getArg("Town_Enter_id").toString()));
                 outputStream.setMessageTag(MESSAGE_TAG.TAG_MAIN);
                 mainThread.removArg("Town_Enter_id");
-                mainThread.send(outputStream);
+                mainThread.sendMessage(outputStream);
                 return ;
                 //break;
             case 0x10001:
